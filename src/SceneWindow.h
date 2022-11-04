@@ -11,11 +11,6 @@
 #include "Renderable.h"
 #include "Camera.h"
 
-/*
- * Scene is an object that will aggregate all scene related data
- * Objects are stored in a list of objects
- * Keyboard and Mouse states are stored in a map and struct
- */
 class SceneWindow {
 public:
     //std::unique_ptr<Camera> camera;
