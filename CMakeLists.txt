@@ -230,3 +230,11 @@ add_custom_command(TARGET playground POST_BUILD COMMAND  ${CMAKE_COMMAND} -E cop
 
 file(COPY "data/" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 install(DIRECTORY data/ DESTINATION .)
+
+
+add_executable(MainScene
+        src/MainScene.cpp
+        src/SceneWindow.cpp src/Renderable.cpp src/Camera.cpp)
+target_link_libraries(MainScene ppgso shaders)
+install(TARGETS MainScene DESTINATION .)
+add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})
