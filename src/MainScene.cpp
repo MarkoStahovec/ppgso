@@ -1,7 +1,7 @@
 //
 // Created by A on 04/11/2022.
 //
-
+// attribution to rawpixel.com
 #include <iostream>
 #include <list>
 #include <ppgso/ppgso.h>
