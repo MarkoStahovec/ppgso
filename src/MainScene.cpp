@@ -42,13 +42,26 @@ public:
         scene.camera = move(camera);
 
         // TODO here will be initialization of all objects (call to some function)
-        //scene.Renderable_objects.push_back(std::make_unique<Surface>());
+        scene.Renderable_objects.push_back(std::make_unique<Surface>());
         scene.Renderable_objects.push_back(std::make_unique<Island>());
     }
 
     void onKey(int key, int scanCode, int action, int mods) override {
         // Collect key state in a map
         keys[key] = action;
+
+        // https://learnopengl.com/Getting-started/Camera
+        static auto time = (float) glfwGetTime();
+        float dTime = (float) glfwGetTime() - time;
+        float cameraSpeed = 0.05f * dTime;
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            scene.camera->cameraPos += cameraSpeed * scene.camera->cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            scene.camera->cameraPos -= cameraSpeed * scene.camera->cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            scene.camera->cameraPos -= glm::normalize(glm::cross(scene.camera->cameraFront, scene.camera->cameraUp)) * cameraSpeed;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            scene.camera->cameraPos += glm::normalize(glm::cross(scene.camera->cameraFront, scene.camera->cameraUp)) * cameraSpeed;
     }
 
     glm::vec3 generate_random_vec3(float min, float max) {

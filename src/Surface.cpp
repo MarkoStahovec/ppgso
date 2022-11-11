@@ -16,7 +16,7 @@ Surface::Surface() {
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("water.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ferns.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
 }
 
 bool Surface::update(float dt, SceneWindow &scene) {

@@ -10,12 +10,12 @@
 
 Camera::Camera() {
 
-    float fov = 60.0f, ratio = 1.0f, near = 0.1f, far = 10.0f;
+    float fov = 60.0f, ratio = 1.0f, near = 0.1f, far = 50.0f;
 
     projectionMatrix = glm::perspective(ppgso::PI * fov / 180, ratio, near, far);
 }
 
 void Camera::update() {
     // TODO: Update viewMatrix (hint: glm::lookAt)
-    viewMatrix = glm::lookAt(camPosition, center, upwards);
+    viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }

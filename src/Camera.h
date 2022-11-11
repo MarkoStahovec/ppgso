@@ -18,9 +18,13 @@ public:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-    glm::vec3 camPosition{2, 4, 5};
+    glm::vec3 cameraPos{2, 4, 5};
     glm::vec3 center{0, 0, 0};
     glm::vec3 upwards{0, 1, 0};
+
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
+    //float cameraSpeed = 0.2;
 
     /// Representaiton of
     /// \param fov - Field of view (in degrees)
