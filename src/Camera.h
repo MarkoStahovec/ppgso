@@ -12,19 +12,26 @@
 #include <glm/glm.hpp>
 #include <ppgso/ppgso.h>
 
+const unsigned int WINDOW_HEIGHT = 1920;
+const unsigned int WINDOW_WIDTH = 1080;
+
 class Camera {
 public:
     // TODO: Add parameters
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-    glm::vec3 cameraPos{2, 4, 5};
-    glm::vec3 center{0, 0, 0};
-    glm::vec3 upwards{0, 1, 0};
-
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraPos{0, 3, 8};
+    glm::vec3 cameraFront = glm::vec3(0.0f, -0.15f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
     //float cameraSpeed = 0.2;
+
+    bool isAnimating = false;
+    glm::vec3 startPos;
+    glm::vec3 endPos;
+    glm::vec3 startPosLookAt;
+    glm::vec3 endPosLookAt;
+    float t;
 
     /// Representaiton of
     /// \param fov - Field of view (in degrees)

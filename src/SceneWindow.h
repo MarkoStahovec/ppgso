@@ -16,6 +16,8 @@ public:
     std::list<std::unique_ptr<Renderable>> Renderable_objects;
 
     std::unique_ptr<Camera> camera;
+    // Keyboard state
+    std::map< int, int > keyboard;
 
     void update(float time);
     void render();

@@ -17,5 +17,12 @@ Camera::Camera() {
 
 void Camera::update() {
     // TODO: Update viewMatrix (hint: glm::lookAt)
-    viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    if(isAnimating) {
+        t += 0.1;
+        cameraPos = glm::lerp(startPos, endPos, t / 30.0f);
+        cameraFront = glm::lerp(startPosLookAt, endPosLookAt, t / 30.0f);
+    }
+
+    //viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    viewMatrix = glm::lookAt(cameraPos, cameraFront, cameraUp);
 }

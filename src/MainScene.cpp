@@ -14,16 +14,11 @@
 #include "SceneWindow.h"
 #include "Island.h"
 #include "Surface.h"
-
+#include "Camera.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
 const unsigned int SIZE = 512;
-
-const unsigned int WINDOW_HEIGHT = 1920;
-const unsigned int WINDOW_WIDTH = 1080;
-
-
 
 class MainScene : public ppgso::Window {
 private:
@@ -32,57 +27,66 @@ private:
 
     // Store keyboard state
     std::map<int, int> keys;
+
+
 public:
     MainScene() : Window{"Stahovec robi sam", WINDOW_WIDTH, WINDOW_WIDTH} {
         // Initialize OpenGL state
         // Enable Z-buffer
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
+
         auto camera = std::make_unique<Camera>();
         scene.camera = move(camera);
 
         // TODO here will be initialization of all objects (call to some function)
-        scene.Renderable_objects.push_back(std::make_unique<Surface>());
         scene.Renderable_objects.push_back(std::make_unique<Island>());
+        scene.Renderable_objects.push_back(std::make_unique<Surface>());
     }
 
     void onKey(int key, int scanCode, int action, int mods) override {
         // Collect key state in a map
-        keys[key] = action;
+        scene.keyboard[key] = action;
 
         // https://learnopengl.com/Getting-started/Camera
         static auto time = (float) glfwGetTime();
         float dTime = (float) glfwGetTime() - time;
         float cameraSpeed = 0.05f * dTime;
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+            scene.camera->isAnimating = false;
             scene.camera->cameraPos += cameraSpeed * scene.camera->cameraFront;
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        }
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+            scene.camera->isAnimating = false;
             scene.camera->cameraPos -= cameraSpeed * scene.camera->cameraFront;
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        }
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+            scene.camera->isAnimating = false;
             scene.camera->cameraPos -= glm::normalize(glm::cross(scene.camera->cameraFront, scene.camera->cameraUp)) * cameraSpeed;
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        }
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+            scene.camera->isAnimating = false;
             scene.camera->cameraPos += glm::normalize(glm::cross(scene.camera->cameraFront, scene.camera->cameraUp)) * cameraSpeed;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->startPos = {0, 3, 8};
+            scene.camera->endPos = {4, 3, 2};
+            scene.camera->startPosLookAt = {0.0f, -0.15f, -1.0f};
+            scene.camera->endPosLookAt = {0.0f, -0.15f, -0.8f};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_1] = GLFW_RELEASE;
+        }
     }
-
-    glm::vec3 generate_random_vec3(float min, float max) {
-        return {((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / RAND_MAX) * (max - min) + min};
-    };
-
-    float generate_timer(float min, float max) {
-        return (float)(((float) rand() / RAND_MAX) * (max - min) + min);
-    };
-
-    glm::vec3 generate_equal_vec3(float min, float max) {
-        float coef = ((float) rand() / (float) RAND_MAX) * (max - min) + min;
-        return {coef, coef, coef};
-    };
 
     void onIdle() override {
         // Track time
         static auto time = (float) glfwGetTime();
         // Compute time delta
         float dTime = (float) glfwGetTime() - time;
-        time = (float) glfwGetTime();
+        //time = (float) glfwGetTime();
 
         // Set gray background
         glClearColor(.1f, .1f, .1f, 1.0f);
