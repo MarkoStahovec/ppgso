@@ -75,12 +75,7 @@ public:
         modelMatrix = rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
         modelMatrix = glm::scale(modelMatrix, scale);
         modelMatrix = translate(modelMatrix, position);
-        /*
-        modelMatrix = glm::translate(glm::mat4 {1.0f}, position)
-                      * glm::rotate(glm::mat4 {1.0f}, rotation.x, glm::vec3 {1, 0, 0})
-                      * glm::rotate(glm::mat4 {1.0f}, rotation.y, glm::vec3 {0, 1, 0})
-                      * glm::rotate(glm::mat4 {1.0f}, rotation.z, glm::vec3 {0, 0, 1})
-                      * glm::scale(glm::mat4 {1.0f}, scale);*/
+
         return true;
     }
 
@@ -197,13 +192,10 @@ private:
     // Scene of objects
     SceneWindow scene;
 
-    // Create camera
-    //Camera camera = {120.0f, (float) width / (float) height, 1.0f, 400.0f};
-
     // Store keyboard state
     std::map<int, int> keys;
 public:
-    MainScene() : Window{"Stahovec robi sam", SIZE, SIZE} {
+    MainScene() : Window{"Stahovec robi sam", WINDOW_WIDTH, WINDOW_WIDTH} {
         // Initialize OpenGL state
         // Enable Z-buffer
         glEnable(GL_DEPTH_TEST);

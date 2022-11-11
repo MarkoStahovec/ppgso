@@ -5,7 +5,6 @@
 #ifndef PPGSO_SCENEWINDOW_H
 #define PPGSO_SCENEWINDOW_H
 
-#include <memory>
 #include <map>
 #include <list>
 #include "Renderable.h"
