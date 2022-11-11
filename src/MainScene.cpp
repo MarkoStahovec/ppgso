@@ -15,6 +15,8 @@
 #include "Island.h"
 #include "Surface.h"
 #include "Camera.h"
+#include "Cloud.h"
+#include "SkyBox.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -42,6 +44,8 @@ public:
         // TODO here will be initialization of all objects (call to some function)
         scene.Renderable_objects.push_back(std::make_unique<Island>());
         scene.Renderable_objects.push_back(std::make_unique<Surface>());
+        scene.Renderable_objects.push_back(std::make_unique<Cloud>());
+        scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
     }
 
     void onKey(int key, int scanCode, int action, int mods) override {

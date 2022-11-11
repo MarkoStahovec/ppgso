@@ -2,32 +2,30 @@
 // Created by rszar on 11. 11. 2022.
 //
 
-#include "Surface.h"
+#include "Palm.h"
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
 
-std::unique_ptr<ppgso::Mesh> Surface::mesh;
-std::unique_ptr<ppgso::Texture> Surface::texture;
-std::unique_ptr<ppgso::Shader> Surface::shader;
+std::unique_ptr<ppgso::Mesh> Palm::mesh;
+std::unique_ptr<ppgso::Texture> Palm::texture;
+std::unique_ptr<ppgso::Shader> Palm::shader;
 
-Surface::Surface() {
-    scale *= 2;
+Palm::Palm() {
+    scale *= 1;
     rotation = {0,0,0};
-    position.y = 0.06;
+    position.y = 1;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("water.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ocean.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("cloud.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("palms.obj");
 }
 
-bool Surface::update(float dt, SceneWindow &scene) {
+bool Palm::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
-    auto time = (float) glfwGetTime();
-    scale={2,0.1*sin(time)+1,2};
     return true;
 }
 
-void Surface::render(SceneWindow &scene) {
+void Palm::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
@@ -40,4 +38,3 @@ void Surface::render(SceneWindow &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
-
