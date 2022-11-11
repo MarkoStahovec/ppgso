@@ -25,7 +25,6 @@ public:
     virtual void render(SceneWindow &scene) = 0;
 
     virtual bool update(float dTime, SceneWindow &scene) = 0;
-    virtual std::pair<bool, glm::vec3> get_attributes() = 0;
 
     glm::vec3 position{0, 0, 0};
     glm::vec3 rotation{0, 0, 0};

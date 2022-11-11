@@ -20,7 +20,7 @@ bool Space::update(Scene &scene, float dt) {
 }
 
 void Space::render(Scene &scene) {
-  // Disable writing to the depth buffer so we render a "background"
+  // Disable writing to the depth buffer, so we render a "background"
   glDepthMask(GL_FALSE);
 
   // NOTE: this object does not use camera, just renders the entire quad as is

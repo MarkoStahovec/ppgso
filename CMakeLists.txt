@@ -220,10 +220,6 @@ install(TARGETS task7_particles DESTINATION .)
 add_custom_command(TARGET task7_particles POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})
 
 # Playground target
-add_executable(playground src/playground/playground.cpp)
-target_link_libraries(playground ppgso shaders)
-install (TARGETS playground DESTINATION .)
-add_custom_command(TARGET playground POST_BUILD COMMAND  ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})
 #
 # INSTALLATION
 #
@@ -234,7 +230,7 @@ install(DIRECTORY data/ DESTINATION .)
 
 add_executable(MainScene
         src/MainScene.cpp
-        src/SceneWindow.cpp src/Renderable.cpp src/Camera.cpp)
+        src/SceneWindow.cpp src/Renderable.cpp src/Camera.cpp src/Island.cpp src/Island.h)
 target_link_libraries(MainScene ppgso shaders)
 install(TARGETS MainScene DESTINATION .)
 add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})
