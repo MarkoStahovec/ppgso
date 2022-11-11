@@ -126,7 +126,7 @@ target_link_libraries(raw4_raster ppgso)
 install(TARGETS raw4_raster DESTINATION .)
 
 # gl1_gradient
-add_executable(gl1_gradient src/gl1_gradient/gl1_gradient.cpp)
+add_executable(gl1_gradient src/gl1_gradient/gl1_gradient.cpp src/Surface.cpp src/Surface.h)
 target_link_libraries(gl1_gradient ppgso shaders)
 install(TARGETS gl1_gradient DESTINATION .)
 
@@ -230,7 +230,7 @@ install(DIRECTORY data/ DESTINATION .)
 
 add_executable(MainScene
         src/MainScene.cpp
-        src/SceneWindow.cpp src/Renderable.cpp src/Camera.cpp src/Island.cpp src/Island.h)
+        src/SceneWindow.cpp src/Renderable.cpp src/Camera.cpp src/Island.cpp src/Island.h src/Surface.cpp)
 target_link_libraries(MainScene ppgso shaders)
 install(TARGETS MainScene DESTINATION .)
 add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})

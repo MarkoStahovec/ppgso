@@ -2,29 +2,29 @@
 // Created by rszar on 11. 11. 2022.
 //
 
-#include "Island.h"
+#include "Surface.h"
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
 
-std::unique_ptr<ppgso::Mesh> Island::mesh;
-std::unique_ptr<ppgso::Texture> Island::texture;
-std::unique_ptr<ppgso::Shader> Island::shader;
+std::unique_ptr<ppgso::Mesh> Surface::mesh;
+std::unique_ptr<ppgso::Texture> Surface::texture;
+std::unique_ptr<ppgso::Shader> Surface::shader;
 
-Island::Island() {
+Surface::Surface() {
     scale *= 0.01;
     rotation = {0,0,0};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("isld1.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("land.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("water.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ferns.obj");
 }
 
-bool Island::update(float dt, SceneWindow &scene) {
+bool Surface::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
     return true;
 }
 
-void Island::render(SceneWindow &scene) {
+void Surface::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
@@ -37,5 +37,4 @@ void Island::render(SceneWindow &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
-
 
