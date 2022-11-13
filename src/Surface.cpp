@@ -11,19 +11,19 @@ std::unique_ptr<ppgso::Texture> Surface::texture;
 std::unique_ptr<ppgso::Shader> Surface::shader;
 
 Surface::Surface() {
-    scale *= 2;
+    scale *= 1;
     rotation = {0,0,0};
-    position.y = 0.06;
+    position.y = 0;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("water.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ocean.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("surface.obj");
 }
 
 bool Surface::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
     auto time = (float) glfwGetTime();
-    scale={2,0.1*sin(time)+1,2};
+    //scale={2,0.1*sin(time)+1,2};
     return true;
 }
 

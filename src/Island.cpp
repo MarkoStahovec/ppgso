@@ -11,7 +11,7 @@ std::unique_ptr<ppgso::Texture> Island::texture;
 std::unique_ptr<ppgso::Shader> Island::shader;
 
 Island::Island() {
-    scale *= 0.01;
+    scale *= 1;
     rotation = {0,0,0};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);

@@ -10,7 +10,7 @@ std::unique_ptr<ppgso::Texture> SkyBox::texture;
 std::unique_ptr<ppgso::Shader> SkyBox::shader;
 
 SkyBox::SkyBox() {
-    scale *= 100;
+    scale *= 2000;
     rotation = {0,0,0};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);

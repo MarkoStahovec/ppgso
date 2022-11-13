@@ -11,7 +11,7 @@ std::unique_ptr<ppgso::Texture> Cloud::texture;
 std::unique_ptr<ppgso::Shader> Cloud::shader;
 
 Cloud::Cloud() {
-    scale *= 1;
+    scale *= 90;
     rotation = {0,0,0};
     position.y = 1;
 
@@ -22,7 +22,7 @@ Cloud::Cloud() {
 
 bool Cloud::update(float dt, SceneWindow &scene) {
     auto t = (float) glfwGetTime();
-    position = {cos(t/10),1, sin(t/10)};
+    position = {cos(t/10),100, sin(t/10)};
     updateModelMatrix();
     return true;
 }

@@ -17,8 +17,10 @@
 #include "Camera.h"
 #include "Cloud.h"
 #include "SkyBox.h"
-
+#include "Rain_Drop.h"
+#include "utils.h"
 #define GLM_ENABLE_EXPERIMENTAL
+
 
 const unsigned int SIZE = 512;
 
@@ -40,7 +42,6 @@ public:
 
         auto camera = std::make_unique<Camera>();
         scene.camera = move(camera);
-
         // TODO here will be initialization of all objects (call to some function)
         scene.Renderable_objects.push_back(std::make_unique<Island>());
         scene.Renderable_objects.push_back(std::make_unique<Surface>());
@@ -83,6 +84,21 @@ public:
             scene.camera->isAnimating = true;
             scene.keyboard[GLFW_KEY_1] = GLFW_RELEASE;
         }
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+            for(int i=0; i<10;i++) {
+                // TODO: Add renderable object to the scene
+                glm::vec3 position =  glm::sphericalRand(50.0);
+                position[1] = 50;
+                glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
+                glm::vec3 speed = speed_rain_vec3(-2, -4);
+                glm::vec3 scale = generate_equal_vec3(0.01, 0.02);
+                glm::vec3 color = generate_random_vec3(0, 1);
+
+                float timer = generate_timer(20, 30);
+                auto generator = std::make_unique<Rain_Drop>(position, speed, color, scale, timer);
+                scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, timer));
+            }
+        }
     }
 
     void onIdle() override {
@@ -90,7 +106,22 @@ public:
         static auto time = (float) glfwGetTime();
         // Compute time delta
         float dTime = (float) glfwGetTime() - time;
+        dTime *= 0.001;
         //time = (float) glfwGetTime();
+
+        for(int i=0; i<1;i++) {
+            // TODO: Add renderable object to the scene
+            glm::vec3 position =  glm::sphericalRand(150.0);
+            position[1] = 100;
+            glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
+            glm::vec3 speed = speed_rain_vec3(-80, -100);
+            glm::vec3 scale = generate_equal_vec3(0.5, 1);
+            glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
+
+            float timer = generate_timer(5, 5);
+            auto generator = std::make_unique<Rain_Drop>(position, speed, color, scale, timer);
+            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, timer));
+        }
 
         // Set gray background
         glClearColor(.1f, .1f, .1f, 1.0f);
