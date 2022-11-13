@@ -22,7 +22,7 @@ Cloud::Cloud() {
 
 bool Cloud::update(float dt, SceneWindow &scene) {
     auto t = (float) glfwGetTime();
-    position = {cos(t/10),100, sin(t/10)};
+    position = {90*cos(t/10),100, 90*sin(t/10)};
     updateModelMatrix();
     return true;
 }
