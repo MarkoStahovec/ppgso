@@ -23,6 +23,8 @@
 #include "House.h"
 #include "Campfire.h"
 #include "Plant.h"
+#include "Fire.h"
+#include "Door.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -39,7 +41,7 @@ private:
 
 
 public:
-    MainScene() : Window{"NÁŠ projekt", WINDOW_HEIGHT, WINDOW_WIDTH} {
+    MainScene() : Window{"Stahovec robí sám", WINDOW_HEIGHT, WINDOW_WIDTH} {
         // Initialize OpenGL state
         // Enable Z-buffer
         glEnable(GL_DEPTH_TEST);
@@ -55,6 +57,8 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<House>());
         scene.Renderable_objects.push_back(std::make_unique<Campfire>());
         scene.Renderable_objects.push_back(std::make_unique<Plant>());
+        scene.Renderable_objects.push_back(std::make_unique<Fire>());
+        scene.Renderable_objects.push_back(std::make_unique<Door>());
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();
@@ -95,6 +99,17 @@ public:
             scene.camera->isAnimating = true;
             scene.keyboard[GLFW_KEY_1] = GLFW_RELEASE;
         }
+
+        if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->startPos = {20, 6, 90};
+            scene.camera->endPos = {20, 6, 90};
+            scene.camera->startPosLookAt = {10.0f, 6.15f, 100.0f};
+            scene.camera->endPosLookAt = {10.0f, 6.15f, 100.0f};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_2] = GLFW_RELEASE;
+        }
+
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
             for(int i=0; i<10;i++) {
                 // TODO: Add renderable object to the scene

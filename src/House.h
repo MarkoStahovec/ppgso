@@ -13,19 +13,9 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
-    /*!
-     * Create new asteroid
-     */
     House();
 
-    /*!
-     * Update asteroid
-     * @param scene Scene to interact with
-     * @param dt Time delta for animation purposes
-     * @return
-     */
     bool update(float dt, SceneWindow &scene) override;
-
     void render(SceneWindow &scene) override;
 
 private:
