@@ -21,6 +21,8 @@
 #include "Rain_Drop.h"
 #include "utils.h"
 #include "House.h"
+#include "Campfire.h"
+#include "Plant.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -51,6 +53,8 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Cloud>());
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
         scene.Renderable_objects.push_back(std::make_unique<House>());
+        scene.Renderable_objects.push_back(std::make_unique<Campfire>());
+        scene.Renderable_objects.push_back(std::make_unique<Plant>());
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();

@@ -71,6 +71,7 @@ set(PPGSO_SHADER_SRC
         shader/convolution_vert.glsl shader/convolution_frag.glsl
         shader/diffuse_vert.glsl shader/diffuse_frag.glsl
         shader/texture_vert.glsl shader/texture_frag.glsl
+        shader/cloud_vert.glsl shader/cloud_frag.glsl
         )
 add_resources(shaders ${PPGSO_SHADER_SRC})
 
@@ -230,7 +231,7 @@ install(DIRECTORY data/ DESTINATION .)
 
 add_executable(MainScene
         src/MainScene.cpp
-        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h)
+        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h src/Campfire.cpp src/Campfire.h src/Plant.cpp src/Plant.h)
 target_link_libraries(MainScene ppgso shaders)
 install(TARGETS MainScene DESTINATION .)
 add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})

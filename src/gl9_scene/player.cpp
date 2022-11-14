@@ -23,7 +23,7 @@ Player::Player() {
 }
 
 bool Player::update(Scene &scene, float dt) {
-  // Fire delay increment
+  // Plant delay increment
   fireDelay += dt;
 
   // Hit detection

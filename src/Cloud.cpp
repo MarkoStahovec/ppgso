@@ -5,6 +5,8 @@
 #include "Cloud.h"
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
+#include <shaders/cloud_frag_glsl.h>
+#include <shaders/cloud_vert_glsl.h>
 
 std::unique_ptr<ppgso::Mesh> Cloud::mesh;
 std::unique_ptr<ppgso::Texture> Cloud::texture;
@@ -15,7 +17,7 @@ Cloud::Cloud() {
     rotation = {0,0,0};
     position.y = 1;
 
-    if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
+    if (!shader) shader = std::make_unique<ppgso::Shader>(cloud_vert_glsl, cloud_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("cloud.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cloud.obj");
 }
