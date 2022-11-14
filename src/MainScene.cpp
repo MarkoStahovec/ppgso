@@ -88,8 +88,8 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             scene.camera->t = 0;
-            scene.camera->startPos = {0, 3, 8};
-            scene.camera->endPos = {4, 3, 2};
+            scene.camera->startPos = {50, 40, 50};
+            scene.camera->endPos = {80, 65, 25};
             scene.camera->startPosLookAt = {0.0f, -0.15f, -1.0f};
             scene.camera->endPosLookAt = {0.0f, -0.15f, -0.8f};
             scene.camera->isAnimating = true;
