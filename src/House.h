@@ -5,7 +5,7 @@
 #include "Renderable.h"
 #include "SceneWindow.h"
 
-class Palm final : public Renderable {
+class House final : public Renderable {
 private:
 
     static std::unique_ptr<ppgso::Mesh> mesh;
@@ -16,7 +16,7 @@ public:
     /*!
      * Create new asteroid
      */
-    Palm();
+    House();
 
     /*!
      * Update asteroid

@@ -21,7 +21,7 @@ public:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-    glm::vec3 cameraPos{0, 3, 8};
+    glm::vec3 cameraPos{50, 50, 50};
     glm::vec3 cameraFront = glm::vec3(0.0f, -0.15f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
     //float cameraSpeed = 0.2;

@@ -2,6 +2,7 @@
 // Created by A on 04/11/2022.
 //
 // attribution to rawpixel.com
+// <a href="https://www.freepik.com/free-photo/natural-material-wood-dark-brown_1043710.htm#query=wood%20texture&position=7&from_view=keyword">Image by mrsiraphol</a> on Freepik
 #include <iostream>
 #include <list>
 #include <ppgso/ppgso.h>
@@ -19,6 +20,8 @@
 #include "SkyBox.h"
 #include "Rain_Drop.h"
 #include "utils.h"
+#include "House.h"
+
 #define GLM_ENABLE_EXPERIMENTAL
 
 
@@ -34,7 +37,7 @@ private:
 
 
 public:
-    MainScene() : Window{"Stahovec robi sam", WINDOW_WIDTH, WINDOW_WIDTH} {
+    MainScene() : Window{"NÁŠ projekt", WINDOW_HEIGHT, WINDOW_WIDTH} {
         // Initialize OpenGL state
         // Enable Z-buffer
         glEnable(GL_DEPTH_TEST);
@@ -47,6 +50,10 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Surface>());
         scene.Renderable_objects.push_back(std::make_unique<Cloud>());
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
+        scene.Renderable_objects.push_back(std::make_unique<House>());
+
+        scene.last_frame_time = -1;
+        scene.current_frame_time = (float) glfwGetTime();
     }
 
     void onKey(int key, int scanCode, int action, int mods) override {
@@ -56,7 +63,7 @@ public:
         // https://learnopengl.com/Getting-started/Camera
         static auto time = (float) glfwGetTime();
         float dTime = (float) glfwGetTime() - time;
-        float cameraSpeed = 0.05f * dTime;
+        float cameraSpeed = 200 * (scene.current_frame_time - scene.last_frame_time);
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
             scene.camera->isAnimating = false;
@@ -103,6 +110,7 @@ public:
 
     void onIdle() override {
         // Track time
+        scene.last_frame_time = scene.current_frame_time;
         static auto time = (float) glfwGetTime();
         // Compute time delta
         float dTime = (float) glfwGetTime() - time;
@@ -136,6 +144,8 @@ public:
 
         // Render every object in scene
         scene.render();
+
+        scene.current_frame_time = (float) glfwGetTime();
     }
 };
 

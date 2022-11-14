@@ -19,6 +19,9 @@ public:
     // Keyboard state
     std::map< int, int > keyboard;
 
+    float current_frame_time;
+    float last_frame_time;
+
     void update(float time);
     void render();
 
