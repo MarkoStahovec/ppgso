@@ -11,7 +11,7 @@ std::unique_ptr<ppgso::Texture> Plant::texture;
 std::unique_ptr<ppgso::Shader> Plant::shader;
 
 Plant::Plant(int x, int y, int z) {
-    scale *= 1;
+    scale *= 10;
     rotation = {0,0,0};
     position.y = y;
     position.x = x;
@@ -19,7 +19,7 @@ Plant::Plant(int x, int y, int z) {
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("cloud.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("plant.obj");
 }
 
 bool Plant::update(float dt, SceneWindow &scene) {

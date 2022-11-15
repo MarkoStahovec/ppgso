@@ -8,7 +8,7 @@ glm::vec3 generate_rain_vec3(float min, float max) {
     return {((float) rand() / (float) RAND_MAX) * (max - min) + min, 100, ((float) rand() / RAND_MAX) * (max - min) + min};
 };
 
-int random_int(int min, int max) {
+float random_float(int min, int max) {
     return ((float) rand() / (float) RAND_MAX) * (max - min) + min;
 };
 

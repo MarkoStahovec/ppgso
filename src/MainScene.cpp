@@ -61,27 +61,27 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
 
-        for(int i=-100; i<100; i++){
+        /*for(int i=-100; i<100; i++){
             for(int j=-100; j<100;j++){
-                int x = i;
-                int z = j;
+                float x = i;
+                float z = j;
                 int y = get_Y(x,z,scene.heightMap);
                 std::cout << y<<"\n";
                 scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y, z));
 
             }
-        }
+        }*/
 
-        /*for(int i=0; i<100; i++){
-            int x = random_int(-100,100);
-            int z = random_int(-100,100);
+        for(int i=0; i<100; i++){
+            int x = random_float(-100,100);
+            int z = random_float(-100,100);
             int y = get_Y(x,z,scene.heightMap);
-            if (y <= 4) {
+            if (y <= 4 || y >15) {
                 i--;
             } else {
                 scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y,z));
             }
-        }*/
+        }
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();
