@@ -13,7 +13,6 @@ std::unique_ptr<ppgso::Shader> Surface::shader;
 Surface::Surface() {
     scale *= 1;
     rotation = {0,0,0};
-    position.y = 0;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("water.bmp"));

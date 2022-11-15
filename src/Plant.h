@@ -16,7 +16,7 @@ public:
     /*!
      * Create new asteroid
      */
-    Plant();
+    Plant(int x, int y, int z);
 
     /*!
      * Update asteroid

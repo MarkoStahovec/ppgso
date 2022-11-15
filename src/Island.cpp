@@ -11,12 +11,18 @@ std::unique_ptr<ppgso::Texture> Island::texture;
 std::unique_ptr<ppgso::Shader> Island::shader;
 
 Island::Island() {
-    scale *= 1;
-    rotation = {0,0,0};
+    scale *= 0.803;
+    scale.z *= 1;
+    scale.y *= 0.8;
+    rotation = {0,0,3*ppgso::PI/2};
+    position.y = -0.1;
+    position.x -= 2;
+    position.z +=3;
+
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("isld1.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("land.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ostrov.obj");
 }
 
 bool Island::update(float dt, SceneWindow &scene) {

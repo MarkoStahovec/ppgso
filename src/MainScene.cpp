@@ -47,6 +47,8 @@ public:
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
 
+        scene.heightMap = readBMP("Height.bmp");
+
         auto camera = std::make_unique<Camera>();
         scene.camera = move(camera);
         // TODO here will be initialization of all objects (call to some function)
@@ -56,9 +58,30 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
         scene.Renderable_objects.push_back(std::make_unique<House>());
         scene.Renderable_objects.push_back(std::make_unique<Campfire>());
-        scene.Renderable_objects.push_back(std::make_unique<Plant>());
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
+
+        for(int i=-100; i<100; i++){
+            for(int j=-100; j<100;j++){
+                int x = i;
+                int z = j;
+                int y = get_Y(x,z,scene.heightMap);
+                std::cout << y<<"\n";
+                scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y, z));
+
+            }
+        }
+
+        /*for(int i=0; i<100; i++){
+            int x = random_int(-100,100);
+            int z = random_int(-100,100);
+            int y = get_Y(x,z,scene.heightMap);
+            if (y <= 4) {
+                i--;
+            } else {
+                scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y,z));
+            }
+        }*/
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();

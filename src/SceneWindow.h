@@ -22,6 +22,8 @@ public:
     float current_frame_time;
     float last_frame_time;
 
+    unsigned char * heightMap;
+
     void update(float time);
     void render();
 

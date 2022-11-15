@@ -10,16 +10,16 @@ std::unique_ptr<ppgso::Mesh> Plant::mesh;
 std::unique_ptr<ppgso::Texture> Plant::texture;
 std::unique_ptr<ppgso::Shader> Plant::shader;
 
-Plant::Plant() {
-    scale *= 10;
+Plant::Plant(int x, int y, int z) {
+    scale *= 1;
     rotation = {0,0,0};
-    position.y = 4;
-    position.x = 30;
-    position.z = 100;
+    position.y = y;
+    position.x = x;
+    position.z = z;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("plant_leaves.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("plant.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("cloud.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
 }
 
 bool Plant::update(float dt, SceneWindow &scene) {
