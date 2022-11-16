@@ -25,6 +25,7 @@
 #include "Door.h"
 #include "utils.h"
 #include "Fish.h"
+#include "Bird.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -60,7 +61,7 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Campfire>());
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
-        scene.Renderable_objects.push_back(std::make_unique<Fish>());
+        scene.Renderable_objects.push_back(std::make_unique<Bird>());
 
         /*for(int i=-100; i<100; i++){
             for(int j=-100; j<100;j++){
