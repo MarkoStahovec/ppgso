@@ -1,7 +1,7 @@
 //
 // Created by A on 04/11/2022.
 //
-// attribution to rawpixel.com
+// attribution to rawpixel.com, Mark Lyu
 // <a href="https://www.freepik.com/free-photo/natural-material-wood-dark-brown_1043710.htm#query=wood%20texture&position=7&from_view=keyword">Image by mrsiraphol</a> on Freepik
 #include <iostream>
 #include <list>
@@ -20,7 +20,7 @@
 #include "Rain_Drop.h"
 #include "House.h"
 #include "Campfire.h"
-#include "Plant.h"
+#include "Plant_1.h"
 #include "Fire.h"
 #include "Door.h"
 #include "utils.h"
@@ -69,7 +69,7 @@ public:
                 float z = j;
                 int y = get_Y(x,z,scene.heightMap);
                 std::cout << y<<"\n";
-                scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y, z));
+                scene.Renderable_objects.push_back(std::make_unique<Plant_1>(x, y, z));
 
             }
         }*/
@@ -81,7 +81,8 @@ public:
             if (y <= 4 || y >15) {
                 i--;
             } else {
-                scene.Renderable_objects.push_back(std::make_unique<Plant>(x, y,z));
+
+                scene.Renderable_objects.push_back(random_plant(x, y, z));
             }
         }
 
@@ -135,16 +136,8 @@ public:
             scene.keyboard[GLFW_KEY_2] = GLFW_RELEASE;
         }
 
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-            glm::vec3 position =  glm::sphericalRand(90.0);
-            position[1] = 100;
-            glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
-            glm::vec3 speed = {0,0,0};
-            glm::vec3 scale = {1,1,1};
-            glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
-
-            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
-            scene.keyboard[GLFW_KEY_SPACE] = GLFW_RELEASE;
+        if (scene.keyboard[GLFW_KEY_SPACE]){
+            raise_wind(scene);
         }
 
     }
@@ -171,6 +164,8 @@ public:
 
             scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
         }
+
+        calm_wind(scene, window);
 
         // Set gray background
         glClearColor(.1f, .1f, .1f, 1.0f);

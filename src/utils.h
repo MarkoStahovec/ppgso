@@ -1,4 +1,6 @@
 #include "glm/vec3.hpp"
+#include "Plant_2.h"
+#include "Plant_3.h"
 
 glm::vec3 generate_random_vec3(float min, float max) {
     return {((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / RAND_MAX) * (max - min) + min};
@@ -56,4 +58,31 @@ unsigned char* readBMP(char* filename)
     }
 
     return data;
+}
+
+void raise_wind(SceneWindow &scene){
+    if(scene.wind[0] < 1){
+        if(scene.wind[0] < 0.2){
+            scene.wind[0] += 0.01;
+        }
+        scene.wind *= 1.035;
+    }
+}
+
+void calm_wind(SceneWindow &scene, GLFWwindow *window){
+    if (scene.wind[0] > 0.0001 && glfwGetKey(window, GLFW_KEY_SPACE) != GLFW_PRESS) {
+        scene.wind *= 0.98;
+    }
+}
+
+std::unique_ptr<Renderable> random_plant(float x, float y, float z){
+    int decide = rand() % 3;
+    std::cout << decide << "\n";
+    if (decide == 0) {
+        return std::make_unique<Plant_1>(x, y, z, "plant_1.obj", "plant_1.bmp", 10);
+    } else if (decide == 1) {
+        return std::make_unique<Plant_2>(x, y, z, "plant_2.obj", "plant_2.bmp", 0.3);
+    } else {
+        return std::make_unique<Plant_3>(x, y, z, "plant_3.obj", "plant_3.bmp", 0.3);
+    }
 }

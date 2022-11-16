@@ -9,13 +9,13 @@ bool Rain_Drop::update(float dTime, SceneWindow &scene) {
 
     if (pos.y+5 <= scene.get_Y(pos.x, pos.z, scene.heightMap) && droplet == 0){
         if(rand() % 33 <=1000) {
-            std::vector<glm::vec3> speed_list{{10,  100, 10},
-                                              {-10, 100, 10},
-                                              {10,  100, -10},
-                                              {-10, 100, -10}};
+            std::vector<glm::vec3> speed_list{{10,  230, 10},
+                                              {-10, 230, 10},
+                                              {10,  230, -10},
+                                              {-10, 230, -10}};
 
             for (glm::vec3 speed_iteration: speed_list) {
-                glm::vec3 position = {pos.x, pos.y + 10, pos.z};
+                glm::vec3 position = {pos.x, pos.y, pos.z};
                 position *= 5;
                 glm::vec3 rotation = {0, 0, 0};
                 glm::vec3 speed = speed_iteration;
@@ -32,7 +32,7 @@ bool Rain_Drop::update(float dTime, SceneWindow &scene) {
 
     speed *= (float)0.99;
 
-    pos += speed * (float).01 - scene.gravity * (float)0.1;
+    pos += speed * (float).01 - scene.gravity * (float)0.1 + scene.wind;
     modelMatrix = glm::mat4(1.f);
     modelMatrix = rotate(modelMatrix, rotation.x, glm::vec3(1, 0, 0));
     modelMatrix = rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));

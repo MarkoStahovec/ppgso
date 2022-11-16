@@ -23,6 +23,7 @@ public:
     float last_frame_time;
 
     glm::vec3 gravity = {0,10,0};
+    glm::vec3 wind = {0,0,0};
 
     unsigned char * heightMap;
 
