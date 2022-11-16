@@ -6,7 +6,6 @@
 #include <iostream>
 #include <list>
 #include <ppgso/ppgso.h>
-
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include <shaders/color_vert_glsl.h>
@@ -19,12 +18,12 @@
 #include "Cloud.h"
 #include "SkyBox.h"
 #include "Rain_Drop.h"
-#include "utils.h"
 #include "House.h"
 #include "Campfire.h"
 #include "Plant.h"
 #include "Fire.h"
 #include "Door.h"
+#include "utils.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -75,7 +74,7 @@ public:
         for(int i=0; i<100; i++){
             int x = random_float(-100,100);
             int z = random_float(-100,100);
-            int y = get_Y(x,z,scene.heightMap);
+            int y = scene.get_Y(x,z,scene.heightMap);
             if (y <= 4 || y >15) {
                 i--;
             } else {
@@ -134,20 +133,17 @@ public:
         }
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-            for(int i=0; i<10;i++) {
-                // TODO: Add renderable object to the scene
-                glm::vec3 position =  glm::sphericalRand(50.0);
-                position[1] = 50;
-                glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
-                glm::vec3 speed = speed_rain_vec3(-2, -4);
-                glm::vec3 scale = generate_equal_vec3(0.01, 0.02);
-                glm::vec3 color = generate_random_vec3(0, 1);
+            glm::vec3 position =  glm::sphericalRand(90.0);
+            position[1] = 100;
+            glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
+            glm::vec3 speed = {0,0,0};
+            glm::vec3 scale = generate_equal_vec3(0.5, 1);
+            glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
 
-                float timer = generate_timer(20, 30);
-                auto generator = std::make_unique<Rain_Drop>(position, speed, color, scale, timer);
-                scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, timer));
-            }
+            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
+            scene.keyboard[GLFW_KEY_SPACE] = GLFW_RELEASE;
         }
+
     }
 
     void onIdle() override {
@@ -159,19 +155,17 @@ public:
         dTime *= 0.001;
         //time = (float) glfwGetTime();
 
-        for(int i=0; i<1;i++) {
+        /*for(int i=0; i<1;i++) {
             // TODO: Add renderable object to the scene
-            glm::vec3 position =  glm::sphericalRand(150.0);
+            glm::vec3 position =  glm::sphericalRand(90.0);
             position[1] = 100;
             glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
-            glm::vec3 speed = speed_rain_vec3(-80, -100);
+            glm::vec3 speed = {0,0,0};
             glm::vec3 scale = generate_equal_vec3(0.5, 1);
             glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
 
-            float timer = generate_timer(5, 5);
-            auto generator = std::make_unique<Rain_Drop>(position, speed, color, scale, timer);
-            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, timer));
-        }
+            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
+        }*/
 
         // Set gray background
         glClearColor(.1f, .1f, .1f, 1.0f);

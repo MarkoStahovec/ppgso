@@ -18,9 +18,9 @@ class Rain_Drop final : public Renderable {
     glm::vec3 scale = {.1,.1,.1};
     glm::vec3 speed;
     glm::vec3 color{0.55, 0.55, 0.85};
+    bool droplet;
 
     glm::mat4 modelMatrix{1.f};
-    float time;
 
 public:
     /// Construct a new Particle
@@ -28,7 +28,7 @@ public:
     /// \param s - Initial speed
     /// \param c - Color of particle
 
-    Rain_Drop(glm::vec3 p, glm::vec3 s, glm::vec3 c, glm::vec3 sc, float t) {
+    Rain_Drop(glm::vec3 p, glm::vec3 s, glm::vec3 c, glm::vec3 sc, bool is_droplet) {
         // First particle will initialize resources
         if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
         if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
@@ -37,12 +37,11 @@ public:
         speed = s;
         color = c;
         scale = sc;
-        time = t;
+        droplet = is_droplet;
     }
 
     bool update(float dTime, SceneWindow &scene) override;
 
     void render(SceneWindow &scene) override;
-
 
 };

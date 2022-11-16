@@ -11,7 +11,7 @@ std::unique_ptr<ppgso::Texture> Plant::texture;
 std::unique_ptr<ppgso::Shader> Plant::shader;
 
 Plant::Plant(int x, int y, int z) {
-    scale *= 10;
+    scale *= 5;
     rotation = {0,0,0};
     position.y = y;
     position.x = x;
