@@ -13,7 +13,7 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
-    House();
+    House(float x, float y, float z);
 
     bool update(float dt, SceneWindow &scene) override;
     void render(SceneWindow &scene) override;

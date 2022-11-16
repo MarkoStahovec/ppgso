@@ -36,7 +36,7 @@ void Cloud::render(SceneWindow &scene) {
     // use camera
     shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);
     shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
-    shader->setUniform("LightDirection", normalize(glm::vec3{1.0f, 10.0f, 1.0f}));
+    shader->setUniform("LightDirection", normalize(glm::vec3{1.0f, 1.0f, 1.0f}));
 
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);

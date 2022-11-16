@@ -1,7 +1,8 @@
 //
 // Created by A on 04/11/2022.
 //
-// attribution to rawpixel.com, Mark Lyu
+// attribution to rawpixel.com, Mark Lyu, textures4photoshop, texturex
+//<a href="https://www.freepik.com/free-photo/old-grunge-wood-with-green-leaves_1018915.htm#page=2&query=wood%20leaf&position=9&from_view=keyword">Image by jannoon028</a> on Freepik
 // <a href="https://www.freepik.com/free-photo/natural-material-wood-dark-brown_1043710.htm#query=wood%20texture&position=7&from_view=keyword">Image by mrsiraphol</a> on Freepik
 #include <iostream>
 #include <list>
@@ -26,6 +27,8 @@
 #include "utils.h"
 #include "Fish.h"
 #include "Bird.h"
+#include "Palm.h"
+#include "Coconut.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -57,12 +60,18 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Surface>());
         scene.Renderable_objects.push_back(std::make_unique<Cloud>());
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
-        scene.Renderable_objects.push_back(std::make_unique<House>());
+        scene.Renderable_objects.push_back(std::make_unique<House>(-25,scene.get_Y(-25,-40,scene.heightMap),-40));
         scene.Renderable_objects.push_back(std::make_unique<Campfire>());
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
         scene.Renderable_objects.push_back(std::make_unique<Fish>());
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(68,scene.get_Y(68,-78,scene.heightMap),-78,(glm::vec3) {.05,0,.022}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,73,scene.heightMap),73,(glm::vec3) {.05,0,-.022}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(-35,scene.get_Y(-35,-40,scene.heightMap),-40,(glm::vec3) {.01,0,-.01}));
+        scene.Renderable_objects.push_back(std::make_unique<Coconut>(0,scene.get_Y(0,0,scene.heightMap),0));
 
         /*for(int i=-100; i<100; i++){
             for(int j=-100; j<100;j++){
@@ -78,7 +87,7 @@ public:
         for(int i=0; i<100; i++){
             int x = random_float(-100,100);
             int z = random_float(-100,100);
-            int y = scene.get_Y(x,z,scene.heightMap);
+            int y = scene.get_Y(x, z, scene.heightMap);
             if (y <= 4 || y >15) {
                 i--;
             } else {

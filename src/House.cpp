@@ -10,12 +10,12 @@ std::unique_ptr<ppgso::Mesh> House::mesh;
 std::unique_ptr<ppgso::Texture> House::texture;
 std::unique_ptr<ppgso::Shader> House::shader;
 
-House::House() {
+House::House(float x, float y, float z) {
     scale *= 0.15;
-    rotation = {0,-0.2,-1};
-    position.y = 4;
-    position.x = 24;
-    position.z = 90;
+    //rotation = {0,-0.2,-1};
+    position.x = x;
+    position.y = y;
+    position.z = z;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("wood.bmp"));
