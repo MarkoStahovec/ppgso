@@ -137,7 +137,7 @@ public:
             position[1] = 100;
             glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
             glm::vec3 speed = {0,0,0};
-            glm::vec3 scale = generate_equal_vec3(0.5, 1);
+            glm::vec3 scale = {1,1,1};
             glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
 
             scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
@@ -155,17 +155,19 @@ public:
         dTime *= 0.001;
         //time = (float) glfwGetTime();
 
-        /*for(int i=0; i<1;i++) {
-            // TODO: Add renderable object to the scene
-            glm::vec3 position =  glm::sphericalRand(90.0);
+        // TODO: Add renderable object to the scene
+        if(rand() % 100 <= 5) {
+            glm::vec3 position = glm::sphericalRand(90.0);
             position[1] = 100;
             glm::vec3 rotation = generate_random_vec3(-ppgso::PI, ppgso::PI);
-            glm::vec3 speed = {0,0,0};
-            glm::vec3 scale = generate_equal_vec3(0.5, 1);
-            glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3,1};
+            glm::vec3 speed = {0, 0, 0};
+            glm::vec3 scale = {1, 1, 1};
+            glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3, 1};
 
             scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
-        }*/
+
+            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
+        }
 
         // Set gray background
         glClearColor(.1f, .1f, .1f, 1.0f);

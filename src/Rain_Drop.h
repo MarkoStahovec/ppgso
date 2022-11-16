@@ -17,6 +17,7 @@ class Rain_Drop final : public Renderable {
     glm::vec3 rotation;
     glm::vec3 scale = {.1,.1,.1};
     glm::vec3 speed;
+    glm::vec3 gravity={0,-10,0};
     glm::vec3 color{0.55, 0.55, 0.85};
     bool droplet;
 
