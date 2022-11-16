@@ -62,6 +62,7 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
+        scene.Renderable_objects.push_back(std::make_unique<Fish>());
 
         /*for(int i=-100; i<100; i++){
             for(int j=-100; j<100;j++){
@@ -159,8 +160,6 @@ public:
             glm::vec3 speed = {0, 0, 0};
             glm::vec3 scale = {1, 1, 1};
             glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3, 1};
-
-            scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
 
             scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
         }
