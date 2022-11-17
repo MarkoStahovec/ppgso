@@ -7,38 +7,34 @@ bool Rain_Drop::update(float dTime, SceneWindow &scene) {
     // - Returning false removes the object from the scene
     // - hint: you can add more particles to the scene here also
 
-    if (pos.y+5 <= scene.get_Y(pos.x, pos.z, scene.heightMap) && droplet == 0){
-        if(rand() % 33 <=1000) {
-            std::vector<glm::vec3> speed_list{{10,  230, 10},
-                                              {-10, 230, 10},
-                                              {10,  230, -10},
-                                              {-10, 230, -10}};
+    if (position.y+5 <= scene.get_Y(position.x, position.z, scene.heightMap) && droplet == 0){
+        if(rand() % 100 <= 50) {
+            std::vector<glm::vec3> speed_list{{7,  150, 7},
+                                              {-7, 150, 7},
+                                              {7,  150, -7},
+                                              {-7, 150, -7}};
 
             for (glm::vec3 speed_iteration: speed_list) {
-                glm::vec3 position = {pos.x, pos.y, pos.z};
-                position *= 5;
+                glm::vec3 pos = {position.x, position.y, position.z};
+                pos[1] +=9;
                 glm::vec3 rotation = {0, 0, 0};
                 glm::vec3 speed = speed_iteration;
                 glm::vec3 scale = {0.2, 0.2, 0.2};
                 glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3, 1};
-                scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 1));
+                scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(pos, speed, color, scale, 1));
             }
 
         }
         return false;
-    } else if (pos.y <= scene.get_Y(pos.x, pos.z, scene.heightMap) && droplet == 1){
+    } else if (position.y <= scene.get_Y(position.x, position.z, scene.heightMap) && droplet == 1){
         return false;
     }
 
     speed *= (float)0.99;
 
-    pos += speed * (float).01 - scene.gravity * (float)0.1 + scene.wind;
-    modelMatrix = glm::mat4(1.f);
-    modelMatrix = rotate(modelMatrix, rotation.x, glm::vec3(1, 0, 0));
-    modelMatrix = rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));
-    modelMatrix = rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
-    modelMatrix = glm::scale(modelMatrix, scale);
-    modelMatrix = translate(modelMatrix, pos);
+    position += speed * (float).01 - scene.gravity * (float)0.1 + scene.wind;
+
+    updateModelMatrix();
     return true;
 }
 

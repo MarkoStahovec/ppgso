@@ -34,13 +34,14 @@ bool Coconut::update(float dt, SceneWindow &scene) {
         }
     }
 
-    if (rand() % 1000 < 3 && dropping == 0 && spawning == 0 && despawning == 0){
+    if (rand() % 1000 < 2 && dropping == 0 && spawning == 0 && despawning == 0){
         dropping = 1;
     }
 
     if(dropping==1){
         position += external_force * (float) 0.01 - scene.gravity * (float) 0.01;
         external_force *= .98;
+        external_force += scene.wind/(float)3;
         rotation[0] -= drop_dir_x/200 * n_drop/5;
         rotation[2] -= drop_dir_z/200 * n_drop/5;
     }
@@ -50,6 +51,7 @@ bool Coconut::update(float dt, SceneWindow &scene) {
         despawning = 1;
     } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop>0){
         external_force = {drop_dir_x * n_drop/5, drop_dir_y*2, drop_dir_z * n_drop/5};
+        external_force += scene.wind/(float)3;
         n_drop--;
     } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop == 0){
         dropping = 0;

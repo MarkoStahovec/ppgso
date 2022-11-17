@@ -13,15 +13,10 @@ class Rain_Drop final : public Renderable {
 
 
     // TODO: add more parameters as needed
-    glm::vec3 pos;
-    glm::vec3 rotation;
-    glm::vec3 scale = {.1,.1,.1};
     glm::vec3 speed;
     glm::vec3 gravity={0,-10,0};
     glm::vec3 color{0.55, 0.55, 0.85};
     bool droplet;
-
-    glm::mat4 modelMatrix{1.f};
 
 public:
     /// Construct a new Particle
@@ -34,7 +29,7 @@ public:
         if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
         if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
 
-        pos = p;
+        position = p;
         speed = s;
         color = c;
         scale = sc;
