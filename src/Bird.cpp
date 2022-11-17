@@ -24,8 +24,8 @@ bool Bird::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
 
     float time = (float) glfwGetTime();
-    rotation = {0, -0.5, -(time/5)+ppgso::PI};
-    position = {200*cos(time/5),75, 200*sin(time/5)};
+    rotation = {0, -0.5, -(time/4.6)+ppgso::PI};
+    position = {200*cos(time/4.6),75, 200*sin(time/4.6)};
 
     return true;
 }
