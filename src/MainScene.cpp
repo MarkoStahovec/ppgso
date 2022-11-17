@@ -66,11 +66,11 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
         scene.Renderable_objects.push_back(std::make_unique<Fish>());
-        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}));
-        scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}));
-        scene.Renderable_objects.push_back(std::make_unique<Palm>(68,scene.get_Y(68,-78,scene.heightMap),-78,(glm::vec3) {.05,0,.022}));
-        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,73,scene.heightMap),73,(glm::vec3) {.05,0,-.022}));
-        scene.Renderable_objects.push_back(std::make_unique<Palm>(-35,scene.get_Y(-35,-40,scene.heightMap),-40,(glm::vec3) {.01,0,-.01}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}, (glm::vec3) {0.15,0.2,0.15}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(68,scene.get_Y(68,-78,scene.heightMap),-78,(glm::vec3) {.05,0,.022}, (glm::vec3) {0.15,0.15,0.15}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,73,scene.heightMap),73,(glm::vec3) {.05,0,-.022}, (glm::vec3) {0.2,0.15,0.2}));
+        scene.Renderable_objects.push_back(std::make_unique<Palm>(-35,scene.get_Y(-35,-40,scene.heightMap),-40,(glm::vec3) {.01,0,-.01}, (glm::vec3) {0.15,0.12,0.15}));
         scene.Renderable_objects.push_back(std::make_unique<Coconut>(0,scene.get_Y(0,0,scene.heightMap),0));
 
         /*for(int i=-100; i<100; i++){

@@ -10,13 +10,14 @@ std::unique_ptr<ppgso::Mesh> Palm::mesh;
 std::unique_ptr<ppgso::Texture> Palm::texture;
 std::unique_ptr<ppgso::Shader> Palm::shader;
 
-Palm::Palm(float x, float y, float z, glm::vec3 r) {
+Palm::Palm(float x, float y, float z, glm::vec3 r, glm::vec3 s) {
     position.x = x;
     position.y = y-2;
     position.z = z;
 
-    scale *= 0.15;
+    //scale *= 0.15;
     rotation = r;
+    scale = s;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("wood.bmp"));

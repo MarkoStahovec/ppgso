@@ -77,7 +77,6 @@ void calm_wind(SceneWindow &scene, GLFWwindow *window){
 
 std::unique_ptr<Renderable> random_plant(float x, float y, float z){
     int decide = rand() % 3;
-    std::cout << decide << "\n";
     if (decide == 0) {
         return std::make_unique<Plant_1>(x, y, z, "plant_1.obj", "plant_1.bmp", 10);
     } else if (decide == 1) {

@@ -13,7 +13,7 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
-    Palm(float x, float y, float z, glm::vec3 r);
+    Palm(float x, float y, float z, glm::vec3 r, glm::vec3 s);
 
     bool update(float dt, SceneWindow &scene) override;
     void render(SceneWindow &scene) override;
