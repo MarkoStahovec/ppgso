@@ -46,7 +46,7 @@ void Fish::render(SceneWindow &scene) {
     shader->setUniform("light.diffuse", {0.5f,0.5f,0.5f});
     shader->setUniform("light.specular", {1.0f,1.0f,1.0f});
     shader->setUniform("light.constant", 1.0f);
-    shader->setUniform("light.linear", 0.01f);
+    shader->setUniform("light.linear", 0.005f);
     shader->setUniform("light.quadratic", 0.0f);
 
     shader->setUniform("material.diffuse", 0);
