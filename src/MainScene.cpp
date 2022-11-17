@@ -29,6 +29,7 @@
 #include "Bird.h"
 #include "Palm.h"
 #include "Coconut.h"
+#include "Boat.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -65,6 +66,7 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
+        scene.Renderable_objects.push_back(std::make_unique<Boat>());
         scene.Renderable_objects.push_back(std::make_unique<Fish>());
         scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15}));
         scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}, (glm::vec3) {0.15,0.2,0.15}));
