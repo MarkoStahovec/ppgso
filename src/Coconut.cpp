@@ -19,7 +19,7 @@ Coconut::Coconut(float x, float y, float z) {
     rotation = {0,0,0};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("wood.bmp"));
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("coconut.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("coconut.obj");
 }
 
