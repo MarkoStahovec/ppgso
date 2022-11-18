@@ -25,6 +25,25 @@ public:
     glm::vec3 gravity = {0,10,0};
     glm::vec3 wind = {0,0,0};
 
+    struct Lights {
+        glm::vec3 position[100];
+        glm::vec3 direction[100];
+
+        float cutOff[100];
+        float outerCutOff[100];
+        bool isSpot[100];
+
+        glm::vec3 color[100];
+        float intensity[100];
+        float radius[100];
+
+        glm::vec3 ambient[100];
+        glm::vec3 diffuse[100];
+        glm::vec3 specular[100];
+    };
+
+    Lights lights;
+
     unsigned char * heightMap;
 
     void update(float time);

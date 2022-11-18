@@ -5,6 +5,8 @@
 #include "Island.h"
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
+#include <shaders/phong_vert_glsl.h>
+#include <shaders/phong_frag_glsl.h>
 
 std::unique_ptr<ppgso::Mesh> Island::mesh;
 std::unique_ptr<ppgso::Texture> Island::texture;
@@ -20,7 +22,7 @@ Island::Island() {
     position.z +=3;
 
 
-    if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
+    if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("isld1.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ostrov.obj");
 }
@@ -34,12 +36,49 @@ void Island::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
-    shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);
-    shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
-    shader->setUniform("LightDirection", normalize(glm::vec3{1.0f, 1.0f, 1.0f}));
+    shader->setUniform("globalLightDirection", {0.25,1,0.5});
+    shader->setUniform("globalLightColor", {1,1,1});
+    shader->setUniform("globalLightAmbient", {1.5,1.5,1.5});
+    shader->setUniform("globalLightDiffuse", {1,1,1});
+    shader->setUniform("globalLightSpecular", {0.1,0.1,0.1});
+
+/*
+    shader->setUniform("lights.count", 1);
+    shader->setUniform("lights.positions[0]", {1,30,1});
+    shader->setUniform("lights.colors[0]", {1.0, 1.0, 1.0});
+    shader->setUniform("lights.ranges[0]", 15);
+    shader->setUniform("lights.strenghts[0]", 3);*/
+
+    // use camera
+    shader->setUniform("projection", scene.camera->projectionMatrix);
+    shader->setUniform("view", scene.camera->viewMatrix);
+    shader->setUniform("viewPos", scene.camera->cameraPos);
+    shader->setUniform("globalLight", false);
+
+    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
+    shader->setUniform("material.diffuse", {0.8f, 0.8, 0.8f});
+    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
+    shader->setUniform("material.shininess", 76.8f);
+
+    for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
+        shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);
+        shader->setUniform("lights.direction[" + std::to_string(i) + "]", scene.lights.direction[i]);
+
+        shader->setUniform("lights.color[" + std::to_string(i) + "]", scene.lights.color[i]);
+        shader->setUniform("lights.intensity[" + std::to_string(i) + "]", scene.lights.intensity[i]);
+        shader->setUniform("lights.radius[" + std::to_string(i) + "]", scene.lights.radius[i]);
+
+        shader->setUniform("lights.ambient[" + std::to_string(i) + "]", scene.lights.ambient[i]);
+        shader->setUniform("lights.diffuse[" + std::to_string(i) + "]", scene.lights.diffuse[i]);
+        shader->setUniform("lights.specular[" + std::to_string(i) + "]", scene.lights.specular[i]);
+
+        shader->setUniform("lights.cutOff[" + std::to_string(i) + "]", scene.lights.cutOff[i]);
+        shader->setUniform("lights.outerCutOff[" + std::to_string(i) + "]", scene.lights.outerCutOff[i]);
+        shader->setUniform("lights.isSpot[" + std::to_string(i) + "]", scene.lights.isSpot[i]);
+    }
 
     // render mesh
-    shader->setUniform("ModelMatrix", modelMatrix);
+    shader->setUniform("model", modelMatrix);
     shader->setUniform("Texture", *texture);
     mesh->render();
 }

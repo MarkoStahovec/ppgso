@@ -30,6 +30,7 @@
 #include "Palm.h"
 #include "Coconut.h"
 #include "Boat.h"
+#include "Light.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 
@@ -99,6 +100,77 @@ public:
                 scene.Renderable_objects.push_back(random_plant(x, y, z));
             }
         }
+
+        glm::vec3 position = {11, 0, 29};
+        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 0.25;
+        glm::vec3 rotation = {3*ppgso::PI/2,0,0};
+        glm::vec3 color = {0.88, 0.1, 0.4};
+
+        scene.lights.position[0] = position;
+        scene.lights.direction[0] = {0, 0, 0};
+
+        scene.lights.color[0] = color;
+        scene.lights.radius[0] = 15;
+        scene.lights.intensity[0] = 6;
+
+        scene.lights.ambient[0] = {0.05f, 0.05f, 0.05f};
+        scene.lights.diffuse[0] = {0.85f, 0.85f, 0.85f};
+        scene.lights.specular[0] = {1.0f, 1.0f, 1.0f};
+
+        scene.lights.cutOff[0] = glm::cos(glm::radians(12.5f));
+        scene.lights.outerCutOff[0] = glm::cos(glm::radians(15.0f));
+        scene.lights.isSpot[0] = false;
+
+        auto light1 = std::make_unique<Light>(position, rotation, color);
+        scene.Renderable_objects.push_back(move(light1));
+
+        position = {22, 0, 33};
+        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 0.25;
+        rotation = {3*ppgso::PI/2,0,0};
+        color = {0.1, 0.7, 0.9};
+
+        scene.lights.position[1] = position;
+        scene.lights.direction[1] = {0, 0, 0};
+
+        scene.lights.color[1] = color;
+        scene.lights.radius[1] = 15;
+        scene.lights.intensity[1] = 6;
+
+        scene.lights.ambient[1] = {0.05f, 0.05f, 0.05f};
+        scene.lights.diffuse[1] = {0.85f, 0.85f, 0.85f};
+        scene.lights.specular[1] = {1.0f, 1.0f, 1.0f};
+
+        scene.lights.cutOff[1] = glm::cos(glm::radians(12.5f));
+        scene.lights.outerCutOff[1] = glm::cos(glm::radians(15.0f));
+        scene.lights.isSpot[1] = false;
+
+        light1 = std::make_unique<Light>(position, rotation, color);
+        scene.Renderable_objects.push_back(move(light1));
+
+        // This is a SpotLight
+        position = {-25, 0, 20};
+        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 10.25;
+        rotation = {3*ppgso::PI/2,0,0};
+        color = {0.4, 0.1, 0.95};
+
+        scene.lights.position[2] = position;
+        scene.lights.direction[2] = {-0.25, -1, -0.5};
+
+        scene.lights.color[2] = color;
+        scene.lights.radius[2] = 25;
+        scene.lights.intensity[2] = 20;
+
+        scene.lights.ambient[2] = {0.0f, 0.0f, 0.0f};
+        scene.lights.diffuse[2] = {1.0f, 1.0f, 1.0f};
+        scene.lights.specular[2] = {1.0f, 1.0f, 1.0f};
+
+        scene.lights.cutOff[2] = glm::cos(glm::radians(12.5f));
+        scene.lights.outerCutOff[2] = glm::cos(glm::radians(15.0f));
+        scene.lights.isSpot[2] = true;
+
+        light1 = std::make_unique<Light>(position, rotation, color);
+        scene.Renderable_objects.push_back(move(light1));
+
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();

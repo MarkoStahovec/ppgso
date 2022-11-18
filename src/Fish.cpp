@@ -35,26 +35,29 @@ void Fish::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
+    shader->setUniform("globalLightDirection", {0.25,1,0.5});
+    shader->setUniform("globalLightColor", {1,1,1});
+
+    // use camera
     shader->setUniform("projection", scene.camera->projectionMatrix);
     shader->setUniform("view", scene.camera->viewMatrix);
-    shader->setUniform("model", modelMatrix);
-
-    shader->setUniform("light.position", normalize(glm::vec3{1.2f, 1.0f, 2.0f}));
     shader->setUniform("viewPos", scene.camera->cameraPos);
+    shader->setUniform("globalLight", true);
 
-    shader->setUniform("light.ambient", {0.2f,0.2f,0.2f});
-    shader->setUniform("light.diffuse", {0.5f,0.5f,0.5f});
-    shader->setUniform("light.specular", {1.0f,1.0f,1.0f});
-    shader->setUniform("light.constant", 1.0f);
-    shader->setUniform("light.linear", 0.005f);
-    shader->setUniform("light.quadratic", 0.0f);
+    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
+    shader->setUniform("material.diffuse", {0.4f, 0.4f, 0.4f});
+    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
+    shader->setUniform("material.shininess", 6.8f);
 
-    shader->setUniform("material.diffuse", 0);
-    shader->setUniform("material.specular", 1);
-    shader->setUniform("material.shininess", 32.0f);
-
+    for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
+        shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);
+        shader->setUniform("lights.color[" + std::to_string(i) + "]", scene.lights.color[i]);
+        shader->setUniform("lights.intensity[" + std::to_string(i) + "]", scene.lights.intensity[i]);
+        shader->setUniform("lights.radius[" + std::to_string(i) + "]", scene.lights.radius[i]);
+    }
 
     // render mesh
+    shader->setUniform("model", modelMatrix);
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
