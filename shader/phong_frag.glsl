@@ -56,6 +56,8 @@ void main()
     float decayLinear = 0.08;
     float decayQuadratic = 0.027;
 
+    const float offset = 1.0 / 300.0;
+
     if(globalLight) {
         lightDirection = normalize(globalLightDirection);
         float diff = max(dot(normal, lightDirection), 0.0);
