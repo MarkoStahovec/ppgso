@@ -74,6 +74,8 @@ set(PPGSO_SHADER_SRC
         shader/cloud_vert.glsl shader/cloud_frag.glsl
         shader/phong_vert.glsl shader/phong_frag.glsl
         shader/bloom_vert.glsl shader/bloom_frag.glsl
+        shader/blur_vert.glsl shader/blur_frag.glsl
+        shader/light_vert.glsl shader/light_frag.glsl
         )
 add_resources(shaders ${PPGSO_SHADER_SRC})
 

@@ -25,6 +25,12 @@ public:
     glm::vec3 gravity = {0,10,0};
     glm::vec3 wind = {0,0,0};
 
+    glm::vec3 globalLightDirection = {0.25, 0.2, 0.5};
+    glm::vec3 globalLightColor = {0.42,0.45,0.85};
+    glm::vec3 globalLightAmbient = {0.5,0.5,0.5};
+    glm::vec3 globalLightDiffuse = {0.8f, 0.8, 0.8f};
+    glm::vec3 globalLightSpecular = {0.15,0.15,0.25};
+
     struct Lights {
         glm::vec3 position[100];
         glm::vec3 direction[100];

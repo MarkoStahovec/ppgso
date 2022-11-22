@@ -18,10 +18,10 @@ Light::Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col){
     position = pos;
     rotation = rot;
     color = col;
-    scale = {0.5f, 0.5f, 0.5f};
+    scale = {2.0f, 2.0f, 2.0f};
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cube.obj");
 }
 
 bool Light::update(float dt, SceneWindow &scene) {

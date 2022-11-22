@@ -7,7 +7,7 @@ ppgso::Texture::Texture(int width, int height) : image{width, height} {
   update();
 }
 
-ppgso::Texture::Texture(Image&& image) : image{std::move(image)} {
+ppgso::Texture::Texture(Image image) : image{std::move(image)} {
   initGL();
   update();
 }

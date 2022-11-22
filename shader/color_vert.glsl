@@ -1,20 +1,25 @@
-#version 330
-// The inputs will be fed by the vertex buffer objects
-layout(location = 0) in vec3 Position;
-layout(location = 4) in vec3 Color;
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoords;
+
+out VS_OUT {
+  vec3 FragPos;
+  vec3 Normal;
+  vec2 TexCoords;
+} vs_out;
 
 // Matrices as program attributes
 uniform mat4 ProjectionMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ModelMatrix;
 
-// Passed to fragment shader
-out vec3 vertexColor;
-
 void main() {
-  // Pass on the color to the fragment shader, this will be interpolated
-  vertexColor = Color;
+  vs_out.FragPos = vec3(ModelMatrix * vec4(aPos, 1.0));
+  vs_out.TexCoords = aTexCoords;
 
-  // Calculate the final position on screen
-  gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position, 1.0);
+  mat3 normalMatrix = transpose(inverse(mat3(ModelMatrix)));
+  vs_out.Normal = normalize(normalMatrix * aNormal);
+
+  gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(aPos, 1.0);
 }

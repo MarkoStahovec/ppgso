@@ -26,7 +26,7 @@ namespace ppgso {
      *
      * @param image - Image to use
      */
-    Texture(Image&& image);
+    Texture(Image image);
 
     ~Texture();
 
