@@ -253,8 +253,14 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Coconut>(29,scene.get_Y(29,10,scene.heightMap),10));
         scene.Renderable_objects.push_back(std::make_unique<Coconut>(31,scene.get_Y(31,10,scene.heightMap),10));
 
-        auto firefly1 = std::make_unique<Firefly>((glm::vec3){11, scene.get_Y(11,23,scene.heightMap)+4, 22}, (glm::vec3){5, 13, 0.3}, 0);
-        scene.Renderable_objects.push_back(move(firefly1));
+        //glowing objects
+        scene.Renderable_objects.push_back(std::make_unique<Firefly>((glm::vec3){11, scene.get_Y(11,50,scene.heightMap)+4, 50}, (glm::vec3){5, 13, 0.3}, 0));
+        scene.Renderable_objects.push_back(std::make_unique<Firefly>((glm::vec3){-75, scene.get_Y(-75,30,scene.heightMap)+4, 30}, (glm::vec3){16, 2, 30}, 1));
+        scene.Renderable_objects.push_back(std::make_unique<Firefly>((glm::vec3){50, scene.get_Y(50,0,scene.heightMap)+4, 0}, (glm::vec3){0.3, 6, 13}, 2));
+
+        scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95}));
+        scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9}));
+        scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3}));
 
 
         /*for(int i=-100; i<100; i++){
@@ -268,6 +274,7 @@ public:
             }
         }*/
 
+        //plants
         for(int i=0; i<100; i++){
             int x = random_float(-100,100);
             int z = random_float(-100,100);
@@ -280,97 +287,92 @@ public:
             }
         }
 
-        glm::vec3 position = {11, 0, 50};
-        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 0.25;
-        glm::vec3 rotation = {3*ppgso::PI/2,0,0};
-        glm::vec3 color = {5, 13, 0.3};
+        scene.addLight(glm::vec3 {11,scene.get_Y(11, 50, scene.heightMap),50},
+                       glm::vec3 {6, 13, 0.3},
+                       glm::vec3 {0, 0, 0},
+                       15.f,
+                       .25f,
+                       glm::vec3 {0.05f, 0.05f, 0.05f},
+                       glm::vec3 {0.85f, 0.85f, 0.85f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       false,
+                       0
+        );
 
-        scene.lights.position[0] = position;
-        scene.lights.direction[0] = {0, 0, 0};
+        scene.addLight(glm::vec3 {-75,scene.get_Y(-75, 30, scene.heightMap),30},
+                       glm::vec3 {16, 2, 30},
+                       glm::vec3 {0, 0, 0},
+                       15.f,
+                       .25f,
+                       glm::vec3 {0.05f, 0.05f, 0.05f},
+                       glm::vec3 {0.85f, 0.85f, 0.85f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       false,
+                       1
+        );
 
-        scene.lights.color[0] = color;
-        scene.lights.radius[0] = 15;
-        scene.lights.intensity[0] = 0.4;
-
-        scene.lights.ambient[0] = {0.05f, 0.05f, 0.05f};
-        scene.lights.diffuse[0] = {0.85f, 0.85f, 0.85f};
-        scene.lights.specular[0] = {1.0f, 1.0f, 1.0f};
-
-        scene.lights.cutOff[0] = glm::cos(glm::radians(12.5f));
-        scene.lights.outerCutOff[0] = glm::cos(glm::radians(15.0f));
-        scene.lights.isSpot[0] = false;
+        scene.addLight(glm::vec3 {50,scene.get_Y(50, 0, scene.heightMap),0},
+                       glm::vec3 {0.3, 11, 27},
+                       glm::vec3 {0, 0, 0},
+                       15.f,
+                       .25f,
+                       glm::vec3 {0.05f, 0.05f, 0.05f},
+                       glm::vec3 {0.85f, 0.85f, 0.85f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       false,
+                       2
+        );
 
         //red
-        position = {11, 0, 22};
-        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 0.25;
-        rotation = {3*ppgso::PI/2,0,0};
-        color = {13, 0.5, 0.3};
+        scene.addLight(glm::vec3 {11,scene.get_Y(11, 22, scene.heightMap) + 0.25,22},
+                       glm::vec3 {13, 0.5, 0.3},
+                       glm::vec3 {0, 0, 0},
+                       15.f,
+                       6.f,
+                       glm::vec3 {0.05f, 0.05f, 0.05f},
+                       glm::vec3 {0.85f, 0.85f, 0.85f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       false,
+                       3
+                );
 
-        scene.lights.position[1] = position;
-        scene.lights.direction[1] = {0, 0, 0};
+        //blue
+        scene.addLight(glm::vec3 {22,scene.get_Y(22, 33, scene.heightMap) + 5.25,33},
+                       glm::vec3 {0.1, 0.7, 12.9},
+                       glm::vec3 {0, 0, 0},
+                       15.f,
+                       5.f,
+                       glm::vec3 {0.05f, 0.05f, 0.05f},
+                       glm::vec3 {0.85f, 0.85f, 0.85f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       false,
+                       4
+        );
 
-        scene.lights.color[1] = color;
-        scene.lights.radius[1] = 15;
-        scene.lights.intensity[1] = 6;
-
-        scene.lights.ambient[1] = {0.05f, 0.05f, 0.05f};
-        scene.lights.diffuse[1] = {0.85f, 0.85f, 0.85f};
-        scene.lights.specular[1] = {1.0f, 1.0f, 1.0f};
-
-        scene.lights.cutOff[1] = glm::cos(glm::radians(12.5f));
-        scene.lights.outerCutOff[1] = glm::cos(glm::radians(15.0f));
-        scene.lights.isSpot[1] = false;
-
-        auto light1 = std::make_unique<Light>(position, rotation, color);
-        scene.Renderable_objects.push_back(move(light1));
-
-        position = {22, 0, 33};
-        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 5.25;
-        rotation = {3*ppgso::PI/2,0,0};
-        color = {0.1, 0.7, 12.9};
-
-        scene.lights.position[2] = position;
-        scene.lights.direction[2] = {0, 0, 0};
-
-        scene.lights.color[2] = color;
-        scene.lights.radius[2] = 15;
-        scene.lights.intensity[2] = 5;
-
-        scene.lights.ambient[2] = {0.05f, 0.05f, 0.05f};
-        scene.lights.diffuse[2] = {0.85f, 0.85f, 0.85f};
-        scene.lights.specular[2] = {1.0f, 1.0f, 1.0f};
-
-        scene.lights.cutOff[2] = glm::cos(glm::radians(12.5f));
-        scene.lights.outerCutOff[2] = glm::cos(glm::radians(15.0f));
-        scene.lights.isSpot[2] = false;
-
-        light1 = std::make_unique<Light>(position, rotation, color);
-        scene.Renderable_objects.push_back(move(light1));
-
-        // This is a SpotLight
-        position = {-25, 0, 20};
-        position.y = scene.get_Y(position.x, position.z, scene.heightMap) + 10.25;
-        rotation = {3*ppgso::PI/2,0,0};
-        color = {0.4, 12.1, 0.95};
-
-        scene.lights.position[3] = position;
-        scene.lights.direction[3] = {-0.25, -1, -0.5};
-
-        scene.lights.color[3] = color;
-        scene.lights.radius[3] = 15;
-        scene.lights.intensity[3] = 12;
-
-        scene.lights.ambient[3] = {0.0f, 0.0f, 0.0f};
-        scene.lights.diffuse[3] = {1.0f, 1.0f, 1.0f};
-        scene.lights.specular[3] = {1.0f, 1.0f, 1.0f};
-
-        scene.lights.cutOff[3] = glm::cos(glm::radians(12.5f));
-        scene.lights.outerCutOff[3] = glm::cos(glm::radians(15.0f));
-        scene.lights.isSpot[3] = true;
-
-        light1 = std::make_unique<Light>(position, rotation, color);
-        scene.Renderable_objects.push_back(move(light1));
-
+        //this is spotlight green
+        scene.addLight(glm::vec3 {-25,scene.get_Y(-25, 20, scene.heightMap) + 10.25,20},
+                       glm::vec3 {0.4, 12.1, 0.95},
+                       glm::vec3 {-0.25, -1, -0.5},
+                       15.f,
+                       12.f,
+                       glm::vec3 {0.0f, 0.0f, 0.0f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       true,
+                       5
+        );
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();

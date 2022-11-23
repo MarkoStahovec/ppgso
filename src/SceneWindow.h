@@ -57,6 +57,20 @@ public:
     // 0-255 ~ 0-21
     float get_Y(float x, float z, unsigned char * heightMap);
 
+    void addLight(glm::vec3 position,
+                  glm::vec3 color,
+                  glm::vec3 direction,
+                  float radius,
+                  float intensity,
+                  glm::vec3 ambient,
+                  glm::vec3 diffuse,
+                  glm::vec3 specular,
+                  float cutOff,
+                  float outerCutOff,
+                  bool isSpot,
+                  int index
+                  );
+
 
 };
 

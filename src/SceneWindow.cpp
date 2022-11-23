@@ -36,3 +36,23 @@ float SceneWindow::get_Y(float x, float z, unsigned char * heightMap){
 
     return y * 0.0809787;
 }
+
+void SceneWindow::addLight(glm::vec3 position, glm::vec3 color, glm::vec3 direction, float radius, float intensity,
+                           glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float cutOff,
+                           float outerCutOff, bool isSpot, int index) {
+
+    lights.position[index] = position;
+    lights.direction[index] = direction;
+
+    lights.color[index] = color;
+    lights.radius[index] = radius;
+    lights.intensity[index] = intensity;
+
+    lights.ambient[index] = ambient;
+    lights.diffuse[index] = diffuse;
+    lights.specular[index] = specular;
+
+    lights.cutOff[index] = cutOff;
+    lights.outerCutOff[index] = outerCutOff;
+    lights.isSpot[index] = isSpot;
+}
