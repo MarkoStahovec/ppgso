@@ -23,7 +23,7 @@ private:
 
     float drop_dir_x = ((float) rand() / (float) RAND_MAX) * (12 - -12) + -12;
     float drop_dir_z = ((float) rand() / (float) RAND_MAX) * (12 - -12) + -12;
-    float drop_dir_y = 10;
+    float drop_dir_y = 6.66;
 
     glm::vec3 external_force = {drop_dir_x,
                                 drop_dir_y,

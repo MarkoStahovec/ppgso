@@ -50,7 +50,7 @@ bool Coconut::update(float dt, SceneWindow &scene) {
         dropping = 0;
         despawning = 1;
     } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop>0){
-        external_force = {drop_dir_x * n_drop/5, drop_dir_y*2, drop_dir_z * n_drop/5};
+        external_force = {drop_dir_x * n_drop/5, drop_dir_y*3, drop_dir_z * n_drop/5};
         external_force += scene.wind/(float)3;
         n_drop--;
     } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop == 0){
