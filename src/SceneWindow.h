@@ -22,7 +22,7 @@ public:
     float current_frame_time;
     float last_frame_time;
 
-    float near_plane = 700.0f, far_plane = 7000.f;
+    float near_plane = 650.0f, far_plane = 3000.f;
 
     glm::vec3 gravity = {0,10,0};
     glm::vec3 wind = {0,0,0};

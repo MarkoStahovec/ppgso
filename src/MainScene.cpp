@@ -47,7 +47,7 @@ extern "C"
 
 
 const unsigned int SIZE = 512;
-const unsigned int SHADOW_WIDTH = 4096*3, SHADOW_HEIGHT = 4096*3;
+const unsigned int SHADOW_WIDTH = 4096*4, SHADOW_HEIGHT = 4096*4;
 
 std::unique_ptr<ppgso::Shader> shaderBlur;
 std::unique_ptr<ppgso::Shader> shaderBloomFinal;
@@ -305,7 +305,7 @@ public:
         }*/
 
         //plants
-        for(int i=0; i<100; i++){
+        for(int i=0; i<50; i++){
             int x = random_float(-100,100);
             int z = random_float(-100,100);
             int y = scene.get_Y(x, z, scene.heightMap);
@@ -424,7 +424,7 @@ public:
         static auto time = (float) glfwGetTime();
         float dTime = (float) glfwGetTime() - time;
         float cameraSpeed = 200 * (scene.current_frame_time - scene.last_frame_time);
-        //std::cout << 1/(scene.current_frame_time - scene.last_frame_time) << "\n";
+        std::cout << 1/(scene.current_frame_time - scene.last_frame_time) << "\n";
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
             scene.camera->isAnimating = false;
