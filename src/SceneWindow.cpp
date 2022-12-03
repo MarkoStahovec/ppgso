@@ -21,6 +21,12 @@ void SceneWindow::render() {
     }
 }
 
+void SceneWindow::render_shadow() {
+
+    for (auto &object: Renderable_objects) {
+        object->render_shadow(*this,lightSpaceMatrix);
+    }
+}
 
 float SceneWindow::get_Y(float x, float z, unsigned char * heightMap){
     int i = (x+100)*19.2/2-1;

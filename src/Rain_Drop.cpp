@@ -51,3 +51,11 @@ void Rain_Drop::render(SceneWindow &scene) {
     shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
     mesh->render();
 }
+
+void Rain_Drop::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
+    mesh->render();
+}

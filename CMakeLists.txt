@@ -76,6 +76,8 @@ set(PPGSO_SHADER_SRC
         shader/bloom_vert.glsl shader/bloom_frag.glsl
         shader/blur_vert.glsl shader/blur_frag.glsl
         shader/light_vert.glsl shader/light_frag.glsl
+        shader/debug_quad_vert.glsl shader/debug_quad_frag.glsl
+        shader/shadow_mapping_depth_vert.glsl shader/shadow_mapping_depth_frag.glsl
         )
 add_resources(shaders ${PPGSO_SHADER_SRC})
 
@@ -235,7 +237,7 @@ install(DIRECTORY data/ DESTINATION .)
 
 add_executable(MainScene
         src/MainScene.cpp
-        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h src/Campfire.cpp src/Campfire.h src/Plant_1.cpp src/Plant_1.h src/Fire.cpp src/Door.cpp src/Fish.cpp src/Bird.cpp src/Plant_2.cpp src/Plant_2.h src/Plant_3.cpp src/Plant_3.h src/Palm.cpp src/Palm.h src/Coconut.cpp src/Coconut.h src/Boat.cpp src/Light.cpp src/Firefly.cpp src/Firefly.h)
+        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h src/Plant_1.cpp src/Plant_1.h src/Door.cpp src/Fish.cpp src/Bird.cpp src/Plant_2.cpp src/Plant_2.h src/Plant_3.cpp src/Plant_3.h src/Palm.cpp src/Palm.h src/Coconut.cpp src/Coconut.h src/Boat.cpp src/Light.cpp src/Firefly.cpp src/Firefly.h)
 target_link_libraries(MainScene ppgso shaders)
 install(TARGETS MainScene DESTINATION .)
 add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})

@@ -10,12 +10,14 @@
 std::unique_ptr<ppgso::Mesh> Bird::mesh;
 std::unique_ptr<ppgso::Texture> Bird::texture;
 std::unique_ptr<ppgso::Shader> Bird::shader;
+std::unique_ptr<ppgso::Shader> Bird::shadow_shader;
 
 Bird::Bird() {
     scale *= 0.01;
     position = {10,10,10};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("bird.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("bird.obj");
 }
@@ -41,5 +43,13 @@ void Bird::render(SceneWindow &scene) {
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
+    mesh->render();
+}
+
+void Bird::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
     mesh->render();
 }

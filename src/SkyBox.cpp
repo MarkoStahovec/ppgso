@@ -8,6 +8,7 @@
 std::unique_ptr<ppgso::Mesh> SkyBox::mesh;
 std::unique_ptr<ppgso::Texture> SkyBox::texture;
 std::unique_ptr<ppgso::Shader> SkyBox::shader;
+std::unique_ptr<ppgso::Shader> SkyBox::shadow_shader;
 
 SkyBox::SkyBox() {
     scale *= 3000;
@@ -16,6 +17,8 @@ SkyBox::SkyBox() {
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("sky.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
+
 }
 
 bool SkyBox::update(float dt, SceneWindow &scene) {
@@ -39,4 +42,12 @@ void SkyBox::render(SceneWindow &scene) {
     mesh->render();
 
     glDepthMask(GL_TRUE);
+}
+
+void SkyBox::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
+    mesh->render();
 }

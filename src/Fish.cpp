@@ -11,6 +11,8 @@
 std::unique_ptr<ppgso::Mesh> Fish::mesh;
 std::unique_ptr<ppgso::Texture> Fish::texture;
 std::unique_ptr<ppgso::Shader> Fish::shader;
+std::unique_ptr<ppgso::Shader> Fish::shadow_shader;
+
 
 Fish::Fish() {
     scale *= 4.5;
@@ -19,6 +21,8 @@ Fish::Fish() {
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("fish.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("fish.obj");
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
+
 }
 
 bool Fish::update(float dt, SceneWindow &scene) {
@@ -59,5 +63,13 @@ void Fish::render(SceneWindow &scene) {
     // render mesh
     shader->setUniform("model", modelMatrix);
     shader->setUniform("Texture", *texture);
+    mesh->render();
+}
+
+void Fish::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
     mesh->render();
 }

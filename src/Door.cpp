@@ -9,6 +9,8 @@
 std::unique_ptr<ppgso::Mesh> Door::mesh;
 std::unique_ptr<ppgso::Texture> Door::texture;
 std::unique_ptr<ppgso::Shader> Door::shader;
+std::unique_ptr<ppgso::Shader> Door::shadow_shader;
+
 
 Door::Door() {
     scale *= 0.0123;
@@ -19,6 +21,7 @@ Door::Door() {
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("wood.bmp"));
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("door.obj");
 }
 
@@ -38,5 +41,13 @@ void Door::render(SceneWindow &scene) {
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
+    mesh->render();
+}
+
+void Door::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
     mesh->render();
 }

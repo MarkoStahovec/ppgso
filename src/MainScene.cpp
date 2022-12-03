@@ -7,7 +7,6 @@
 #include <iostream>
 #include <list>
 #include <ppgso/ppgso.h>
-#define GLM_ENABLE_EXPERIMENTAL
 
 #include <shaders/color_vert_glsl.h>
 #include <shaders/color_frag_glsl.h>
@@ -15,6 +14,10 @@
 #include <shaders/bloom_frag_glsl.h>
 #include <shaders/blur_vert_glsl.h>
 #include <shaders/blur_frag_glsl.h>
+#include <shaders/shadow_mapping_depth_vert_glsl.h>
+#include <shaders/shadow_mapping_depth_frag_glsl.h>
+#include <shaders/debug_quad_frag_glsl.h>
+#include <shaders/debug_quad_vert_glsl.h>
 #include <map>
 #include "SceneWindow.h"
 #include "Island.h"
@@ -24,9 +27,8 @@
 #include "SkyBox.h"
 #include "Rain_Drop.h"
 #include "House.h"
-#include "Campfire.h"
+
 #include "Plant_1.h"
-#include "Fire.h"
 #include "Door.h"
 #include "utils.h"
 #include "Fish.h"
@@ -37,7 +39,6 @@
 #include "Light.h"
 #include "Firefly.h"
 
-#define GLM_ENABLE_EXPERIMENTAL
 
 extern "C"
 {
@@ -46,6 +47,8 @@ extern "C"
 
 
 const unsigned int SIZE = 512;
+const unsigned int SHADOW_WIDTH = 4096*3, SHADOW_HEIGHT = 4096*3;
+
 std::unique_ptr<ppgso::Shader> shaderBlur;
 std::unique_ptr<ppgso::Shader> shaderBloomFinal;
 unsigned int hdrFBO;
@@ -54,6 +57,12 @@ unsigned int pingpongFBO[2];
 unsigned int pingpongColorbuffers[2];
 unsigned int quadVAO, quadVBO;
 unsigned int rboDepth;
+
+std::unique_ptr<ppgso::Shader> shadowMapping;
+std::unique_ptr<ppgso::Shader> simpleDepthShader;
+std::unique_ptr<ppgso::Shader> debugQuad;
+
+unsigned int depthMapFBO;
 
 class MainScene : public ppgso::Window {
 private:
@@ -65,28 +74,6 @@ private:
 
     void initializeCustomFramebuffer() {
         // screen quad VAO
-        /*
-        float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-                // positions   // texCoords
-                -1.0f,  1.0f,  0.0f, 1.0f,
-                -1.0f, -1.0f,  0.0f, 0.0f,
-                1.0f, -1.0f,  1.0f, 0.0f,
-
-                -1.0f,  1.0f,  0.0f, 1.0f,
-                1.0f, -1.0f,  1.0f, 0.0f,
-                1.0f,  1.0f,  1.0f, 1.0f
-        };
-
-        glGenVertexArrays(1, &quadVAO);
-        glGenBuffers(1, &quadVBO);
-        glBindVertexArray(quadVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-*/
         glEnable(GL_DEPTH_TEST);
 
         if (!shaderBlur) shaderBlur = std::make_unique<ppgso::Shader>(blur_vert_glsl, blur_frag_glsl);
@@ -104,7 +91,7 @@ private:
         for (unsigned int i = 0; i < 2; i++)
         {
             glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, WINDOW_HEIGHT, WINDOW_WIDTH-19, 0, GL_RGBA, GL_FLOAT, nullptr);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, WINDOW_HEIGHT, WINDOW_WIDTH, 0, GL_RGBA, GL_FLOAT, nullptr);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);  // we clamp to the edge as the blur filter would otherwise sample repeated texture values!
@@ -132,7 +119,7 @@ private:
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[i]);
             glBindTexture(GL_TEXTURE_2D, pingpongColorbuffers[i]);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, WINDOW_HEIGHT, WINDOW_WIDTH-19, 0, GL_RGBA, GL_FLOAT, nullptr);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, WINDOW_HEIGHT, WINDOW_WIDTH, 0, GL_RGBA, GL_FLOAT, nullptr);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // we clamp to the edge as the blur filter would otherwise sample repeated texture values!
@@ -220,6 +207,46 @@ private:
         glBindVertexArray(0);
     }
 
+    void initShadowFramebuffer(){
+
+        if (!simpleDepthShader) simpleDepthShader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
+        if (!debugQuad) debugQuad = std::make_unique<ppgso::Shader>(debug_quad_vert_glsl, debug_quad_frag_glsl);
+
+        glGenFramebuffers(1, &depthMapFBO);
+        // create depth texture
+
+        glGenTextures(1, &scene.depthMap);
+        glBindTexture(GL_TEXTURE_2D, scene.depthMap);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        // attach depth texture as FBO's depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, scene.depthMap, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        debugQuad->use();
+        debugQuad->setUniform("depthMap", 0);
+    }
+
+    void renderFromLight(){
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        scene.render_shadow();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        // reset viewport
+        glViewport(0, 0, WINDOW_HEIGHT, WINDOW_WIDTH);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
 public:
     MainScene() : Window{"Stahovec robí sám", WINDOW_HEIGHT, WINDOW_WIDTH} {
         // Initialize OpenGL state
@@ -228,6 +255,7 @@ public:
         glDepthFunc(GL_LEQUAL);
 
         initializeCustomFramebuffer();
+        initShadowFramebuffer();
 
         scene.heightMap = readBMP("Height.bmp");
 
@@ -239,8 +267,6 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Cloud>());
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
         scene.Renderable_objects.push_back(std::make_unique<House>(-25,scene.get_Y(-25,-40,scene.heightMap),-40));
-        scene.Renderable_objects.push_back(std::make_unique<Campfire>());
-        scene.Renderable_objects.push_back(std::make_unique<Fire>());
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
         scene.Renderable_objects.push_back(std::make_unique<Boat>());
@@ -261,6 +287,10 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95}));
         scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9}));
         scene.Renderable_objects.push_back(std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3}));
+
+        //sun
+        scene.Renderable_objects.push_back(std::make_unique<Light>(scene.globalLightPosition-glm::vec3{0,-1,0}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 13, 13}));
+
 
 
         /*for(int i=-100; i<100; i++){
@@ -374,6 +404,14 @@ public:
                        5
         );
 
+        glm::mat4 lightProjection, lightView;
+        glm::mat4 lightSpaceMatrix;
+
+        lightProjection = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        //lightProjection = glm::ortho(-0.0f, 100.0f, -.0f, 100.0f, scene.near_plane, scene.far_plane);
+        lightView = glm::lookAt(scene.globalLightPosition, glm::vec3(5.f), glm::vec3(0.0, 1.0, 0.0));
+        scene.lightSpaceMatrix = lightProjection * lightView;
+
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();
     }
@@ -454,7 +492,11 @@ public:
 
         calm_wind(scene, window);
 
-        bindToCustomFramebuffer();
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
 
         // Update all objects in scene
         // Because we need to delete while iterating this is implemented using c++ iterators
@@ -462,10 +504,20 @@ public:
         scene.update(dTime);
 
         // Render every object in scene
+
+        renderFromLight();
+
+        bindToCustomFramebuffer();
         scene.render();
 
+        debugQuad->use();
+        debugQuad->setUniform("near_plane", scene.near_plane);
+        debugQuad->setUniform("far_plane", scene.far_plane);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, scene.depthMap);
+        //renderQuad();
+
         rebindToOriginalFramebuffer();
-        //useGlobalShader();
 
         scene.current_frame_time = (float) glfwGetTime();
     }

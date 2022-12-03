@@ -28,9 +28,11 @@ struct Lights {
 };
 
 in vec3 FragPos;
+in vec4 FragPosLightSpace;
 in vec3 Normal;
 in vec2 TexCoords;
 
+uniform sampler2D shadowMap;
 uniform sampler2D Texture;
 uniform vec2 textureOffset;
 uniform vec3 viewPos;
@@ -41,9 +43,46 @@ uniform int numberOfLights;
 uniform bool globalLight;
 uniform vec3 globalLightColor;
 uniform vec3 globalLightDirection;
+uniform vec3 globalLightPosition;
 uniform vec3 globalLightAmbient;
 uniform vec3 globalLightDiffuse;
 uniform vec3 globalLightSpecular;
+
+float ShadowCalculation(vec4 fragPosLightSpace)
+{
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r;
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // calculate bias (based on depth map resolution and slope)
+    vec3 normal = normalize(Normal);
+    vec3 lightDir = normalize(globalLightPosition - FragPos);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    // check whether current frag pos is in shadow
+    // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+    // PCF
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
+    {
+        for(int y = -1; y <= 1; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
+            shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;
+        }
+    }
+    shadow /= 9.0;
+
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+    if(projCoords.z > 1.0)
+    shadow = 0.0;
+
+    return shadow;
+}
 
 void main()
 {
@@ -59,6 +98,10 @@ void main()
 
     const float offset = 1.0 / 300.0;
 
+
+
+    float shadow = ShadowCalculation(FragPosLightSpace);
+
     if(globalLight) {
         lightDirection = normalize(globalLightDirection);
         float diff = max(dot(normal, lightDirection), 0.0);
@@ -70,7 +113,7 @@ void main()
         vec3 diffuse = globalLightDiffuse * diff * material.diffuse * globalLightColor;
         vec3 specular = globalLightSpecular * spec * material.specular * globalLightColor;
 
-        result = result + vec4(ambient + diffuse + specular, 1.0);
+        result = result + vec4(ambient + (diffuse + specular) * (1.0f-shadow), 1.0);
     }
     else {
         vec3 ambient = globalLightAmbient * material.ambient * globalLightColor;

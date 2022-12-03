@@ -13,6 +13,8 @@
 // Static resources
 std::unique_ptr<ppgso::Mesh> Firefly::mesh;
 std::unique_ptr<ppgso::Shader> Firefly::shader;
+std::unique_ptr<ppgso::Shader> Firefly::shadow_shader;
+
 
 Firefly::Firefly(glm::vec3 pos, glm::vec3 col, int light_index){
     position = pos;
@@ -26,6 +28,8 @@ Firefly::Firefly(glm::vec3 pos, glm::vec3 col, int light_index){
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
+
 }
 
 bool Firefly::update(float dt, SceneWindow &scene) {
@@ -59,6 +63,14 @@ void Firefly::render(SceneWindow &scene) {
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("OverallColor", color);
+    mesh->render();
+}
+
+void Firefly::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
     mesh->render();
 }
 

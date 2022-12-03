@@ -9,6 +9,8 @@
 std::unique_ptr<ppgso::Mesh> Coconut::mesh;
 std::unique_ptr<ppgso::Texture> Coconut::texture;
 std::unique_ptr<ppgso::Shader> Coconut::shader;
+std::unique_ptr<ppgso::Shader> Coconut::shadow_shader;
+
 
 Coconut::Coconut(float x, float y, float z) {
     position.x = x;
@@ -23,6 +25,7 @@ Coconut::Coconut(float x, float y, float z) {
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("coconut.bmp"));
+    if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
 }
 
@@ -82,5 +85,14 @@ void Coconut::render(SceneWindow &scene) {
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
+    mesh->render();
+}
+
+
+void Coconut::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+
+    shadow_shader->use();
+    shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);
+    shadow_shader->setUniform("model", modelMatrix);
     mesh->render();
 }

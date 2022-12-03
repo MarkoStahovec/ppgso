@@ -10,6 +10,8 @@ class Rain_Drop final : public Renderable {
     // Static resources shared between all particles
     std::unique_ptr<ppgso::Mesh> mesh;
     std::unique_ptr<ppgso::Shader> shader;
+    std::unique_ptr<ppgso::Shader> shadow_shader;
+
 
 
     // TODO: add more parameters as needed
@@ -28,6 +30,8 @@ public:
         // First particle will initialize resources
         if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
         if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+        if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
+
 
         position = p;
         speed = s;
@@ -39,5 +43,7 @@ public:
     bool update(float dTime, SceneWindow &scene) override;
 
     void render(SceneWindow &scene) override;
+    void render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) override;
+
 
 };
