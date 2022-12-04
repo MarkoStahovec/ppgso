@@ -39,7 +39,7 @@ void Light::render(SceneWindow &scene) {
     shader->use();
 
     // Set up light
-    shader->setUniform("LightDirection", {0.25, 1, 0.5});
+    shader->setUniform("LightDirection", scene.globalLightDirection);
 
     // use camera
     shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);

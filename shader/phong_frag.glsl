@@ -103,7 +103,8 @@ void main()
     float shadow = ShadowCalculation(FragPosLightSpace);
 
     if(globalLight) {
-        lightDirection = normalize(globalLightDirection);
+        lightDirection = normalize(globalLightPosition - FragPos);
+        //lightDirection = normalize(globalLightDirection);
         float diff = max(dot(normal, lightDirection), 0.0);
 
         vec3 reflectDirection = reflect(-lightDirection, normal);
@@ -113,7 +114,7 @@ void main()
         vec3 diffuse = globalLightDiffuse * diff * material.diffuse * globalLightColor;
         vec3 specular = globalLightSpecular * spec * material.specular * globalLightColor;
 
-        result = result + vec4(ambient + (diffuse + specular) * (1.0f-shadow), 1.0);
+        result = result + vec4(ambient + (diffuse + specular) * (1.15f-shadow), 1.0);
     }
     else {
         vec3 ambient = globalLightAmbient * material.ambient * globalLightColor;
@@ -121,7 +122,7 @@ void main()
     }
 
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 7; i++) {
         float distance = length(lights.position[i] - FragPos);
         //if(lights.radius[i] > distance) {
             lightDirection = normalize(lights.position[i] - FragPos);

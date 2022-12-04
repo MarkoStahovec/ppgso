@@ -38,7 +38,7 @@ void Cloud::render(SceneWindow &scene) {
     // use camera
     shader->setUniform("globalLightDirection", scene.globalLightDirection);
     shader->setUniform("globalLightColor", scene.globalLightColor);
-    shader->setUniform("globalLightAmbient", scene.globalLightAmbient* glm::vec3{3,3,3});
+    shader->setUniform("globalLightAmbient", scene.globalLightAmbient);
     shader->setUniform("globalLightDiffuse", scene.globalLightDiffuse);
     shader->setUniform("globalLightSpecular", scene.globalLightSpecular);
     shader->setUniform("globalLightPosition", scene.globalLightPosition);
@@ -50,10 +50,10 @@ void Cloud::render(SceneWindow &scene) {
     shader->setUniform("globalLight", true);
     shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
-    shader->setUniform("material.diffuse", {0.8f, 0.8, 0.8f});
-    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
-    shader->setUniform("material.shininess", 1.f);
+    shader->setUniform("material.ambient", {0.52f, 0.52f, 0.55f});
+    shader->setUniform("material.diffuse", {0.45f, 0.45, 0.45f});
+    shader->setUniform("material.specular", {0.34f, 0.34f, 0.35f});
+    shader->setUniform("material.shininess", 2.f);
 
     for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
         shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);

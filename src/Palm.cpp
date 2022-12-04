@@ -51,10 +51,10 @@ void Palm::render(SceneWindow &scene) {
     shader->setUniform("globalLight", true);
     shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
-    shader->setUniform("material.diffuse", {0.8f, 0.8, 0.8f});
-    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
-    shader->setUniform("material.shininess", 6.8f);
+    shader->setUniform("material.ambient", {0.26f, 0.27f, 0.26f});
+    shader->setUniform("material.diffuse", {0.62f, 0.62, 0.62f});
+    shader->setUniform("material.specular", {0.48, 0.55, 0.42});
+    shader->setUniform("material.shininess", 8.3f);
 
     for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
         shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);

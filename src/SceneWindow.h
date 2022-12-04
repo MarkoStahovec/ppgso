@@ -33,11 +33,12 @@ public:
 
     unsigned int depthMap;
 
+    bool isNight = true;
     glm::vec3 globalLightDirection = {0.25, 0.2, 0.5};
-    glm::vec3 globalLightColor = {0.42,0.45,0.85};
-    glm::vec3 globalLightAmbient = {0.1,0.1,0.1};
-    glm::vec3 globalLightDiffuse = {0.8f, 0.8, 0.8f};
-    glm::vec3 globalLightSpecular = {0.15,0.15,0.25};
+    glm::vec3 globalLightColor = {0.42,0.45,0.86};
+    glm::vec3 globalLightAmbient = {0.048,0.048,0.057};
+    glm::vec3 globalLightDiffuse = {0.36f, 0.36, 0.5348};
+    glm::vec3 globalLightSpecular = {0.856,0.856,0.961};
 
     struct Lights {
         glm::vec3 position[100];

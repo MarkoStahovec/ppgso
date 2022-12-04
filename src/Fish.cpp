@@ -39,30 +39,49 @@ void Fish::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
-    shader->setUniform("globalLightDirection", {0.25,1,0.5});
-    shader->setUniform("globalLightColor", {1,1,1});
+    shader->setUniform("globalLightDirection", scene.globalLightDirection);
+    shader->setUniform("globalLightColor", scene.globalLightColor);
+    shader->setUniform("globalLightAmbient", scene.globalLightAmbient);
+    shader->setUniform("globalLightDiffuse", scene.globalLightDiffuse);
+    shader->setUniform("globalLightSpecular", scene.globalLightSpecular);
+    shader->setUniform("globalLightPosition", scene.globalLightPosition);
 
     // use camera
     shader->setUniform("projection", scene.camera->projectionMatrix);
     shader->setUniform("view", scene.camera->viewMatrix);
     shader->setUniform("viewPos", scene.camera->cameraPos);
     shader->setUniform("globalLight", true);
+    shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
-    shader->setUniform("material.diffuse", {0.4f, 0.4f, 0.4f});
-    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
-    shader->setUniform("material.shininess", 6.8f);
+    shader->setUniform("material.ambient", {0.21f, 0.24f, 0.22f});
+    shader->setUniform("material.diffuse", {0.82f, 0.87, 0.89f});
+    shader->setUniform("material.specular", {0.456f, 0.72f, 0.90f});
+    shader->setUniform("material.shininess", 8.6f);
 
     for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
         shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);
+        shader->setUniform("lights.direction[" + std::to_string(i) + "]", scene.lights.direction[i]);
+
         shader->setUniform("lights.color[" + std::to_string(i) + "]", scene.lights.color[i]);
         shader->setUniform("lights.intensity[" + std::to_string(i) + "]", scene.lights.intensity[i]);
         shader->setUniform("lights.radius[" + std::to_string(i) + "]", scene.lights.radius[i]);
+
+        shader->setUniform("lights.ambient[" + std::to_string(i) + "]", scene.lights.ambient[i]);
+        shader->setUniform("lights.diffuse[" + std::to_string(i) + "]", scene.lights.diffuse[i]);
+        shader->setUniform("lights.specular[" + std::to_string(i) + "]", scene.lights.specular[i]);
+
+        shader->setUniform("lights.cutOff[" + std::to_string(i) + "]", scene.lights.cutOff[i]);
+        shader->setUniform("lights.outerCutOff[" + std::to_string(i) + "]", scene.lights.outerCutOff[i]);
+        shader->setUniform("lights.isSpot[" + std::to_string(i) + "]", scene.lights.isSpot[i]);
     }
+    glUniform1i(glGetUniformLocation(shader->getProgram(), "shadowMap"), 1);
 
     // render mesh
     shader->setUniform("model", modelMatrix);
     shader->setUniform("Texture", *texture);
+    shader->setUniform("shadowMap",1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, scene.depthMap);
     mesh->render();
 }
 

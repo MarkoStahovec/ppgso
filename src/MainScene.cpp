@@ -151,7 +151,7 @@ private:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 2;
+        unsigned int amount = 10;
         shaderBlur->use();
         for (unsigned int i = 0; i < amount; i++)
         {
@@ -409,7 +409,7 @@ public:
 
         lightProjection = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
         //lightProjection = glm::ortho(-0.0f, 100.0f, -.0f, 100.0f, scene.near_plane, scene.far_plane);
-        lightView = glm::lookAt(scene.globalLightPosition, glm::vec3(5.f), glm::vec3(0.0, 1.0, 0.0));
+        lightView = glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
         scene.lightSpaceMatrix = lightProjection * lightView;
 
         scene.last_frame_time = -1;
@@ -424,7 +424,7 @@ public:
         static auto time = (float) glfwGetTime();
         float dTime = (float) glfwGetTime() - time;
         float cameraSpeed = 200 * (scene.current_frame_time - scene.last_frame_time);
-        std::cout << 1/(scene.current_frame_time - scene.last_frame_time) << "\n";
+        //std::cout << 1/(scene.current_frame_time - scene.last_frame_time) << "\n";
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
             scene.camera->isAnimating = false;
@@ -465,6 +465,42 @@ public:
 
         if (scene.keyboard[GLFW_KEY_SPACE]){
             raise_wind(scene);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+            if(scene.isNight) {
+                scene.near_plane = 650.0f;
+                scene.globalLightPosition = {-600.f, 600, -0.f};
+                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightColor = {2.48,2.48,2.476};
+                scene.globalLightAmbient = {0.266,0.266,0.262};
+                scene.globalLightDiffuse = {0.80, 0.80, 0.796};
+                scene.globalLightSpecular = {0.962,0.951,0.940};
+            }
+            else {
+                /*
+                scene.near_plane = 650.0f;
+                scene.globalLightPosition = {-600.f, 600, -0.f};
+                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightColor = {0.42,0.45,0.86};
+                scene.globalLightAmbient = {0.041,0.041,0.049};
+                scene.globalLightDiffuse = {0.36f, 0.36, 0.5348};
+                scene.globalLightSpecular = {0.856,0.856,0.961};*/
+
+
+
+                scene.near_plane = 300.0f;
+                scene.globalLightPosition = {-600.f, 125, -0.f};
+                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightColor = {5.05,1.48,0.376};
+                scene.globalLightAmbient = {0.191, 0.086, 0.071};
+                scene.globalLightDiffuse = {0.987, 0.631, 0.555};
+                scene.globalLightSpecular = {0.731,0.272,0.151};
+
+            }
+            scene.isNight = !scene.isNight;
+            scene.keyboard[GLFW_KEY_Q] = GLFW_RELEASE;
+            std::cout << scene.isNight << "\n";
         }
 
     }

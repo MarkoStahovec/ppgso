@@ -50,10 +50,10 @@ void Bird::render(SceneWindow &scene) {
     shader->setUniform("globalLight", true);
     shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
-    shader->setUniform("material.diffuse", {0.8f, 0.8, 0.8f});
-    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
-    shader->setUniform("material.shininess", 6.8f);
+    shader->setUniform("material.ambient", {0.29f, 0.29f, 0.29f});
+    shader->setUniform("material.diffuse", {0.74f, 0.74, 0.75f});
+    shader->setUniform("material.specular", {0.8232f, 0.8232f, 0.8232f});
+    shader->setUniform("material.shininess", 5.0f);
 
     for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
         shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);

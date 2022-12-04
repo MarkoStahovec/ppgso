@@ -92,10 +92,10 @@ void Coconut::render(SceneWindow &scene) {
     shader->setUniform("globalLight", true);
     shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-    shader->setUniform("material.ambient", {0.25f, 0.25f, 0.25f});
-    shader->setUniform("material.diffuse", {0.8f, 0.8, 0.8f});
-    shader->setUniform("material.specular", {0.774597f, 0.774597f, 0.774597f});
-    shader->setUniform("material.shininess", 6.8f);
+    shader->setUniform("material.ambient", {0.32f, 0.25, 0.2f});
+    shader->setUniform("material.diffuse", {0.89f, 0.85, 0.82f});
+    shader->setUniform("material.specular", {0.84f, 0.75f, 0.70f});
+    shader->setUniform("material.shininess", 6.9f);
 
     for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
         shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);
