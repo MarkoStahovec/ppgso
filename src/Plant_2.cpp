@@ -37,7 +37,8 @@ void Plant_2::render(SceneWindow &scene) {
     // use camera
     shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);
     shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
-    shader->setUniform("LightDirection", normalize(glm::vec3{1.0f, 1.0f, 1.0f}));
+    shader->setUniform("LightDirection", normalize(scene.globalLightDirection));
+
 
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);

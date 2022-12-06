@@ -31,7 +31,6 @@
 #include "Plant_1.h"
 #include "Door.h"
 #include "utils.h"
-#include "Fish.h"
 #include "Bird.h"
 #include "Palm.h"
 #include "Coconut.h"
@@ -151,7 +150,7 @@ private:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 10;
+        unsigned int amount = 2;
         shaderBlur->use();
         for (unsigned int i = 0; i < amount; i++)
         {
@@ -270,7 +269,6 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<Door>());
         scene.Renderable_objects.push_back(std::make_unique<Bird>());
         scene.Renderable_objects.push_back(std::make_unique<Boat>());
-        scene.Renderable_objects.push_back(std::make_unique<Fish>());
         scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15}));
         scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}, (glm::vec3) {0.15,0.2,0.15}));
         scene.Renderable_objects.push_back(std::make_unique<Palm>(68,scene.get_Y(68,-78,scene.heightMap),-78,(glm::vec3) {.05,0,.022}, (glm::vec3) {0.15,0.15,0.15}));

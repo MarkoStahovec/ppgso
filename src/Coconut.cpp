@@ -29,37 +29,67 @@ Coconut::Coconut(float x, float y, float z) {
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
 }
 
+void Coconut::drop(SceneWindow &scene) {
+    position += external_force * (float) 0.01 - scene.gravity * (float) 0.01;
+    external_force *= .98;
+    external_force += scene.wind/(float)3;
+    rotation[0] -= drop_dir_x/200 * n_drop/5;
+    rotation[2] -= drop_dir_z/200 * n_drop/5;
+}
+
+
+
+void Coconut::drop_chance() {
+    if (rand() % 1000 < 2 && dropping == 0 && spawning == 0 && despawning == 0){
+        dropping = 1;
+    }
+}
+
+void Coconut::handle_coll(SceneWindow &scene) {
+    if(scene.get_Y(position.x, position.z, scene.heightMap)==0){
+        dropping = 0;
+        despawning = 1;
+    } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop>0){
+        bounce(scene);
+    } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop == 0){
+        dropping = 0;
+        despawning = 1;
+    }
+}
+
+void Coconut::bounce(SceneWindow &scene) {
+    //glm::vec3 norm = calc_plane_norm(scene);
+    external_force = glm::vec3{2*drop_dir_x * n_drop/5, drop_dir_y*5 * n_drop/5, 2*drop_dir_z * n_drop/5} * calc_plane_norm(scene);
+    external_force += scene.wind/(float)3;
+    n_drop--;
+}
+
+glm::vec3 Coconut::calc_plane_norm(SceneWindow &scene) {
+    glm::vec3 A = {position.x-1, scene.get_Y(position.x-1,position.z-1,scene.heightMap), position.z-1};
+    glm::vec3 B = {position.x+1, scene.get_Y(position.x+1,position.z+1,scene.heightMap), position.z+1};
+    glm::vec3 C = {position.x+1, scene.get_Y(position.x+1,position.z-1,scene.heightMap), position.z-1};
+
+    glm::vec3 norm = glm::cross(A-B, A-C);
+
+    return glm::normalize(norm);
+}
+
 bool Coconut::update(float dt, SceneWindow &scene) {
     if(spawning == 1){
         scale *= 1.05;
         if(scale[0] >= 2.5){
             spawning = 0;
         }
+
     }
 
-    if (rand() % 1000 < 2 && dropping == 0 && spawning == 0 && despawning == 0){
-        dropping = 1;
-    }
+    drop_chance();
 
     if(dropping==1){
-        position += external_force * (float) 0.01 - scene.gravity * (float) 0.01;
-        external_force *= .98;
-        external_force += scene.wind/(float)3;
-        rotation[0] -= drop_dir_x/200 * n_drop/5;
-        rotation[2] -= drop_dir_z/200 * n_drop/5;
+        drop(scene);
     }
 
-    if(scene.get_Y(position.x, position.z, scene.heightMap)==0){
-        dropping = 0;
-        despawning = 1;
-    } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop>0){
-        external_force = {drop_dir_x * n_drop/5, drop_dir_y*3, drop_dir_z * n_drop/5};
-        external_force += scene.wind/(float)3;
-        n_drop--;
-    } else if (scene.get_Y(position.x, position.z, scene.heightMap)+1 >= position.y && n_drop == 0){
-        dropping = 0;
-        despawning = 1;
-    }
+    handle_coll(scene);
 
     if(despawning == 1){
         scale *= 0.98;
@@ -68,7 +98,6 @@ bool Coconut::update(float dt, SceneWindow &scene) {
             return false;
         }
     }
-
 
     updateModelMatrix();
     return true;
