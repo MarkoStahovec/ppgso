@@ -237,7 +237,7 @@ install(DIRECTORY data/ DESTINATION .)
 
 add_executable(MainScene
         src/MainScene.cpp
-        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h src/Plant_1.cpp src/Plant_1.h src/Door.cpp src/Bird.cpp src/Plant_2.cpp src/Plant_2.h src/Plant_3.cpp src/Plant_3.h src/Palm.cpp src/Palm.h src/Coconut.cpp src/Coconut.h src/Boat.cpp src/Light.cpp src/Firefly.cpp src/Firefly.h)
+        src/SceneWindow.cpp src/Renderable.cpp src/Island.cpp src/Island.h src/Surface.cpp src/Cloud.cpp src/Cloud.h src/House.cpp src/House.h src/SkyBox.cpp src/SkyBox.h src/Camera.cpp src/Rain_Drop.cpp src/Rain_Drop.h src/utils.h src/Plant_1.cpp src/Plant_1.h src/Door.cpp src/Ufo.cpp src/Plant_2.cpp src/Plant_2.h src/Plant_3.cpp src/Plant_3.h src/Palm.cpp src/Palm.h src/Coconut.cpp src/Coconut.h src/Boat.cpp src/Light.cpp src/Firefly.cpp src/Firefly.h src/KeyPicture.cpp src/KeyPicture.h)
 target_link_libraries(MainScene ppgso shaders)
 install(TARGETS MainScene DESTINATION .)
 add_custom_command(TARGET MainScene POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR})

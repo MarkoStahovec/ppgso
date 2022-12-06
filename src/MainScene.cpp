@@ -31,7 +31,7 @@
 #include "Plant_1.h"
 #include "Door.h"
 #include "utils.h"
-#include "Bird.h"
+#include "Ufo.h"
 #include "Palm.h"
 #include "Coconut.h"
 #include "Boat.h"
@@ -267,7 +267,7 @@ public:
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
         scene.Renderable_objects.push_back(std::make_unique<House>(-25,scene.get_Y(-25,-40,scene.heightMap),-40));
         scene.Renderable_objects.push_back(std::make_unique<Door>());
-        scene.Renderable_objects.push_back(std::make_unique<Bird>());
+        scene.Renderable_objects.push_back(std::make_unique<Ufo>());
         scene.Renderable_objects.push_back(std::make_unique<Boat>());
         scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15}));
         scene.Renderable_objects.push_back(std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}, (glm::vec3) {0.15,0.2,0.15}));
@@ -400,6 +400,21 @@ public:
                        glm::cos(glm::radians(15.0f)),
                        true,
                        5
+        );
+
+        //this is spotlight green
+        scene.addLight(glm::vec3 {-25,scene.get_Y(-25, 20, scene.heightMap) + 10.25,20},
+                       glm::vec3 {0.4, 15.1, 0.95},
+                       glm::vec3 {0, -1, 0},
+                       15.f,
+                       15.f,
+                       glm::vec3 {0.0f, 0.0f, 0.0f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::vec3 {1.0f, 1.0f, 1.0f},
+                       glm::cos(glm::radians(12.5f)),
+                       glm::cos(glm::radians(15.0f)),
+                       true,
+                       6
         );
 
         glm::mat4 lightProjection, lightView;
