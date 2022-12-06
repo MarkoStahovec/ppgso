@@ -35,7 +35,7 @@ bool SkyBox::update(float dt, SceneWindow &scene) {
 void SkyBox::render(SceneWindow &scene) {
 
     glDepthMask(GL_FALSE);
-    if(!scene.isNight) {
+    if(scene.dayTime == scene.AFTERNOON || scene.dayTime == scene.MORNING) {
         texture_shader->use();
 
         // use camera

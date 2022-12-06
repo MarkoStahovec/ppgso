@@ -468,37 +468,52 @@ public:
         }
 
         if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-            if(scene.isNight) {
-                scene.near_plane = 650.0f;
-                scene.globalLightPosition = {-600.f, 600, -0.f};
+            if(scene.dayTime == scene.MORNING) {
+                scene.near_plane = 960.0f;
+                scene.far_plane = 3000.f;
+                scene.globalLightPosition = {-500.f, 900, -0.f};
                 scene.globalLightDirection = {0.25, 0.2, 0.5};
                 scene.globalLightColor = {2.48,2.48,2.476};
                 scene.globalLightAmbient = {0.266,0.266,0.262};
                 scene.globalLightDiffuse = {0.80, 0.80, 0.796};
                 scene.globalLightSpecular = {0.962,0.951,0.940};
+                scene.dayTime = scene.AFTERNOON;
             }
-            else {
-                /*
-                scene.near_plane = 650.0f;
-                scene.globalLightPosition = {-600.f, 600, -0.f};
+            else if(scene.dayTime == scene.AFTERNOON) {
+                scene.near_plane = 615.0f;
+                scene.far_plane = 3000.f;
+                scene.globalLightPosition = {-600.f, 357, -0.f};
+                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightColor = {4.85,1.78,0.376};
+                scene.globalLightAmbient = {0.191, 0.086, 0.071};
+                scene.globalLightDiffuse = {0.987, 0.631, 0.555};
+                scene.globalLightSpecular = {0.731,0.272,0.151};
+                scene.dayTime = scene.EVENING;
+            }
+            else if(scene.dayTime == scene.EVENING) {
+                scene.near_plane = 960.0f;
+                scene.far_plane = 3000.f;
+                scene.globalLightPosition = {-500.f, 900, -0.f};
                 scene.globalLightDirection = {0.25, 0.2, 0.5};
                 scene.globalLightColor = {0.42,0.45,0.86};
                 scene.globalLightAmbient = {0.041,0.041,0.049};
                 scene.globalLightDiffuse = {0.36f, 0.36, 0.5348};
-                scene.globalLightSpecular = {0.856,0.856,0.961};*/
-
-
-
-                scene.near_plane = 300.0f;
-                scene.globalLightPosition = {-600.f, 125, -0.f};
-                scene.globalLightDirection = {0.25, 0.2, 0.5};
-                scene.globalLightColor = {5.05,1.48,0.376};
-                scene.globalLightAmbient = {0.191, 0.086, 0.071};
-                scene.globalLightDiffuse = {0.987, 0.631, 0.555};
-                scene.globalLightSpecular = {0.731,0.272,0.151};
-
+                scene.globalLightSpecular = {0.856,0.856,0.961};
+                scene.dayTime = scene.NIGHT;
             }
-            scene.isNight = !scene.isNight;
+            else {
+                scene.near_plane = 615.0f;
+                scene.far_plane = 3000.f;
+                scene.globalLightPosition = {-600.f, 357, -0.f};
+                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightColor = {2.48,1.58,1.476};
+                scene.globalLightAmbient = {0.130,0.113,0.101};
+                scene.globalLightDiffuse = {0.945, 0.926, 0.841};
+                scene.globalLightSpecular = {0.653,0.635,0.607};
+
+                scene.dayTime = scene.MORNING;
+            }
+            scene.lightSpaceMatrix = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane) * glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
             scene.keyboard[GLFW_KEY_Q] = GLFW_RELEASE;
             std::cout << scene.isNight << "\n";
         }

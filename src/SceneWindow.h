@@ -15,6 +15,16 @@ public:
     //std::unique_ptr<Camera> camera;
     std::list<std::unique_ptr<Renderable>> Renderable_objects;
 
+    typedef enum
+    {
+        AFTERNOON = 1,
+        EVENING = 2,
+        NIGHT = 3,
+        MORNING = 4
+    } DayTime;
+
+    DayTime dayTime = NIGHT;
+
     std::unique_ptr<Camera> camera;
     // Keyboard state
     std::map< int, int > keyboard;
@@ -22,12 +32,12 @@ public:
     float current_frame_time;
     float last_frame_time;
 
-    float near_plane = 650.0f, far_plane = 3000.f;
+    float near_plane = 960.0f, far_plane = 3000.f;
 
     glm::vec3 gravity = {0,10,0};
     glm::vec3 wind = {0,0,0};
 
-    glm::vec3 globalLightPosition = {-600.f, 600, -0.f};
+    glm::vec3 globalLightPosition = {-500.f, 900, -0.f};
 
     glm::mat4 lightSpaceMatrix;
 
@@ -36,7 +46,7 @@ public:
     bool isNight = true;
     glm::vec3 globalLightDirection = {0.25, 0.2, 0.5};
     glm::vec3 globalLightColor = {0.42,0.45,0.86};
-    glm::vec3 globalLightAmbient = {0.048,0.048,0.057};
+    glm::vec3 globalLightAmbient = {0.041,0.041,0.049};
     glm::vec3 globalLightDiffuse = {0.36f, 0.36, 0.5348};
     glm::vec3 globalLightSpecular = {0.856,0.856,0.961};
 
