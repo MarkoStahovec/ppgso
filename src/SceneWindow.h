@@ -24,6 +24,12 @@ public:
     } DayTime;
 
     DayTime dayTime = NIGHT;
+    float delta;
+    float step = 1.;
+    float start_near_plane, end_near_plane, start_far_plane, end_far_plane;
+    glm::vec3 startGlobalLightPosition, endGlobalLightPosition, startGlobalLightDirection, endGlobalLightDirection, startGlobalLightColor, endGlobalLightColor, startGlobalLightAmbient,
+    endGlobalLightAmbient, startGlobalLightDiffuse, endGlobalLightDiffuse, startGlobalLightSpecular, endGlobalLightSpecular;
+    bool isTimeOn = false;
 
     std::unique_ptr<Camera> camera;
     // Keyboard state
@@ -43,7 +49,6 @@ public:
 
     unsigned int depthMap;
 
-    bool isNight = true;
     glm::vec3 globalLightDirection = {0.25, 0.2, 0.5};
     glm::vec3 globalLightColor = {0.42,0.45,0.86};
     glm::vec3 globalLightAmbient = {0.041,0.041,0.049};

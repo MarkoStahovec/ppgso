@@ -513,9 +513,99 @@ public:
             }
             scene.lightSpaceMatrix = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane) * glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
             scene.keyboard[GLFW_KEY_Q] = GLFW_RELEASE;
-            std::cout << scene.isNight << "\n";
         }
 
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+            if(scene.isTimeOn) {
+                scene.isTimeOn = false;
+            }
+            else {
+                if(scene.dayTime == scene.MORNING) {
+                    scene.start_near_plane = 960.0f;
+                    scene.end_near_plane = 615.f;
+                    scene.start_far_plane = 3000.0f;
+                    scene.end_far_plane = 3000.0f;
+                    scene.startGlobalLightPosition = {-500.f, 900, -0.f};
+                    scene.endGlobalLightPosition = {-600.f, 357, -0.f};
+                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightColor = {2.48,2.48,2.476};
+                    scene.endGlobalLightColor = {4.85,1.78,0.376};
+                    scene.startGlobalLightAmbient = {0.266,0.266,0.262};
+                    scene.endGlobalLightAmbient = {0.191, 0.086, 0.071};
+                    scene.startGlobalLightDiffuse = {0.80, 0.80, 0.796};
+                    scene.endGlobalLightDiffuse = {0.987, 0.631, 0.555};
+                    scene.startGlobalLightSpecular = {0.962,0.951,0.940};
+                    scene.endGlobalLightSpecular = {0.731,0.272,0.151};
+                }
+                else if(scene.dayTime == scene.AFTERNOON) {
+                    scene.start_near_plane = 615.0f;
+                    scene.end_near_plane = 960.0f;
+                    scene.start_far_plane = 3000.0f;
+                    scene.end_far_plane = 3000.0f;
+                    scene.startGlobalLightPosition = {-600.f, 357, -0.f};
+                    scene.endGlobalLightPosition = {-500.f, 900, -0.f};
+                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightColor = {4.85,1.78,0.376};
+                    scene.endGlobalLightColor = {0.42,0.45,0.86};
+                    scene.startGlobalLightAmbient = {0.191, 0.086, 0.071};
+                    scene.endGlobalLightAmbient = {0.041,0.041,0.049};
+                    scene.startGlobalLightDiffuse = {0.987, 0.631, 0.555};
+                    scene.endGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
+                    scene.startGlobalLightSpecular = {0.731,0.272,0.151};
+                    scene.endGlobalLightSpecular = {0.856,0.856,0.961};
+                }
+                else if(scene.dayTime == scene.EVENING) {
+                    scene.start_near_plane = 960.0f;
+                    scene.end_near_plane = 615.0f;
+                    scene.start_far_plane = 3000.0f;
+                    scene.end_far_plane = 3000.0f;
+                    scene.startGlobalLightPosition = {-500.f, 900, -0.f};
+                    scene.endGlobalLightPosition = {-600.f, 357, -0.f};
+                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightColor = {0.42,0.45,0.86};
+                    scene.endGlobalLightColor = {2.48,1.58,1.476};
+                    scene.startGlobalLightAmbient = {0.041,0.041,0.049};
+                    scene.endGlobalLightAmbient = {0.130,0.113,0.101};
+                    scene.startGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
+                    scene.endGlobalLightDiffuse = {0.945, 0.926, 0.841};
+                    scene.startGlobalLightSpecular = {0.856,0.856,0.961};
+                    scene.endGlobalLightSpecular = {0.653,0.635,0.607};
+                }
+                else if(scene.dayTime == scene.NIGHT)  {
+                    scene.start_near_plane = 615.0f;
+                    scene.end_near_plane = 960.0f;
+                    scene.start_far_plane = 3000.0f;
+                    scene.end_far_plane = 3000.0f;
+                    scene.startGlobalLightPosition = {-600.f, 357, -0.f};
+                    scene.endGlobalLightPosition = {-500.f, 900, -0.f};
+                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightColor = {2.48,1.58,1.476};
+                    scene.endGlobalLightColor = {2.48,2.48,2.476};
+                    scene.startGlobalLightAmbient = {0.130,0.113,0.101};
+                    scene.endGlobalLightAmbient = {0.266,0.266,0.262};
+                    scene.startGlobalLightDiffuse = {0.945, 0.926, 0.841};
+                    scene.endGlobalLightDiffuse = {0.80, 0.80, 0.796};
+                    scene.startGlobalLightSpecular = {0.653,0.635,0.607};
+                    scene.endGlobalLightSpecular = {0.962,0.951,0.940};
+                }
+                scene.isTimeOn = true;
+            }
+            scene.keyboard[GLFW_KEY_E] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+            scene.step *= 2;
+            scene.keyboard[GLFW_KEY_R] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+            scene.step /= 2;
+            scene.keyboard[GLFW_KEY_F] = GLFW_RELEASE;
+        }
     }
 
     void onIdle() override {
