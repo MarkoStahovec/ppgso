@@ -16,13 +16,13 @@ std::unique_ptr<ppgso::Shader> SkyBox::texture_shader;
 std::unique_ptr<ppgso::Shader> SkyBox::shadow_shader;
 
 SkyBox::SkyBox() {
-    scale *= 3000;
+    scale *= 10;
     rotation = {0,0,0};
-    position.y += 1000;
+    position.y += 800;
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
     if (!texture_shader) texture_shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("sky.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ball.obj");
     if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
 
 }
@@ -35,7 +35,7 @@ bool SkyBox::update(float dt, SceneWindow &scene) {
 void SkyBox::render(SceneWindow &scene) {
 
     glDepthMask(GL_FALSE);
-    if(scene.dayTime == scene.AFTERNOON || scene.dayTime == scene.MORNING) {
+    if(scene.dayTime == scene.AFTERNOON) {
         texture_shader->use();
 
         // use camera

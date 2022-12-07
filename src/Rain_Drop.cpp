@@ -21,6 +21,11 @@ bool Rain_Drop::update(float dTime, SceneWindow &scene) {
                 glm::vec3 speed = speed_iteration;
                 glm::vec3 scale = {0.2, 0.2, 0.2};
                 glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3, 1};
+
+                auto raindrop_h = std::make_unique<Rain_Drop>(pos, speed, color, scale, 0);
+                raindrop_h->parent = scene.root.get();
+                scene.cloud->children.push_back(std::move(raindrop_h));
+
                 scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(pos, speed, color, scale, 1));
             }
 

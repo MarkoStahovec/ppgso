@@ -35,7 +35,17 @@ public:
     glm::vec3 scale{1, 1, 1};
     glm::mat4 modelMatrix{1};
 
+    std::list<std::unique_ptr<Renderable>> children;
+    Renderable * parent{nullptr};
+
 
 protected:
+
+    template<typename... TArgs>
+    void addChild(TArgs&... args)
+    {
+        children.emplace_back(std::make_unique<Renderable>(args...));
+    }
     void updateModelMatrix();
+
 };

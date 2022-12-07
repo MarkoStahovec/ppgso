@@ -24,9 +24,9 @@ Coconut::Coconut(float x, float y, float z) {
     rotation = {0,0,0};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("coconut.bmp"));
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("beachball.bmp"));
     if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ball.obj");
 }
 
 void Coconut::drop(SceneWindow &scene) {
@@ -77,7 +77,7 @@ glm::vec3 Coconut::calc_plane_norm(SceneWindow &scene) {
 bool Coconut::update(float dt, SceneWindow &scene) {
     if(spawning == 1){
         scale *= 1.05;
-        if(scale[0] >= 2.5){
+        if(scale[0] >= 0.005){
             spawning = 0;
         }
 
@@ -94,6 +94,9 @@ bool Coconut::update(float dt, SceneWindow &scene) {
     if(despawning == 1){
         scale *= 0.98;
         if(scale[0] < 0.0001){
+            auto coconut_h = std::make_unique<Coconut>(base_x,scene.get_Y(base_x,base_z,scene.heightMap),base_z);
+            coconut_h->parent = scene.root.get();
+            scene.palm->children.push_back(std::move(coconut_h));
             scene.Renderable_objects.push_back(std::make_unique<Coconut>(base_x,scene.get_Y(base_x,base_z,scene.heightMap),base_z));
             return false;
         }

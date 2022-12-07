@@ -32,11 +32,17 @@ public:
     bool isTimeOn = false;
 
     std::unique_ptr<Camera> camera;
+    std::unique_ptr<Renderable> root;
+    Renderable * cloud;
+    Renderable * palm;
+
     // Keyboard state
     std::map< int, int > keyboard;
 
     float current_frame_time;
     float last_frame_time;
+
+
 
     float near_plane = 960.0f, far_plane = 3000.f;
 

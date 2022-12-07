@@ -37,6 +37,7 @@
 #include "Boat.h"
 #include "Light.h"
 #include "Firefly.h"
+#include "Node.h"
 
 
 extern "C"
@@ -259,14 +260,95 @@ public:
         scene.heightMap = readBMP("Height.bmp");
 
         auto camera = std::make_unique<Camera>();
-        scene.camera = move(camera);
+        scene.camera = std::move(camera);
+
+        scene.root = std::make_unique<Island>();
+
+
+        auto surface_h= std::make_unique<Surface>();
+        surface_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(surface_h));
+
+        auto cloud_h = std::make_unique<Cloud>();
+        scene.cloud = cloud_h.get();
+        cloud_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(cloud_h));
+
+        auto skybox_h = std::make_unique<SkyBox>();
+        skybox_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(skybox_h));
+
+        auto house_h = std::make_unique<House>(-25, scene.get_Y(-25, -40, scene.heightMap), -40);
+        house_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(house_h));
+
+        auto ufo_h = std::make_unique<Ufo>();
+        ufo_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(ufo_h));
+
+        auto boat_h = std::make_unique<Boat>();
+        boat_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(boat_h));
+
+        auto palm_h = std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15});
+        palm_h->parent = scene.root.get();
+
+        auto coconut_h = std::make_unique<Coconut>(29,scene.get_Y(29,10,scene.heightMap),10);
+        coconut_h->parent = palm_h.get();
+        palm_h->children.push_back(std::move(coconut_h));
+
+        coconut_h = std::make_unique<Coconut>(31,scene.get_Y(31,10,scene.heightMap),10);
+        coconut_h->parent = palm_h.get();
+        palm_h->children.push_back(std::move(coconut_h));
+
+        scene.palm = palm_h.get();
+        scene.root->children.push_back(std::move(palm_h));
+
+        palm_h = std::make_unique<Palm>(-68,scene.get_Y(-68,78,scene.heightMap),78,(glm::vec3) {-.05,0,.022}, (glm::vec3) {0.15,0.2,0.15});
+        palm_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(palm_h));
+
+        palm_h = std::make_unique<Palm>(30,scene.get_Y(30,73,scene.heightMap),73,(glm::vec3) {.05,0,-.022}, (glm::vec3) {0.2,0.15,0.2});
+        palm_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(palm_h));
+
+        palm_h = std::make_unique<Palm>(-35,scene.get_Y(-35,-40,scene.heightMap),-40,(glm::vec3) {.01,0,-.01}, (glm::vec3) {0.15,0.12,0.15});
+        palm_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(palm_h));
+
+        palm_h = std::make_unique<Palm>(68,scene.get_Y(68,-78,scene.heightMap),-78,(glm::vec3) {.05,0,.022}, (glm::vec3) {0.15,0.15,0.15});
+        palm_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(palm_h));
+
+        auto firefly_h = std::make_unique<Firefly>((glm::vec3){11, scene.get_Y(11,50,scene.heightMap)+4, 50}, (glm::vec3){5, 13, 0.3}, 0);
+        firefly_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(firefly_h));
+
+        firefly_h = std::make_unique<Firefly>((glm::vec3){-75, scene.get_Y(-75,30,scene.heightMap)+4, 30}, (glm::vec3){16, 2, 30}, 1);
+        firefly_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(firefly_h));
+
+        firefly_h = std::make_unique<Firefly>((glm::vec3){50, scene.get_Y(50,0,scene.heightMap)+4, 0}, (glm::vec3){0.3, 6, 13}, 2);
+        firefly_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(firefly_h));
+
+        auto light_h = std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95});
+        light_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(light_h));
+
+        light_h = std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9});
+        light_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(light_h));
+
+        light_h = std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3});
+        light_h->parent = scene.root.get();
+        scene.root->children.push_back(std::move(light_h));
 
         scene.Renderable_objects.push_back(std::make_unique<Island>());
         scene.Renderable_objects.push_back(std::make_unique<Surface>());
         scene.Renderable_objects.push_back(std::make_unique<Cloud>());
         scene.Renderable_objects.push_back(std::make_unique<SkyBox>());
-        scene.Renderable_objects.push_back(std::make_unique<House>(-25,scene.get_Y(-25,-40,scene.heightMap),-40));
-        scene.Renderable_objects.push_back(std::make_unique<Door>());
+        scene.Renderable_objects.push_back(std::make_unique<House>(-25, scene.get_Y(-25, -40, scene.heightMap), -40));
         scene.Renderable_objects.push_back(std::make_unique<Ufo>());
         scene.Renderable_objects.push_back(std::make_unique<Boat>());
         scene.Renderable_objects.push_back(std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15}));
@@ -310,8 +392,8 @@ public:
             if (y <= 4 || y >15) {
                 i--;
             } else {
-
-                scene.Renderable_objects.push_back(random_plant(x, y, z));
+                scene.root->children.push_back(random_plant(x, y, z, scene));
+                scene.Renderable_objects.push_back(random_plant(x, y, z, scene));
             }
         }
 
@@ -630,6 +712,7 @@ public:
         // Compute time delta
         float dTime = (float) glfwGetTime() - time;
         dTime *= 0.001;
+
         //time = (float) glfwGetTime();
 
         // TODO: Add renderable object to the scene
@@ -640,6 +723,10 @@ public:
             glm::vec3 speed = {0, 0, 0};
             glm::vec3 scale = {1, 1, 1};
             glm::vec3 color = {0, ((float) rand() / (float) RAND_MAX) * (.8 - .2) + .3, 1};
+
+            auto raindrop_h = std::make_unique<Rain_Drop>(position, speed, color, scale, 0);
+            raindrop_h->parent = scene.root.get();
+            scene.cloud->children.push_back(std::move(raindrop_h));
 
             scene.Renderable_objects.push_back(std::make_unique<Rain_Drop>(position, speed, color, scale, 0));
         }
