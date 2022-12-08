@@ -2,35 +2,45 @@
 // Created by A on 17/11/2022.
 //
 
-#include "Propeller.h"
+#include "Asteroid.h"
 #include <shaders/phong_frag_glsl.h>
 #include <shaders/phong_vert_glsl.h>
 
-std::unique_ptr<ppgso::Mesh> Propeller::mesh;
-std::unique_ptr<ppgso::Texture> Propeller::texture;
-std::unique_ptr<ppgso::Shader> Propeller::shader;
-std::unique_ptr<ppgso::Shader> Propeller::shadow_shader;
+std::unique_ptr<ppgso::Mesh> Asteroid::mesh;
+std::unique_ptr<ppgso::Texture> Asteroid::texture;
+std::unique_ptr<ppgso::Shader> Asteroid::shader;
+std::unique_ptr<ppgso::Shader> Asteroid::shadow_shader;
 
-Propeller::Propeller() {
-    scale *= 1000;
-    position = {0,50,0};
+Asteroid::Asteroid(int rot_type) {
+    scale *= 10;
+    position = {0,0,0};
+
+    type = rot_type;
+    rot_speed = rand() % 5+5;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
     if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("asteroid.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("prop.obj");
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("asteroid.obj");
 }
 
-bool Propeller::update(float dt, SceneWindow &scene) {
+bool Asteroid::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
 
     float time = (float) glfwGetTime();
-    rotation = {0, 0, 100*time};
+    rotation = {0, 0, (float)rot_speed*time};
+    if(type){
+        position.x = cos(time)*50;
+        position.y = sin(time)*30+20;
+    } else {
+    position.z = cos(time)*50;
+    position.y = sin(time)*30+20;
+    }
 
     return true;
 }
 
-void Propeller::render(SceneWindow &scene) {
+void Asteroid::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
@@ -80,7 +90,7 @@ void Propeller::render(SceneWindow &scene) {
     mesh->render();
 }
 
-void Propeller::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+void Asteroid::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
 
     shadow_shader->use();
     shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);

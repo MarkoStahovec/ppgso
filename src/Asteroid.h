@@ -9,7 +9,7 @@
 #include "Renderable.h"
 #include "SceneWindow.h"
 
-class Propeller final : public Renderable {
+class Asteroid final : public Renderable {
 private:
 
     static std::unique_ptr<ppgso::Mesh> mesh;
@@ -17,8 +17,11 @@ private:
     static std::unique_ptr<ppgso::Shader> shadow_shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
+    int rot_speed;
+    int type;
+
 public:
-    Propeller();
+    Asteroid(int rot_type);
     bool update(float dt, SceneWindow &scene) override;
 
     void render(SceneWindow &scene) override;

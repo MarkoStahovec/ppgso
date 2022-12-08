@@ -38,7 +38,7 @@
 #include "Light.h"
 #include "Firefly.h"
 #include "Node.h"
-#include "Propeller.h"
+#include "Asteroid.h"
 
 
 extern "C"
@@ -283,8 +283,11 @@ public:
         auto ufo_h = std::make_unique<Ufo>();
         ufo_h->parent = island_h.get();
 
-        auto propeller_h = std::make_unique<Propeller>();
-        propeller_h->parent = ufo_h.get();
+        auto asteroid_h1 = std::make_unique<Asteroid>(1);
+        asteroid_h1->parent = ufo_h.get();
+
+        auto asteroid_h2 = std::make_unique<Asteroid>(0);
+        asteroid_h2->parent = ufo_h.get();
 
 
         auto boat_h = std::make_unique<Boat>();
@@ -337,7 +340,8 @@ public:
         scene.Renderable_objects.push_back(std::move(skybox_h));
         scene.Renderable_objects.push_back(std::move(house_h));
         scene.Renderable_objects.push_back(std::move(ufo_h));
-        scene.Renderable_objects.push_back(std::move(propeller_h));
+        scene.Renderable_objects.push_back(std::move(asteroid_h1));
+        scene.Renderable_objects.push_back(std::move(asteroid_h2));
         scene.Renderable_objects.push_back(std::move(boat_h));
         scene.Renderable_objects.push_back(std::move(palm_h1));
         scene.Renderable_objects.push_back(std::move(palm_h2));
