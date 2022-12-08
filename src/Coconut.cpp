@@ -95,9 +95,8 @@ bool Coconut::update(float dt, SceneWindow &scene) {
         scale *= 0.98;
         if(scale[0] < 0.0001){
             auto coconut_h = std::make_unique<Coconut>(base_x,scene.get_Y(base_x,base_z,scene.heightMap),base_z);
-            coconut_h->parent = scene.root.get();
-            scene.palm->children.push_back(std::move(coconut_h));
-            scene.Renderable_objects.push_back(std::make_unique<Coconut>(base_x,scene.get_Y(base_x,base_z,scene.heightMap),base_z));
+            coconut_h->parent = scene.root;
+            scene.Renderable_objects.push_back(std::move(coconut_h));
             return false;
         }
     }

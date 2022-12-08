@@ -32,7 +32,7 @@ public:
     bool isTimeOn = false;
 
     std::unique_ptr<Camera> camera;
-    std::unique_ptr<Renderable> root;
+    Renderable * root;
     Renderable * cloud;
     Renderable * palm;
 

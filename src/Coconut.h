@@ -17,6 +17,7 @@ private:
     int n_drop = 5;
 
     float base_x;
+    float base_y;
     float base_z;
 
     bool dropping = 0;

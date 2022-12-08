@@ -21,7 +21,7 @@ Island::Island() {
     rotation = {0,0,3*ppgso::PI/2};
     position.y = -0.1;
     position.x -= 2;
-    position.z +=3;
+    position.z += 3;
 
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);

@@ -79,15 +79,15 @@ std::unique_ptr<Renderable> random_plant(float x, float y, float z, SceneWindow 
     int decide = rand() % 3;
     if (decide == 0) {
         auto plant =  std::make_unique<Plant_1>(x, y, z, "plant_1.obj", "plant_1.bmp", 10);
-        plant->parent = scene.root.get();
+        plant->parent = scene.root;
         return std::move(plant);
     } else if (decide == 1) {
         auto plant = std::make_unique<Plant_2>(x, y, z, "plant_2.obj", "plant_2.bmp", 0.3);
-        plant->parent = scene.root.get();
+        plant->parent = scene.root;
         return std::move(plant);
     } else {
         auto plant = std::make_unique<Plant_3>(x, y, z, "plant_3.obj", "plant_3.bmp", 0.3);
-        plant->parent = scene.root.get();
+        plant->parent = scene.root;
         return std::move(plant);
     }
 }
