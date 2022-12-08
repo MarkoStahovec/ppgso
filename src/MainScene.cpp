@@ -50,6 +50,12 @@ extern "C"
 const unsigned int SIZE = 512;
 const unsigned int SHADOW_WIDTH = 4096*4, SHADOW_HEIGHT = 4096*4;
 
+bool firstMouse = true;
+float yaw   = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+float pitch =  0.0f;
+float lastX =  1920.0f;
+float lastY =  1080.0f;
+
 std::unique_ptr<ppgso::Shader> shaderBlur;
 std::unique_ptr<ppgso::Shader> shaderBloomFinal;
 unsigned int hdrFBO;
@@ -64,11 +70,41 @@ std::unique_ptr<ppgso::Shader> simpleDepthShader;
 std::unique_ptr<ppgso::Shader> debugQuad;
 
 unsigned int depthMapFBO;
+SceneWindow scene;
+
+static void cursor_position_callback(GLFWwindow* window, double xposIn, double yposIn)
+{
+    float xpos = static_cast<float>(xposIn);
+    float ypos = static_cast<float>(yposIn);
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+    lastX = xpos;
+    lastY = ypos;
+
+    float sensitivity = 0.125f; // change this value to your liking
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    // make sure that when pitch is out of bounds, screen doesn't get flipped
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
+
+    glm::vec3 front;
+    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.y = sin(glm::radians(pitch));
+    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    scene.camera->cameraFront = glm::normalize(front);
+}
 
 class MainScene : public ppgso::Window {
 private:
     // Scene of objects
-    SceneWindow scene;
 
     // Store keyboard state
     std::map<int, int> keys;
@@ -152,7 +188,7 @@ private:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 2;
+        unsigned int amount = 10;
         shaderBlur->use();
         for (unsigned int i = 0; i < amount; i++)
         {
@@ -252,6 +288,11 @@ public:
     MainScene() : Window{"Stahovec robí sám", WINDOW_HEIGHT, WINDOW_WIDTH} {
         // Initialize OpenGL state
         // Enable Z-buffer
+        glfwMakeContextCurrent(window);
+        //glfwSetCursorPosCallback(window, reinterpret_cast<GLFWcursorposfun>(delegate_mouse_callback));
+        glfwSetCursorPosCallback(window, cursor_position_callback);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
 
@@ -695,6 +736,7 @@ public:
             scene.keyboard[GLFW_KEY_F] = GLFW_RELEASE;
         }
     }
+
 
     void onIdle() override {
         // Track time

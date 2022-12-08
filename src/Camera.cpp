@@ -24,5 +24,5 @@ void Camera::update() {
     }
 
     //viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    viewMatrix = glm::lookAt(cameraPos, cameraFront, cameraUp);
+    viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
