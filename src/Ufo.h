@@ -26,14 +26,14 @@ private:
     int period = 120;
 
     std::vector<KeyPicture> keys {
-            KeyPicture(glm::vec3 {1000,100,1000}, glm::vec3{0,0,10}, 10),
-            KeyPicture(glm::vec3 {0,100,0}, glm::vec3{0,0,0}, 20),
-            KeyPicture(glm::vec3 {-20,100,-20}, glm::vec3{0,0,1}, 25),
-            KeyPicture(glm::vec3 {40,100,40}, glm::vec3{0,0,-1}, 30),
-            KeyPicture(glm::vec3 {-70,100,-70}, glm::vec3{0,0,0}, 35),
-            KeyPicture(glm::vec3 {80,100,-80}, glm::vec3{0,0,-1}, 40),
-            KeyPicture(glm::vec3 {-80,100,80}, glm::vec3{0,0,2}, 45),
-            KeyPicture(glm::vec3 {-1000,100,-1000}, glm::vec3{0,0,10}, 55),
+            KeyPicture(glm::vec3 {1000,88,1000}, glm::vec3{0,0,10}, 10),
+            KeyPicture(glm::vec3 {0,88,0}, glm::vec3{0,0,0}, 20),
+            KeyPicture(glm::vec3 {-20,88,-20}, glm::vec3{0,0,1}, 25),
+            KeyPicture(glm::vec3 {40,88,40}, glm::vec3{0,0,-1}, 30),
+            KeyPicture(glm::vec3 {-70,88,-70}, glm::vec3{0,0,0}, 35),
+            KeyPicture(glm::vec3 {80,88,-80}, glm::vec3{0,0,-1}, 40),
+            KeyPicture(glm::vec3 {-80,88,80}, glm::vec3{0,0,2}, 45),
+            KeyPicture(glm::vec3 {-1000,88,-1000}, glm::vec3{0,0,10}, 55),
             };
 
 public:

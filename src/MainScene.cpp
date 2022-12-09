@@ -551,10 +551,7 @@ public:
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
 
-        lightProjection = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        //lightProjection = glm::ortho(-0.0f, 100.0f, -.0f, 100.0f, scene.near_plane, scene.far_plane);
-        lightView = glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
-        scene.lightSpaceMatrix = lightProjection * lightView;
+        scene.lightSpaceMatrix = glm::perspective(glm::radians(90.0f), 16.f / 9.f, scene.near_plane, scene.far_plane) * glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
 
         scene.last_frame_time = -1;
         scene.current_frame_time = (float) glfwGetTime();
@@ -613,10 +610,10 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
             if(scene.dayTime == scene.MORNING) {
-                scene.near_plane = 960.0f;
-                scene.far_plane = 3000.f;
+                scene.near_plane = 600.0f;
+                scene.far_plane = 1200.f;
                 scene.globalLightPosition = {-500.f, 900, -0.f};
-                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightDirection = {0.0, 0.0, 0.0};
                 scene.globalLightColor = {2.48,2.48,2.476};
                 scene.globalLightAmbient = {0.266,0.266,0.262};
                 scene.globalLightDiffuse = {0.80, 0.80, 0.796};
@@ -630,10 +627,10 @@ public:
                 scene.dayTime = scene.AFTERNOON;
             }
             else if(scene.dayTime == scene.AFTERNOON) {
-                scene.near_plane = 615.0f;
-                scene.far_plane = 3000.f;
+                scene.near_plane = 450.0f;
+                scene.far_plane = 1020.f;
                 scene.globalLightPosition = {-600.f, 357, -0.f};
-                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightDirection = {0.0, 0.0, 0.0};
                 scene.globalLightColor = {4.85,1.78,0.376};
                 scene.globalLightAmbient = {0.191, 0.086, 0.071};
                 scene.globalLightDiffuse = {0.987, 0.631, 0.555};
@@ -647,10 +644,10 @@ public:
                 scene.dayTime = scene.EVENING;
             }
             else if(scene.dayTime == scene.EVENING) {
-                scene.near_plane = 960.0f;
-                scene.far_plane = 3000.f;
+                scene.near_plane = 600.0f;
+                scene.far_plane = 1200.f;
                 scene.globalLightPosition = {-500.f, 900, -0.f};
-                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightDirection = {0.0, 0.0, 0.0};
                 scene.globalLightColor = {0.42,0.45,0.86};
                 scene.globalLightAmbient = {0.041,0.041,0.049};
                 scene.globalLightDiffuse = {0.36f, 0.36, 0.5348};
@@ -664,10 +661,10 @@ public:
                 scene.dayTime = scene.NIGHT;
             }
             else {
-                scene.near_plane = 615.0f;
-                scene.far_plane = 3000.f;
+                scene.near_plane = 450.0f;
+                scene.far_plane = 1020.f;
                 scene.globalLightPosition = {-600.f, 357, -0.f};
-                scene.globalLightDirection = {0.25, 0.2, 0.5};
+                scene.globalLightDirection = {0.0, 0.0, 0.0};
                 scene.globalLightColor = {2.48,1.58,1.476};
                 scene.globalLightAmbient = {0.130,0.113,0.101};
                 scene.globalLightDiffuse = {0.945, 0.926, 0.841};
@@ -680,7 +677,6 @@ public:
 
                 scene.dayTime = scene.MORNING;
             }
-            scene.lightSpaceMatrix = glm::perspective(glm::radians(120.0f), 16.f / 9.f, scene.near_plane, scene.far_plane) * glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
             scene.keyboard[GLFW_KEY_Q] = GLFW_RELEASE;
         }
 
@@ -690,14 +686,14 @@ public:
             }
             else {
                 if(scene.dayTime == scene.MORNING) {
-                    scene.start_near_plane = 960.0f;
-                    scene.end_near_plane = 615.f;
-                    scene.start_far_plane = 3000.0f;
-                    scene.end_far_plane = 3000.0f;
+                    scene.start_near_plane = 600.0f;
+                    scene.end_near_plane = 450.f;
+                    scene.start_far_plane = 1200.0f;
+                    scene.end_far_plane = 1020.0f;
                     scene.startGlobalLightPosition = {-500.f, 900, -0.f};
                     scene.endGlobalLightPosition = {-600.f, 357, -0.f};
-                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
-                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
                     scene.startGlobalLightColor = {2.48,2.48,2.476};
                     scene.endGlobalLightColor = {4.85,1.78,0.376};
                     scene.startGlobalLightAmbient = {0.266,0.266,0.262};
@@ -717,14 +713,14 @@ public:
                     scene.endSkyboxShininess = 1.93f;
                 }
                 else if(scene.dayTime == scene.AFTERNOON) {
-                    scene.start_near_plane = 615.0f;
-                    scene.end_near_plane = 960.0f;
-                    scene.start_far_plane = 3000.0f;
-                    scene.end_far_plane = 3000.0f;
+                    scene.start_near_plane = 450.0f;
+                    scene.end_near_plane = 600.0f;
+                    scene.start_far_plane = 1020.0f;
+                    scene.end_far_plane = 1200.0f;
                     scene.startGlobalLightPosition = {-600.f, 357, -0.f};
                     scene.endGlobalLightPosition = {-500.f, 900, -0.f};
-                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
-                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
                     scene.startGlobalLightColor = {4.85,1.78,0.376};
                     scene.endGlobalLightColor = {0.42,0.45,0.86};
                     scene.startGlobalLightAmbient = {0.191, 0.086, 0.071};
@@ -744,14 +740,14 @@ public:
                     scene.endSkyboxShininess = 9.21f;
                 }
                 else if(scene.dayTime == scene.EVENING) {
-                    scene.start_near_plane = 960.0f;
-                    scene.end_near_plane = 615.0f;
-                    scene.start_far_plane = 3000.0f;
-                    scene.end_far_plane = 3000.0f;
+                    scene.start_near_plane = 600.0f;
+                    scene.end_near_plane = 450.0f;
+                    scene.start_far_plane = 1200.0f;
+                    scene.end_far_plane = 1020.0f;
                     scene.startGlobalLightPosition = {-500.f, 900, -0.f};
                     scene.endGlobalLightPosition = {-600.f, 357, -0.f};
-                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
-                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
                     scene.startGlobalLightColor = {0.42,0.45,0.86};
                     scene.endGlobalLightColor = {2.48,1.58,1.476};
                     scene.startGlobalLightAmbient = {0.041,0.041,0.049};
@@ -771,14 +767,14 @@ public:
                     scene.endSkyboxShininess = 0.07f;
                 }
                 else if(scene.dayTime == scene.NIGHT)  {
-                    scene.start_near_plane = 615.0f;
-                    scene.end_near_plane = 960.0f;
-                    scene.start_far_plane = 3000.0f;
-                    scene.end_far_plane = 3000.0f;
+                    scene.start_near_plane = 450.0f;
+                    scene.end_near_plane = 600.0f;
+                    scene.start_far_plane = 1020.0f;
+                    scene.end_far_plane = 1200.0f;
                     scene.startGlobalLightPosition = {-600.f, 357, -0.f};
                     scene.endGlobalLightPosition = {-500.f, 900, -0.f};
-                    scene.startGlobalLightDirection = {0.25, 0.2, 0.5};
-                    scene.endGlobalLightDirection = {0.25, 0.2, 0.5};
+                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
                     scene.startGlobalLightColor = {2.48,1.58,1.476};
                     scene.endGlobalLightColor = {2.48,2.48,2.476};
                     scene.startGlobalLightAmbient = {0.130,0.113,0.101};
@@ -854,9 +850,10 @@ public:
         scene.update(dTime);
 
         // Render every object in scene
-
+        scene.lightSpaceMatrix = glm::perspective(glm::radians(90.0f), 16.f / 9.f, scene.near_plane, scene.far_plane) * glm::lookAt(scene.globalLightPosition, scene.globalLightDirection, glm::vec3(0.0, 1.0, 0.0));
+        glCullFace(GL_FRONT);
         renderFromLight();
-
+        glCullFace(GL_BACK); // don't forget to reset original culling face
         bindToCustomFramebuffer();
         scene.render();
 

@@ -42,14 +42,14 @@ void SceneWindow::update(float dTime) {
                 dayTime = MORNING;
             }
             if(dayTime == MORNING) {
-                start_near_plane = 960.0f;
-                end_near_plane = 615.f;
-                start_far_plane = 3000.0f;
-                end_far_plane = 3000.0f;
+                start_near_plane = 600.0f;
+                end_near_plane = 450.f;
+                start_far_plane = 1200.0f;
+                end_far_plane = 1020.0f;
                 startGlobalLightPosition = {-500.f, 900, -0.f};
                 endGlobalLightPosition = {-600.f, 357, -0.f};
-                startGlobalLightDirection = {0.25, 0.2, 0.5};
-                endGlobalLightDirection = {0.25, 0.2, 0.5};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
                 startGlobalLightColor = {2.48,2.48,2.476};
                 endGlobalLightColor = {4.85,1.78,0.376};
                 startGlobalLightAmbient = {0.266,0.266,0.262};
@@ -69,14 +69,14 @@ void SceneWindow::update(float dTime) {
                 endSkyboxShininess = 1.93f;
             }
             else if(dayTime == AFTERNOON) {
-                start_near_plane = 615.0f;
-                end_near_plane = 960.0f;
-                start_far_plane = 3000.0f;
-                end_far_plane = 3000.0f;
+                start_near_plane = 450.0f;
+                end_near_plane = 600.0f;
+                start_far_plane = 1020.0f;
+                end_far_plane = 1200.0f;
                 startGlobalLightPosition = {-600.f, 357, -0.f};
                 endGlobalLightPosition = {-500.f, 900, -0.f};
-                startGlobalLightDirection = {0.25, 0.2, 0.5};
-                endGlobalLightDirection = {0.25, 0.2, 0.5};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
                 startGlobalLightColor = {4.85,1.78,0.376};
                 endGlobalLightColor = {0.42,0.45,0.86};
                 startGlobalLightAmbient = {0.191, 0.086, 0.071};
@@ -96,14 +96,14 @@ void SceneWindow::update(float dTime) {
                 endSkyboxShininess = 9.21f;
             }
             else if(dayTime == EVENING) {
-                start_near_plane = 960.0f;
-                end_near_plane = 615.0f;
-                start_far_plane = 3000.0f;
-                end_far_plane = 3000.0f;
+                start_near_plane = 600.0f;
+                end_near_plane = 450.0f;
+                start_far_plane = 1200.0f;
+                end_far_plane = 1020.0f;
                 startGlobalLightPosition = {-500.f, 900, -0.f};
                 endGlobalLightPosition = {-600.f, 357, -0.f};
-                startGlobalLightDirection = {0.25, 0.2, 0.5};
-                endGlobalLightDirection = {0.25, 0.2, 0.5};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
                 startGlobalLightColor = {0.42,0.45,0.86};
                 endGlobalLightColor = {2.48,1.58,1.476};
                 startGlobalLightAmbient = {0.041,0.041,0.049};
@@ -123,14 +123,14 @@ void SceneWindow::update(float dTime) {
                 endSkyboxShininess = 0.07f;
             }
             else if(dayTime == NIGHT)  {
-                start_near_plane = 615.0f;
-                end_near_plane = 960.0f;
-                start_far_plane = 3000.0f;
-                end_far_plane = 3000.0f;
+                start_near_plane = 450.0f;
+                end_near_plane = 600.0f;
+                start_far_plane = 1020.0f;
+                end_far_plane = 1200.0f;
                 startGlobalLightPosition = {-600.f, 357, -0.f};
                 endGlobalLightPosition = {-500.f, 900, -0.f};
-                startGlobalLightDirection = {0.25, 0.2, 0.5};
-                endGlobalLightDirection = {0.25, 0.2, 0.5};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
                 startGlobalLightColor = {2.48,1.58,1.476};
                 endGlobalLightColor = {2.48,2.48,2.476};
                 startGlobalLightAmbient = {0.130,0.113,0.101};

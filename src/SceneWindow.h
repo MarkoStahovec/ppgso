@@ -51,7 +51,7 @@ public:
 
 
 
-    float near_plane = 960.0f, far_plane = 3000.f;
+    float near_plane = 600.0f, far_plane = 1200.f;
 
     glm::vec3 gravity = {0,10,0};
     glm::vec3 wind = {0,0,0};
@@ -62,7 +62,7 @@ public:
 
     unsigned int depthMap;
 
-    glm::vec3 globalLightDirection = {0.25, 0.2, 0.5};
+    glm::vec3 globalLightDirection = {0.0, 0.0, 0.0};
     glm::vec3 globalLightColor = {0.42,0.45,0.86};
     glm::vec3 globalLightAmbient = {0.041,0.041,0.049};
     glm::vec3 globalLightDiffuse = {0.36f, 0.36, 0.5348};
