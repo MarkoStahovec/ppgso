@@ -1,7 +1,3 @@
-//
-// Created by A on 17/11/2022.
-//
-
 #include "Asteroid.h"
 #include <shaders/phong_frag_glsl.h>
 #include <shaders/phong_vert_glsl.h>
@@ -30,8 +26,8 @@ bool Asteroid::update(float dt, SceneWindow &scene) {
     float time = (float) glfwGetTime();
     rotation = {0, 0, (float)rot_speed*time};
     if(type){
-        position.x = cos(time)*50;
-        position.y = sin(time)*30+20;
+        position.x = cos(time+0.6)*50;
+        position.y = sin(time+0.6)*30+20;
     } else {
     position.z = cos(time)*50;
     position.y = sin(time)*30+20;

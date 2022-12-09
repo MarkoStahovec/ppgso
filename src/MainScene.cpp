@@ -39,6 +39,7 @@
 #include "Firefly.h"
 #include "Node.h"
 #include "Asteroid.h"
+#include "Emerald.h"
 
 
 extern "C"
@@ -188,7 +189,7 @@ private:
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 10;
+        unsigned int amount = 2;
         shaderBlur->use();
         for (unsigned int i = 0; i < amount; i++)
         {
@@ -330,6 +331,18 @@ public:
         auto asteroid_h2 = std::make_unique<Asteroid>(0);
         asteroid_h2->parent = ufo_h.get();
 
+        auto emerald_h1 = std::make_unique<Emerald>(1);
+        emerald_h1->parent = asteroid_h1.get();
+
+        auto emerald_h2 = std::make_unique<Emerald>(0);
+        emerald_h2->parent = asteroid_h1.get();
+
+        auto emerald_h3 = std::make_unique<Emerald>(1);
+        emerald_h3->parent = asteroid_h2.get();
+
+        auto emerald_h4 = std::make_unique<Emerald>(0);
+        emerald_h4->parent = asteroid_h2.get();
+
 
         auto boat_h = std::make_unique<Boat>();
         boat_h->parent = island_h.get();
@@ -383,6 +396,10 @@ public:
         scene.Renderable_objects.push_back(std::move(ufo_h));
         scene.Renderable_objects.push_back(std::move(asteroid_h1));
         scene.Renderable_objects.push_back(std::move(asteroid_h2));
+        scene.Renderable_objects.push_back(std::move(emerald_h1));
+        scene.Renderable_objects.push_back(std::move(emerald_h2));
+        scene.Renderable_objects.push_back(std::move(emerald_h3));
+        scene.Renderable_objects.push_back(std::move(emerald_h4));
         scene.Renderable_objects.push_back(std::move(boat_h));
         scene.Renderable_objects.push_back(std::move(palm_h1));
         scene.Renderable_objects.push_back(std::move(palm_h2));
