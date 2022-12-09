@@ -621,6 +621,12 @@ public:
                 scene.globalLightAmbient = {0.266,0.266,0.262};
                 scene.globalLightDiffuse = {0.80, 0.80, 0.796};
                 scene.globalLightSpecular = {0.962,0.951,0.940};
+
+                scene.skyboxAmbient = {0.42, 0.427, 0.889};
+                scene.skyboxDiffuse = {0.25, 0.245, 0.477};
+                scene.skyboxSpecular = {0.325, 0.324, 0.361};
+                scene.skyboxShininess = 0.824f;
+
                 scene.dayTime = scene.AFTERNOON;
             }
             else if(scene.dayTime == scene.AFTERNOON) {
@@ -632,6 +638,12 @@ public:
                 scene.globalLightAmbient = {0.191, 0.086, 0.071};
                 scene.globalLightDiffuse = {0.987, 0.631, 0.555};
                 scene.globalLightSpecular = {0.731,0.272,0.151};
+
+                scene.skyboxAmbient = {0.68, 0.605, 0.547};
+                scene.skyboxDiffuse = {0.33, 0.301, 0.265};
+                scene.skyboxSpecular = {0.385, 0.352, 0.326};
+                scene.skyboxShininess = 1.93f;
+
                 scene.dayTime = scene.EVENING;
             }
             else if(scene.dayTime == scene.EVENING) {
@@ -643,6 +655,12 @@ public:
                 scene.globalLightAmbient = {0.041,0.041,0.049};
                 scene.globalLightDiffuse = {0.36f, 0.36, 0.5348};
                 scene.globalLightSpecular = {0.856,0.856,0.961};
+
+                scene.skyboxAmbient = {0.44, 0.44, 0.88};
+                scene.skyboxDiffuse = {0.22, 0.22, 0.24};
+                scene.skyboxSpecular = {0.356, 0.356, 0.485};
+                scene.skyboxShininess = 9.21f;
+
                 scene.dayTime = scene.NIGHT;
             }
             else {
@@ -654,6 +672,11 @@ public:
                 scene.globalLightAmbient = {0.130,0.113,0.101};
                 scene.globalLightDiffuse = {0.945, 0.926, 0.841};
                 scene.globalLightSpecular = {0.653,0.635,0.607};
+
+                scene.skyboxAmbient = {0.92, 0.88, 0.87};
+                scene.skyboxDiffuse = {0.83, 0.82, 0.79};
+                scene.skyboxSpecular = {0.421, 0.405, 0.379};
+                scene.skyboxShininess = 0.07f;
 
                 scene.dayTime = scene.MORNING;
             }
@@ -683,6 +706,15 @@ public:
                     scene.endGlobalLightDiffuse = {0.987, 0.631, 0.555};
                     scene.startGlobalLightSpecular = {0.962,0.951,0.940};
                     scene.endGlobalLightSpecular = {0.731,0.272,0.151};
+
+                    scene.startSkyboxAmbient = {0.42, 0.427, 0.889};
+                    scene.endSkyboxAmbient = {0.68, 0.605, 0.547};
+                    scene.startSkyboxDiffuse = {0.25, 0.245, 0.477};
+                    scene.endSkyboxDiffuse = {0.33, 0.301, 0.265};
+                    scene.startSkyboxSpecular = {0.325, 0.324, 0.361};
+                    scene.endSkyboxSpecular = {0.385, 0.352, 0.326};
+                    scene.startSkyboxShininess = 0.824f;
+                    scene.endSkyboxShininess = 1.93f;
                 }
                 else if(scene.dayTime == scene.AFTERNOON) {
                     scene.start_near_plane = 615.0f;
@@ -701,6 +733,15 @@ public:
                     scene.endGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
                     scene.startGlobalLightSpecular = {0.731,0.272,0.151};
                     scene.endGlobalLightSpecular = {0.856,0.856,0.961};
+
+                    scene.startSkyboxAmbient = {0.68, 0.605, 0.547};
+                    scene.endSkyboxAmbient = {0.44, 0.44, 0.88};
+                    scene.startSkyboxDiffuse = {0.33, 0.301, 0.265};
+                    scene.endSkyboxDiffuse = {0.22, 0.22, 0.24};
+                    scene.startSkyboxSpecular = {0.385, 0.352, 0.326};
+                    scene.endSkyboxSpecular = {0.356, 0.356, 0.485};
+                    scene.startSkyboxShininess = 1.93f;
+                    scene.endSkyboxShininess = 9.21f;
                 }
                 else if(scene.dayTime == scene.EVENING) {
                     scene.start_near_plane = 960.0f;
@@ -719,6 +760,15 @@ public:
                     scene.endGlobalLightDiffuse = {0.945, 0.926, 0.841};
                     scene.startGlobalLightSpecular = {0.856,0.856,0.961};
                     scene.endGlobalLightSpecular = {0.653,0.635,0.607};
+
+                    scene.startSkyboxAmbient = {0.44, 0.44, 0.88};
+                    scene.endSkyboxAmbient = {0.92, 0.88, 0.87};
+                    scene.startSkyboxDiffuse = {0.22, 0.22, 0.24};
+                    scene.endSkyboxDiffuse = {0.83, 0.82, 0.79};
+                    scene.startSkyboxSpecular = {0.356, 0.356, 0.485};
+                    scene.endSkyboxSpecular = {0.421, 0.405, 0.379};
+                    scene.startSkyboxShininess = 9.21f;
+                    scene.endSkyboxShininess = 0.07f;
                 }
                 else if(scene.dayTime == scene.NIGHT)  {
                     scene.start_near_plane = 615.0f;
@@ -737,6 +787,15 @@ public:
                     scene.endGlobalLightDiffuse = {0.80, 0.80, 0.796};
                     scene.startGlobalLightSpecular = {0.653,0.635,0.607};
                     scene.endGlobalLightSpecular = {0.962,0.951,0.940};
+
+                    scene.startSkyboxAmbient = {0.92, 0.88, 0.87};
+                    scene.endSkyboxAmbient = {0.42, 0.427, 0.889};
+                    scene.startSkyboxDiffuse = {0.83, 0.82, 0.79};
+                    scene.endSkyboxDiffuse = {0.25, 0.245, 0.477};
+                    scene.startSkyboxSpecular = {0.421, 0.405, 0.379};
+                    scene.endSkyboxSpecular = {0.325, 0.324, 0.361};
+                    scene.startSkyboxShininess = 0.07f;
+                    scene.endSkyboxShininess = 0.824f;
                 }
                 scene.isTimeOn = true;
             }

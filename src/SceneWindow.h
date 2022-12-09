@@ -29,6 +29,13 @@ public:
     float start_near_plane, end_near_plane, start_far_plane, end_far_plane;
     glm::vec3 startGlobalLightPosition, endGlobalLightPosition, startGlobalLightDirection, endGlobalLightDirection, startGlobalLightColor, endGlobalLightColor, startGlobalLightAmbient,
     endGlobalLightAmbient, startGlobalLightDiffuse, endGlobalLightDiffuse, startGlobalLightSpecular, endGlobalLightSpecular;
+    glm::vec3 startSkyboxAmbient, endSkyboxAmbient, startSkyboxDiffuse, endSkyboxDiffuse, startSkyboxSpecular, endSkyboxSpecular;
+    float startSkyboxShininess, endSkyboxShininess;
+    glm::vec3 skyboxAmbient = {0.44, 0.44, 0.88};
+    glm::vec3 skyboxDiffuse = {0.22, 0.22, 0.24};
+    glm::vec3 skyboxSpecular = {0.356, 0.356, 0.485};
+    float skyboxShininess = 9.21f;
+
     bool isTimeOn = false;
 
     std::unique_ptr<Camera> camera;

@@ -35,19 +35,6 @@ bool SkyBox::update(float dt, SceneWindow &scene) {
 void SkyBox::render(SceneWindow &scene) {
 
     glDepthMask(GL_FALSE);
-    if(scene.dayTime == scene.AFTERNOON) {
-        texture_shader->use();
-
-        // use camera
-        texture_shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);
-        texture_shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
-
-        // render mesh
-        texture_shader->setUniform("ModelMatrix", modelMatrix);
-        texture_shader->setUniform("Texture", *texture);
-        mesh->render();
-    }
-    else {
         shader->use();
 
         // use camera
@@ -65,11 +52,10 @@ void SkyBox::render(SceneWindow &scene) {
         shader->setUniform("globalLight", true);
         shader->setUniform("lightSpaceMatrix",scene.lightSpaceMatrix);
 
-        shader->setUniform("material.ambient", {0.44f, 0.44, 0.48});
-        shader->setUniform("material.diffuse", {0.22, 0.22, 0.24});
-        shader->setUniform("material.specular", {0.356, 0.356, 0.485});
-        shader->setUniform("material.shininess", 9.21f);
-
+        shader->setUniform("material.ambient", scene.skyboxAmbient);
+        shader->setUniform("material.diffuse", scene.skyboxDiffuse);
+        shader->setUniform("material.specular", scene.skyboxSpecular);
+        shader->setUniform("material.shininess", scene.skyboxShininess);
 
         for (int i = 0; i < sizeof(scene.lights.position) / sizeof(scene.lights.position[0]); i++) {
             shader->setUniform("lights.position[" + std::to_string(i) + "]", scene.lights.position[i]);
@@ -96,7 +82,7 @@ void SkyBox::render(SceneWindow &scene) {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, scene.depthMap);
         mesh->render();
-    }
+
 
     glDepthMask(GL_TRUE);
 }

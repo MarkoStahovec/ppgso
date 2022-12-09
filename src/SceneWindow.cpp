@@ -23,6 +23,11 @@ void SceneWindow::update(float dTime) {
         globalLightAmbient = glm::lerp(startGlobalLightAmbient, endGlobalLightAmbient, delta / 60.0f);
         globalLightDiffuse = glm::lerp(startGlobalLightDiffuse, endGlobalLightDiffuse, delta / 60.0f);
         globalLightSpecular = glm::lerp(startGlobalLightSpecular, endGlobalLightSpecular, delta / 60.0f);
+
+        skyboxAmbient = glm::lerp(startSkyboxAmbient, endSkyboxAmbient, delta / 60.0f);
+        skyboxDiffuse = glm::lerp(startSkyboxDiffuse, endSkyboxDiffuse, delta / 60.0f);
+        skyboxSpecular = glm::lerp(startSkyboxSpecular, endSkyboxSpecular, delta / 60.0f);
+        skyboxShininess = glm::lerp(startSkyboxShininess, endSkyboxShininess, delta / 60.0f);
         if(delta > 60) {
             if(dayTime == MORNING) {
                 dayTime = AFTERNOON;
@@ -53,6 +58,15 @@ void SceneWindow::update(float dTime) {
                 endGlobalLightDiffuse = {0.987, 0.631, 0.555};
                 startGlobalLightSpecular = {0.962,0.951,0.940};
                 endGlobalLightSpecular = {0.731,0.272,0.151};
+
+                startSkyboxAmbient = {0.42, 0.427, 0.889};
+                endSkyboxAmbient = {0.68, 0.605, 0.547};
+                startSkyboxDiffuse = {0.25, 0.245, 0.477};
+                endSkyboxDiffuse = {0.33, 0.301, 0.265};
+                startSkyboxSpecular = {0.325, 0.324, 0.361};
+                endSkyboxSpecular = {0.385, 0.352, 0.326};
+                startSkyboxShininess = 0.824f;
+                endSkyboxShininess = 1.93f;
             }
             else if(dayTime == AFTERNOON) {
                 start_near_plane = 615.0f;
@@ -71,6 +85,15 @@ void SceneWindow::update(float dTime) {
                 endGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
                 startGlobalLightSpecular = {0.731,0.272,0.151};
                 endGlobalLightSpecular = {0.856,0.856,0.961};
+
+                startSkyboxAmbient = {0.68, 0.605, 0.547};
+                endSkyboxAmbient = {0.44, 0.44, 0.88};
+                startSkyboxDiffuse = {0.33, 0.301, 0.265};
+                endSkyboxDiffuse = {0.22, 0.22, 0.24};
+                startSkyboxSpecular = {0.385, 0.352, 0.326};
+                endSkyboxSpecular = {0.356, 0.356, 0.485};
+                startSkyboxShininess = 1.93f;
+                endSkyboxShininess = 9.21f;
             }
             else if(dayTime == EVENING) {
                 start_near_plane = 960.0f;
@@ -89,6 +112,15 @@ void SceneWindow::update(float dTime) {
                 endGlobalLightDiffuse = {0.945, 0.926, 0.841};
                 startGlobalLightSpecular = {0.856,0.856,0.961};
                 endGlobalLightSpecular = {0.653,0.635,0.607};
+
+                startSkyboxAmbient = {0.44, 0.44, 0.88};
+                endSkyboxAmbient = {0.92, 0.88, 0.87};
+                startSkyboxDiffuse = {0.22, 0.22, 0.24};
+                endSkyboxDiffuse = {0.83, 0.82, 0.79};
+                startSkyboxSpecular = {0.356, 0.356, 0.485};
+                endSkyboxSpecular = {0.421, 0.405, 0.379};
+                startSkyboxShininess = 9.21f;
+                endSkyboxShininess = 0.07f;
             }
             else if(dayTime == NIGHT)  {
                 start_near_plane = 615.0f;
@@ -107,6 +139,15 @@ void SceneWindow::update(float dTime) {
                 endGlobalLightDiffuse = {0.80, 0.80, 0.796};
                 startGlobalLightSpecular = {0.653,0.635,0.607};
                 endGlobalLightSpecular = {0.962,0.951,0.940};
+
+                startSkyboxAmbient = {0.92, 0.88, 0.87};
+                endSkyboxAmbient = {0.42, 0.427, 0.889};
+                startSkyboxDiffuse = {0.83, 0.82, 0.79};
+                endSkyboxDiffuse = {0.25, 0.245, 0.477};
+                startSkyboxSpecular = {0.421, 0.405, 0.379};
+                endSkyboxSpecular = {0.325, 0.324, 0.361};
+                startSkyboxShininess = 0.07f;
+                endSkyboxShininess = 0.824f;
             }
             delta = 0;
         }
