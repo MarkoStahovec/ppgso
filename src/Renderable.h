@@ -3,7 +3,6 @@
 #include <memory>
 #include <list>
 #include <map>
-
 #include <glm/glm.hpp>
 #include "shader.h"
 #include "shaders/shadow_mapping_depth_vert_glsl.h"

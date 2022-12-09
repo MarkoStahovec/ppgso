@@ -1,4 +1,7 @@
 #include "SceneWindow.h"
+#include "Light.h"
+#include "Pillar.h"
+
 
 void SceneWindow::update(float dTime) {
     auto i = std::begin(Renderable_objects);
@@ -96,6 +99,39 @@ void SceneWindow::update(float dTime) {
                 endSkyboxShininess = 9.21f;
             }
             else if(dayTime == EVENING) {
+                for(int i=0; i<5; i++){
+                    int x = ((float) rand() / (float) RAND_MAX) * (100 - -100) + -100;
+                    int z = ((float) rand() / (float) RAND_MAX) * (100 - -100) + -100;
+                    int y = get_Y(x, z, heightMap);
+                    if (y <= 4 || y >15 || (x < -15 && x > -35 && z < -30 && z >-50)) {
+                        i--;
+                    } else {
+                        glm::vec3 color = {((float) rand() / (float) RAND_MAX) * (2 - 0.1) + 0.1,
+                                           ((float) rand() / (float) RAND_MAX) * (2 - 0.1) + 0.1,
+                                           ((float) rand() / RAND_MAX) * (2 - 0.1) + 0.1};
+                        auto night_light = std::make_unique<Light>(glm::vec3{x,y+7,z}, glm::vec3 {3*ppgso::PI/2,0,0}, color,2, true,7+i);
+                        night_light->parent = root;
+
+                        auto pillar_h = std::make_unique<Pillar>();
+                        pillar_h->parent = night_light.get();
+
+                        Renderable_objects.push_back(std::move(night_light));
+                        Renderable_objects.push_back(std::move(pillar_h));
+                        addLight(glm::vec3 {x,y+7,z},
+                                 color,
+                                 glm::vec3 {0, 0, 0},
+                                 15.f,
+                                 15.f,
+                                 glm::vec3 {0.05f, 0.05f, 0.05f},
+                                 glm::vec3 {0.85f, 0.85f, 0.85f},
+                                 glm::vec3 {1.0f, 1.0f, 1.0f},
+                                 glm::cos(glm::radians(12.5f)),
+                                 glm::cos(glm::radians(15.0f)),
+                                 false,
+                                 7+i
+                        );
+                    }
+                }
                 start_near_plane = 600.0f;
                 end_near_plane = 450.0f;
                 start_far_plane = 1200.0f;

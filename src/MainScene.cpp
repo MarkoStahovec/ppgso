@@ -879,6 +879,7 @@ public:
         rebindToOriginalFramebuffer();
 
         scene.current_frame_time = (float) glfwGetTime();
+        std::cout << scene.dayTime << "\n";
     }
 };
 

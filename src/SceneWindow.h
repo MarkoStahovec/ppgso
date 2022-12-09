@@ -10,7 +10,6 @@
 #include "Renderable.h"
 #include "Camera.h"
 
-
 class SceneWindow {
 public:
     //std::unique_ptr<Camera> camera;
