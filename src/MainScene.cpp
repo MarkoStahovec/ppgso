@@ -28,18 +28,17 @@
 #include "Rain_Drop.h"
 #include "House.h"
 
-#include "Plant_1.h"
-#include "Door.h"
 #include "utils.h"
 #include "Ufo.h"
 #include "Palm.h"
 #include "Coconut.h"
 #include "Boat.h"
-#include "Light.h"
 #include "Firefly.h"
 #include "Node.h"
 #include "Asteroid.h"
 #include "Emerald.h"
+#include "Shark.h"
+#include "Hat.h"
 
 
 extern "C"
@@ -347,6 +346,12 @@ public:
         auto boat_h = std::make_unique<Boat>();
         boat_h->parent = island_h.get();
 
+        auto shark_h = std::make_unique<Shark>();
+        shark_h->parent = boat_h.get();
+
+        auto hat_h = std::make_unique<Hat>();
+        hat_h->parent = shark_h.get();
+
         auto palm_h1 = std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15});
         palm_h1->parent = island_h.get();
 
@@ -379,13 +384,13 @@ public:
         auto firefly_h3 = std::make_unique<Firefly>((glm::vec3){50, scene.get_Y(50,0,scene.heightMap)+4, 0}, (glm::vec3){0.3, 6, 13}, 2);
         firefly_h3->parent = island_h.get();
 
-        auto light_h1 = std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95});
+        auto light_h1 = std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95}, 2, false, 5);
         light_h1->parent = island_h.get();
 
-        auto light_h2 = std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9});
+        auto light_h2 = std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9},2, false, 4);
         light_h2->parent = island_h.get();
 
-        auto light_h3 = std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3});
+        auto light_h3 = std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3},2, false, 3);
         light_h3->parent = island_h.get();
 
         scene.Renderable_objects.push_back(std::move(island_h));
@@ -401,6 +406,8 @@ public:
         scene.Renderable_objects.push_back(std::move(emerald_h3));
         scene.Renderable_objects.push_back(std::move(emerald_h4));
         scene.Renderable_objects.push_back(std::move(boat_h));
+        scene.Renderable_objects.push_back(std::move(shark_h));
+        scene.Renderable_objects.push_back(std::move(hat_h));
         scene.Renderable_objects.push_back(std::move(palm_h1));
         scene.Renderable_objects.push_back(std::move(palm_h2));
         scene.Renderable_objects.push_back(std::move(palm_h3));
@@ -419,7 +426,7 @@ public:
         scene.Renderable_objects.push_back(std::move(light_h3));
 
         //sun
-        scene.Renderable_objects.push_back(std::make_unique<Light>(scene.globalLightPosition-glm::vec3{0,-1,0}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 13, 13}));
+        scene.Renderable_objects.push_back(std::make_unique<Light>(scene.globalLightPosition-glm::vec3{0,-1,0}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 13, 13},2, false, -1));
 
 
 
@@ -435,13 +442,16 @@ public:
         }*/
 
         //plants
+        generate_torches(scene);
+
         for(int i=0; i<50; i++){
             int x = random_float(-100,100);
             int z = random_float(-100,100);
             int y = scene.get_Y(x, z, scene.heightMap);
-            if (y <= 4 || y >15) {
+            if (y <= 4 || y >15 || (x < -15 && x > -35 && z < -30 && z >-50)) {
                 i--;
             } else {
+
                 scene.Renderable_objects.push_back(random_plant(x, y, z, scene));
             }
         }
@@ -627,6 +637,7 @@ public:
                 scene.dayTime = scene.AFTERNOON;
             }
             else if(scene.dayTime == scene.AFTERNOON) {
+                generate_torches(scene);
                 scene.near_plane = 450.0f;
                 scene.far_plane = 1020.f;
                 scene.globalLightPosition = {-600.f, 357, -0.f};
@@ -644,6 +655,7 @@ public:
                 scene.dayTime = scene.EVENING;
             }
             else if(scene.dayTime == scene.EVENING) {
+
                 scene.near_plane = 600.0f;
                 scene.far_plane = 1200.f;
                 scene.globalLightPosition = {-500.f, 900, -0.f};

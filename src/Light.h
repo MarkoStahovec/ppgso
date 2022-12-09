@@ -20,9 +20,12 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
     static std::unique_ptr<ppgso::Shader> shadow_shader;
 
+    bool only_night = false;
+    int light_index;
+
 
 public:
-    Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col);
+    Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col, float sc, bool night, int index);
     bool update(float dt, SceneWindow &scene) override;
 
     void render(SceneWindow &scene) override;

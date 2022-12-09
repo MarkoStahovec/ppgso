@@ -13,7 +13,7 @@ std::unique_ptr<ppgso::Shader> Boat::shadow_shader;
 
 Boat::Boat() {
     scale *= 0.25;
-    position = {10,10,10};
+    position = {10,13,10};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(phong_vert_glsl, phong_frag_glsl);
     if (!shadow_shader) shadow_shader = std::make_unique<ppgso::Shader>(shadow_mapping_depth_vert_glsl, shadow_mapping_depth_frag_glsl);
@@ -25,8 +25,8 @@ bool Boat::update(float dt, SceneWindow &scene) {
     updateModelMatrix();
 
     float time = (float) glfwGetTime();
-    rotation = {0, 0, -(time/14.6)+ppgso::PI/2};
-    position = {300*cos(time/14.6),1.0, 300*sin(time/14.6)};
+    rotation = {0, 0, -(time/5)+ppgso::PI/2};
+    position = {150*cos(time/5),1.0, 150*sin(time/5)};
 
     return true;
 }

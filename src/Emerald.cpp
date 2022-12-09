@@ -26,11 +26,11 @@ bool Emerald::update(float dt, SceneWindow &scene) {
     float time = (float) glfwGetTime();
     rotation = {0, 0, (float)rot_speed*time};
     if(type){
-        position.x = cos(time+0.6)*2;
-        position.y = sin(time+0.6*2);
+        position.x = -cos(time+0.6)*2;
+        position.y = -sin(time+0.6*2);
     } else {
-        position.z = cos(time)*3;
-        position.y = sin(time)*3;
+        position.z = -cos(time)*3;
+        position.y = -sin(time)*3;
     }
 
     return true;

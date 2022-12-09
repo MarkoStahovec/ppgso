@@ -1,6 +1,9 @@
 #include "glm/vec3.hpp"
+#include "Plant_1.h"
 #include "Plant_2.h"
 #include "Plant_3.h"
+#include "Light.h"
+#include "Pillar.h"
 
 glm::vec3 generate_random_vec3(float min, float max) {
     return {((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / (float) RAND_MAX) * (max - min) + min, ((float) rand() / RAND_MAX) * (max - min) + min};
@@ -89,5 +92,39 @@ std::unique_ptr<Renderable> random_plant(float x, float y, float z, SceneWindow 
         auto plant = std::make_unique<Plant_3>(x, y, z, "plant_3.obj", "plant_3.bmp", 0.3);
         plant->parent = scene.root;
         return std::move(plant);
+    }
+}
+
+void generate_torches(SceneWindow &scene){
+    for(int i=0; i<5; i++){
+        int x = random_float(-100,100);
+        int z = random_float(-100,100);
+        int y = scene.get_Y(x, z, scene.heightMap);
+        if (y <= 4 || y >15 || (x < -15 && x > -35 && z < -30 && z >-50)) {
+            i--;
+        } else {
+            glm::vec3 color = generate_random_vec3(0.1, 2);
+            auto night_light = std::make_unique<Light>(glm::vec3{x,y+7,z}, glm::vec3 {3*ppgso::PI/2,0,0}, color,2, true,7+i);
+            night_light->parent = scene.root;
+
+            auto pillar_h = std::make_unique<Pillar>();
+            pillar_h->parent = night_light.get();
+
+            scene.Renderable_objects.push_back(std::move(night_light));
+            scene.Renderable_objects.push_back(std::move(pillar_h));
+            scene.addLight(glm::vec3 {x,y+7,z},
+                           color,
+                           glm::vec3 {0, 0, 0},
+                           15.f,
+                           15.f,
+                           glm::vec3 {0.05f, 0.05f, 0.05f},
+                           glm::vec3 {0.85f, 0.85f, 0.85f},
+                           glm::vec3 {1.0f, 1.0f, 1.0f},
+                           glm::cos(glm::radians(12.5f)),
+                           glm::cos(glm::radians(15.0f)),
+                           false,
+                           7+i
+            );
+        }
     }
 }

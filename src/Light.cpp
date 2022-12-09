@@ -16,11 +16,13 @@ std::unique_ptr<ppgso::Shader> Light::shader;
 std::unique_ptr<ppgso::Shader> Light::shadow_shader;
 
 
-Light::Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col){
+Light::Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col, float sc, bool night, int index){
     position = pos;
     rotation = rot;
     color = col;
-    scale = {2.0f, 2.0f, 2.0f};
+    scale *= sc;
+    only_night = night;
+    light_index = index;
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(color_vert_glsl, color_frag_glsl);
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cube.obj");
@@ -31,6 +33,10 @@ Light::Light(glm::vec3 pos, glm::vec3 rot, glm::vec3 col){
 bool Light::update(float dt, SceneWindow &scene) {
     // Generate modelMatrix from position, rotation and scale
     updateModelMatrix();
+    if (only_night and scene.dayTime==scene.MORNING){
+        scene.lights.intensity[light_index] = 0;
+        return false;
+    }
 
     return true;
 }

@@ -122,7 +122,7 @@ void main()
     }
 
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 12; i++) {
         float distance = length(lights.position[i] - FragPos);
         //if(lights.radius[i] > distance) {
             lightDirection = normalize(lights.position[i] - FragPos);
