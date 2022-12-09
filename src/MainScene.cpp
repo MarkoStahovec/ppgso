@@ -82,7 +82,7 @@ static void cursor_position_callback(GLFWwindow* window, double xposIn, double y
     lastX = xpos;
     lastY = ypos;
 
-    float sensitivity = 0.125f; // change this value to your liking
+    float sensitivity = 0.091f; // change this value to your liking
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
@@ -291,7 +291,7 @@ public:
         glfwMakeContextCurrent(window);
         //glfwSetCursorPosCallback(window, reinterpret_cast<GLFWcursorposfun>(delegate_mouse_callback));
         glfwSetCursorPosCallback(window, cursor_position_callback);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
