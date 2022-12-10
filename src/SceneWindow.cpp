@@ -45,6 +45,33 @@ void SceneWindow::update(float dTime) {
                 dayTime = MORNING;
             }
             if(dayTime == MORNING) {
+                start_near_plane = 450.0f;
+                end_near_plane = 600.0f;
+                start_far_plane = 1020.0f;
+                end_far_plane = 1200.0f;
+                startGlobalLightPosition = {-600.f, 357, -0.f};
+                endGlobalLightPosition = {-500.f, 900, -0.f};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
+                startGlobalLightColor = {2.48,1.58,1.476};
+                endGlobalLightColor = {2.48,2.48,2.476};
+                startGlobalLightAmbient = {0.130,0.113,0.101};
+                endGlobalLightAmbient = {0.266,0.266,0.262};
+                startGlobalLightDiffuse = {0.945, 0.926, 0.841};
+                endGlobalLightDiffuse = {0.80, 0.80, 0.796};
+                startGlobalLightSpecular = {0.653,0.635,0.607};
+                endGlobalLightSpecular = {0.962,0.951,0.940};
+
+                startSkyboxAmbient = {0.92, 0.88, 0.87};
+                endSkyboxAmbient = {0.42, 0.427, 0.889};
+                startSkyboxDiffuse = {0.83, 0.82, 0.79};
+                endSkyboxDiffuse = {0.25, 0.245, 0.477};
+                startSkyboxSpecular = {0.421, 0.405, 0.379};
+                endSkyboxSpecular = {0.325, 0.324, 0.361};
+                startSkyboxShininess = 0.07f;
+                endSkyboxShininess = 0.824f;
+            }
+            else if(dayTime == AFTERNOON) {
                 start_near_plane = 600.0f;
                 end_near_plane = 450.f;
                 start_far_plane = 1200.0f;
@@ -71,35 +98,8 @@ void SceneWindow::update(float dTime) {
                 startSkyboxShininess = 0.824f;
                 endSkyboxShininess = 1.93f;
             }
-            else if(dayTime == AFTERNOON) {
-                start_near_plane = 450.0f;
-                end_near_plane = 600.0f;
-                start_far_plane = 1020.0f;
-                end_far_plane = 1200.0f;
-                startGlobalLightPosition = {-600.f, 357, -0.f};
-                endGlobalLightPosition = {-500.f, 900, -0.f};
-                startGlobalLightDirection = {0.0, 0.0, 0.0};
-                endGlobalLightDirection = {0.0, 0.0, 0.0};
-                startGlobalLightColor = {4.85,1.78,0.376};
-                endGlobalLightColor = {0.42,0.45,0.86};
-                startGlobalLightAmbient = {0.191, 0.086, 0.071};
-                endGlobalLightAmbient = {0.041,0.041,0.049};
-                startGlobalLightDiffuse = {0.987, 0.631, 0.555};
-                endGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
-                startGlobalLightSpecular = {0.731,0.272,0.151};
-                endGlobalLightSpecular = {0.856,0.856,0.961};
-
-                startSkyboxAmbient = {0.68, 0.605, 0.547};
-                endSkyboxAmbient = {0.44, 0.44, 0.88};
-                startSkyboxDiffuse = {0.33, 0.301, 0.265};
-                endSkyboxDiffuse = {0.22, 0.22, 0.24};
-                startSkyboxSpecular = {0.385, 0.352, 0.326};
-                endSkyboxSpecular = {0.356, 0.356, 0.485};
-                startSkyboxShininess = 1.93f;
-                endSkyboxShininess = 9.21f;
-            }
             else if(dayTime == EVENING) {
-                for(int i=0; i<5; i++){
+                /*for(int i=0; i<5; i++){
                     int x = ((float) rand() / (float) RAND_MAX) * (100 - -100) + -100;
                     int z = ((float) rand() / (float) RAND_MAX) * (100 - -100) + -100;
                     int y = get_Y(x, z, heightMap);
@@ -131,7 +131,34 @@ void SceneWindow::update(float dTime) {
                                  7+i
                         );
                     }
-                }
+                }*/
+                start_near_plane = 450.0f;
+                end_near_plane = 600.0f;
+                start_far_plane = 1020.0f;
+                end_far_plane = 1200.0f;
+                startGlobalLightPosition = {-600.f, 357, -0.f};
+                endGlobalLightPosition = {-500.f, 900, -0.f};
+                startGlobalLightDirection = {0.0, 0.0, 0.0};
+                endGlobalLightDirection = {0.0, 0.0, 0.0};
+                startGlobalLightColor = {4.85,1.78,0.376};
+                endGlobalLightColor = {0.42,0.45,0.86};
+                startGlobalLightAmbient = {0.191, 0.086, 0.071};
+                endGlobalLightAmbient = {0.041,0.041,0.049};
+                startGlobalLightDiffuse = {0.987, 0.631, 0.555};
+                endGlobalLightDiffuse = {0.36f, 0.36, 0.5348};
+                startGlobalLightSpecular = {0.731,0.272,0.151};
+                endGlobalLightSpecular = {0.856,0.856,0.961};
+
+                startSkyboxAmbient = {0.68, 0.605, 0.547};
+                endSkyboxAmbient = {0.44, 0.44, 0.88};
+                startSkyboxDiffuse = {0.33, 0.301, 0.265};
+                endSkyboxDiffuse = {0.22, 0.22, 0.24};
+                startSkyboxSpecular = {0.385, 0.352, 0.326};
+                endSkyboxSpecular = {0.356, 0.356, 0.485};
+                startSkyboxShininess = 1.93f;
+                endSkyboxShininess = 9.21f;
+            }
+            else if(dayTime == NIGHT)  {
                 start_near_plane = 600.0f;
                 end_near_plane = 450.0f;
                 start_far_plane = 1200.0f;
@@ -157,33 +184,6 @@ void SceneWindow::update(float dTime) {
                 endSkyboxSpecular = {0.421, 0.405, 0.379};
                 startSkyboxShininess = 9.21f;
                 endSkyboxShininess = 0.07f;
-            }
-            else if(dayTime == NIGHT)  {
-                start_near_plane = 450.0f;
-                end_near_plane = 600.0f;
-                start_far_plane = 1020.0f;
-                end_far_plane = 1200.0f;
-                startGlobalLightPosition = {-600.f, 357, -0.f};
-                endGlobalLightPosition = {-500.f, 900, -0.f};
-                startGlobalLightDirection = {0.0, 0.0, 0.0};
-                endGlobalLightDirection = {0.0, 0.0, 0.0};
-                startGlobalLightColor = {2.48,1.58,1.476};
-                endGlobalLightColor = {2.48,2.48,2.476};
-                startGlobalLightAmbient = {0.130,0.113,0.101};
-                endGlobalLightAmbient = {0.266,0.266,0.262};
-                startGlobalLightDiffuse = {0.945, 0.926, 0.841};
-                endGlobalLightDiffuse = {0.80, 0.80, 0.796};
-                startGlobalLightSpecular = {0.653,0.635,0.607};
-                endGlobalLightSpecular = {0.962,0.951,0.940};
-
-                startSkyboxAmbient = {0.92, 0.88, 0.87};
-                endSkyboxAmbient = {0.42, 0.427, 0.889};
-                startSkyboxDiffuse = {0.83, 0.82, 0.79};
-                endSkyboxDiffuse = {0.25, 0.245, 0.477};
-                startSkyboxSpecular = {0.421, 0.405, 0.379};
-                endSkyboxSpecular = {0.325, 0.324, 0.361};
-                startSkyboxShininess = 0.07f;
-                endSkyboxShininess = 0.824f;
             }
             delta = 0;
         }

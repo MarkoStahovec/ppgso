@@ -41,11 +41,6 @@
 #include "Hat.h"
 
 
-extern "C"
-{
-  __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
-
 
 const unsigned int SIZE = 512;
 const unsigned int SHADOW_WIDTH = 4096*4, SHADOW_HEIGHT = 4096*4;
@@ -384,15 +379,6 @@ public:
         auto firefly_h3 = std::make_unique<Firefly>((glm::vec3){50, scene.get_Y(50,0,scene.heightMap)+4, 0}, (glm::vec3){0.3, 6, 13}, 2);
         firefly_h3->parent = island_h.get();
 
-        auto light_h1 = std::make_unique<Light>(glm::vec3 {-25, scene.get_Y(-25, 20, scene.heightMap) + 10.25, 20}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.4, 12.1, 0.95}, 2, false, 5);
-        light_h1->parent = island_h.get();
-
-        auto light_h2 = std::make_unique<Light>(glm::vec3 {22, scene.get_Y(22, 33, scene.heightMap) + 5.25, 33}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {0.1, 0.7, 12.9},2, false, 4);
-        light_h2->parent = island_h.get();
-
-        auto light_h3 = std::make_unique<Light>(glm::vec3 {11, scene.get_Y(11, 22, scene.heightMap) + 0.25, 22}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 0.5, 0.3},2, false, 3);
-        light_h3->parent = island_h.get();
-
         scene.Renderable_objects.push_back(std::move(island_h));
         scene.Renderable_objects.push_back(std::move(surface_h));
         scene.Renderable_objects.push_back(std::move(cloud_h));
@@ -420,10 +406,6 @@ public:
         scene.Renderable_objects.push_back(std::move(firefly_h1));
         scene.Renderable_objects.push_back(std::move(firefly_h2));
         scene.Renderable_objects.push_back(std::move(firefly_h3));
-
-        scene.Renderable_objects.push_back(std::move(light_h1));
-        scene.Renderable_objects.push_back(std::move(light_h2));
-        scene.Renderable_objects.push_back(std::move(light_h3));
 
         //sun
         scene.Renderable_objects.push_back(std::make_unique<Light>(scene.globalLightPosition-glm::vec3{0,-1,0}, glm::vec3 {3*ppgso::PI/2,0,0}, glm::vec3 {13, 13, 13},2, false, -1));
@@ -498,51 +480,6 @@ public:
                        2
         );
 
-        //red
-        scene.addLight(glm::vec3 {11,scene.get_Y(11, 22, scene.heightMap) + 0.25,22},
-                       glm::vec3 {13, 0.5, 0.3},
-                       glm::vec3 {0, 0, 0},
-                       15.f,
-                       6.f,
-                       glm::vec3 {0.05f, 0.05f, 0.05f},
-                       glm::vec3 {0.85f, 0.85f, 0.85f},
-                       glm::vec3 {1.0f, 1.0f, 1.0f},
-                       glm::cos(glm::radians(12.5f)),
-                       glm::cos(glm::radians(15.0f)),
-                       false,
-                       3
-                );
-
-        //blue
-        scene.addLight(glm::vec3 {22,scene.get_Y(22, 33, scene.heightMap) + 5.25,33},
-                       glm::vec3 {0.1, 0.7, 12.9},
-                       glm::vec3 {0, 0, 0},
-                       15.f,
-                       5.f,
-                       glm::vec3 {0.05f, 0.05f, 0.05f},
-                       glm::vec3 {0.85f, 0.85f, 0.85f},
-                       glm::vec3 {1.0f, 1.0f, 1.0f},
-                       glm::cos(glm::radians(12.5f)),
-                       glm::cos(glm::radians(15.0f)),
-                       false,
-                       4
-        );
-
-        //this is spotlight green
-        scene.addLight(glm::vec3 {-25,scene.get_Y(-25, 20, scene.heightMap) + 10.25,20},
-                       glm::vec3 {0.4, 12.1, 0.95},
-                       glm::vec3 {-0.25, -1, -0.5},
-                       15.f,
-                       12.f,
-                       glm::vec3 {0.0f, 0.0f, 0.0f},
-                       glm::vec3 {1.0f, 1.0f, 1.0f},
-                       glm::vec3 {1.0f, 1.0f, 1.0f},
-                       glm::cos(glm::radians(12.5f)),
-                       glm::cos(glm::radians(15.0f)),
-                       true,
-                       5
-        );
-
         //this is spotlight green
         scene.addLight(glm::vec3 {-25,scene.get_Y(-25, 20, scene.heightMap) + 10.25,20},
                        glm::vec3 {0.4, 15.1, 0.95},
@@ -555,7 +492,7 @@ public:
                        glm::cos(glm::radians(12.5f)),
                        glm::cos(glm::radians(15.0f)),
                        true,
-                       6
+                       3
         );
 
         glm::mat4 lightProjection, lightView;
@@ -698,6 +635,33 @@ public:
             }
             else {
                 if(scene.dayTime == scene.MORNING) {
+                    scene.start_near_plane = 450.0f;
+                    scene.end_near_plane = 600.0f;
+                    scene.start_far_plane = 1020.0f;
+                    scene.end_far_plane = 1200.0f;
+                    scene.startGlobalLightPosition = {-600.f, 357, -0.f};
+                    scene.endGlobalLightPosition = {-500.f, 900, -0.f};
+                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
+                    scene.startGlobalLightColor = {2.48,1.58,1.476};
+                    scene.endGlobalLightColor = {2.48,2.48,2.476};
+                    scene.startGlobalLightAmbient = {0.130,0.113,0.101};
+                    scene.endGlobalLightAmbient = {0.266,0.266,0.262};
+                    scene.startGlobalLightDiffuse = {0.945, 0.926, 0.841};
+                    scene.endGlobalLightDiffuse = {0.80, 0.80, 0.796};
+                    scene.startGlobalLightSpecular = {0.653,0.635,0.607};
+                    scene.endGlobalLightSpecular = {0.962,0.951,0.940};
+
+                    scene.startSkyboxAmbient = {0.92, 0.88, 0.87};
+                    scene.endSkyboxAmbient = {0.42, 0.427, 0.889};
+                    scene.startSkyboxDiffuse = {0.83, 0.82, 0.79};
+                    scene.endSkyboxDiffuse = {0.25, 0.245, 0.477};
+                    scene.startSkyboxSpecular = {0.421, 0.405, 0.379};
+                    scene.endSkyboxSpecular = {0.325, 0.324, 0.361};
+                    scene.startSkyboxShininess = 0.07f;
+                    scene.endSkyboxShininess = 0.824f;
+                }
+                else if(scene.dayTime == scene.AFTERNOON) {
                     scene.start_near_plane = 600.0f;
                     scene.end_near_plane = 450.f;
                     scene.start_far_plane = 1200.0f;
@@ -724,7 +688,7 @@ public:
                     scene.startSkyboxShininess = 0.824f;
                     scene.endSkyboxShininess = 1.93f;
                 }
-                else if(scene.dayTime == scene.AFTERNOON) {
+                else if(scene.dayTime == scene.EVENING) {
                     scene.start_near_plane = 450.0f;
                     scene.end_near_plane = 600.0f;
                     scene.start_far_plane = 1020.0f;
@@ -751,7 +715,7 @@ public:
                     scene.startSkyboxShininess = 1.93f;
                     scene.endSkyboxShininess = 9.21f;
                 }
-                else if(scene.dayTime == scene.EVENING) {
+                else if(scene.dayTime == scene.NIGHT)  {
                     scene.start_near_plane = 600.0f;
                     scene.end_near_plane = 450.0f;
                     scene.start_far_plane = 1200.0f;
@@ -777,33 +741,6 @@ public:
                     scene.endSkyboxSpecular = {0.421, 0.405, 0.379};
                     scene.startSkyboxShininess = 9.21f;
                     scene.endSkyboxShininess = 0.07f;
-                }
-                else if(scene.dayTime == scene.NIGHT)  {
-                    scene.start_near_plane = 450.0f;
-                    scene.end_near_plane = 600.0f;
-                    scene.start_far_plane = 1020.0f;
-                    scene.end_far_plane = 1200.0f;
-                    scene.startGlobalLightPosition = {-600.f, 357, -0.f};
-                    scene.endGlobalLightPosition = {-500.f, 900, -0.f};
-                    scene.startGlobalLightDirection = {0.0, 0.0, 0.0};
-                    scene.endGlobalLightDirection = {0.0, 0.0, 0.0};
-                    scene.startGlobalLightColor = {2.48,1.58,1.476};
-                    scene.endGlobalLightColor = {2.48,2.48,2.476};
-                    scene.startGlobalLightAmbient = {0.130,0.113,0.101};
-                    scene.endGlobalLightAmbient = {0.266,0.266,0.262};
-                    scene.startGlobalLightDiffuse = {0.945, 0.926, 0.841};
-                    scene.endGlobalLightDiffuse = {0.80, 0.80, 0.796};
-                    scene.startGlobalLightSpecular = {0.653,0.635,0.607};
-                    scene.endGlobalLightSpecular = {0.962,0.951,0.940};
-
-                    scene.startSkyboxAmbient = {0.92, 0.88, 0.87};
-                    scene.endSkyboxAmbient = {0.42, 0.427, 0.889};
-                    scene.startSkyboxDiffuse = {0.83, 0.82, 0.79};
-                    scene.endSkyboxDiffuse = {0.25, 0.245, 0.477};
-                    scene.startSkyboxSpecular = {0.421, 0.405, 0.379};
-                    scene.endSkyboxSpecular = {0.325, 0.324, 0.361};
-                    scene.startSkyboxShininess = 0.07f;
-                    scene.endSkyboxShininess = 0.824f;
                 }
                 scene.isTimeOn = true;
             }

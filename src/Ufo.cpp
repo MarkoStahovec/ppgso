@@ -45,7 +45,7 @@ bool Ufo::update(float dt, SceneWindow &scene) {
     position = keys[i].position * (1-t) + keys[i+1].position * t;
     rotation = keys[i].rotation * (1-t) + keys[i+1].rotation * t;
 
-    scene.lights.position[6] = position;
+    scene.lights.position[3] = position;
     //std::cout << position[0] << "  "<< time << "  " << i << "\n";
 
     return true;

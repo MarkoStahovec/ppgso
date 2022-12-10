@@ -95,16 +95,41 @@ std::unique_ptr<Renderable> random_plant(float x, float y, float z, SceneWindow 
     }
 }
 
+glm::vec3 generate_random_color() {
+    int num_of_dominant_colors = rand() % 2 + 1;
+    std::vector<float> possibilities(3);
+    for (int j = 0; j < 3; j++)
+    {
+        if (rand() % 2 == 0 && num_of_dominant_colors != 0) {
+            possibilities[j] = random_float(2.25, 10);
+            num_of_dominant_colors--;
+            if(j == 1) {
+                possibilities[j] /= 2.38;
+            }
+            else if(j == 2) {
+                possibilities[j] *= 3.88;
+            }
+        }
+        else {
+            possibilities[j] = random_float(0.01, 2.25);
+        }
+    }
+    if (num_of_dominant_colors >= 1) {
+        possibilities[rand() % 3] = random_float(1.25, 2.5);
+    }
+    return {possibilities[0], possibilities[1], possibilities[2]};
+}
+
 void generate_torches(SceneWindow &scene){
-    for(int i=0; i<5; i++){
+    for(int i=0; i<7; i++){
         int x = random_float(-100,100);
         int z = random_float(-100,100);
         int y = scene.get_Y(x, z, scene.heightMap);
         if (y <= 4 || y >15 || (x < -15 && x > -35 && z < -30 && z >-50)) {
             i--;
         } else {
-            glm::vec3 color = generate_random_vec3(0.1, 2);
-            auto night_light = std::make_unique<Light>(glm::vec3{x,y+7,z}, glm::vec3 {3*ppgso::PI/2,0,0}, color,2, true,7+i);
+            glm::vec3 color = generate_random_color();
+            auto night_light = std::make_unique<Light>(glm::vec3{x,y+7,z}, glm::vec3 {3*ppgso::PI/2,0,0}, color,2, true,4+i);
             night_light->parent = scene.root;
 
             auto pillar_h = std::make_unique<Pillar>();
@@ -123,7 +148,7 @@ void generate_torches(SceneWindow &scene){
                            glm::cos(glm::radians(12.5f)),
                            glm::cos(glm::radians(15.0f)),
                            false,
-                           7+i
+                           4+i
             );
         }
     }
