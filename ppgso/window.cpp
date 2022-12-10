@@ -9,7 +9,7 @@
 
 bool ppgso::Window::pollEvents() {
   onIdle();
-  glfwSwapBuffers(window);
+      glfwSwapBuffers(window);
   glfwPollEvents();
   return !glfwWindowShouldClose(window);
 }

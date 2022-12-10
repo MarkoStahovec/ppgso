@@ -533,22 +533,32 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             scene.camera->t = 0;
-            scene.camera->startPos = {50, 40, 50};
-            scene.camera->endPos = {80, 65, 25};
-            scene.camera->startPosLookAt = {0.0f, -0.15f, -1.0f};
-            scene.camera->endPosLookAt = {0.0f, -0.15f, -0.8f};
+            scene.camera->startPos = {145.643326, 97.8423615, -57.1512032};
+            scene.camera->endPos = {-87.7087097, 107.765419, 206.029327};
+            scene.camera->startPosLookAt = {-0.812781215f, -0.534425974, 0.231895626f};
+            scene.camera->endPosLookAt = {0.466904998, -0.391100347f, -0.793120742f};
             scene.camera->isAnimating = true;
             scene.keyboard[GLFW_KEY_1] = GLFW_RELEASE;
         }
 
         if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
             scene.camera->t = 0;
-            scene.camera->startPos = {20, 6, 90};
-            scene.camera->endPos = {20, 6, 90};
-            scene.camera->startPosLookAt = {10.0f, 6.15f, 100.0f};
-            scene.camera->endPosLookAt = {10.0f, 6.15f, 100.0f};
+            scene.camera->startPos = {36.7917938, 87.1458511, -438.971863};
+            scene.camera->endPos = {306.790771, 8.1699028, -11.1807976};
+            scene.camera->startPosLookAt = {-0.696514428f, -0.158123508f, 0.699903309f};
+            scene.camera->endPosLookAt = {-0.932051837f, 0.231391191f, -0.278814524f};
             scene.camera->isAnimating = true;
             scene.keyboard[GLFW_KEY_2] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->startPos = {-26.1184998, 11.3824825, -36.625618};
+            scene.camera->endPos = {-26.1184998, 11.3824825, -36.625618};
+            scene.camera->startPosLookAt = {-0.0286111571f, 0.0206805635f, 0.999376655f};
+            scene.camera->endPosLookAt = {-0.0286111571f, 0.0206805635f, 0.999376655f};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_3] = GLFW_RELEASE;
         }
 
         if (scene.keyboard[GLFW_KEY_SPACE]){
