@@ -31,10 +31,9 @@
 #include "utils.h"
 #include "Ufo.h"
 #include "Palm.h"
-#include "Coconut.h"
+#include "BeachBall.h"
 #include "Boat.h"
 #include "Firefly.h"
-#include "Node.h"
 #include "Asteroid.h"
 #include "Emerald.h"
 #include "Shark.h"
@@ -66,6 +65,11 @@ std::unique_ptr<ppgso::Shader> debugQuad;
 
 unsigned int depthMapFBO;
 SceneWindow scene;
+
+extern "C"
+{
+__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
 
 static void cursor_position_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
@@ -350,10 +354,10 @@ public:
         auto palm_h1 = std::make_unique<Palm>(30,scene.get_Y(30,10,scene.heightMap), 10,(glm::vec3) {0, 0, 0}, (glm::vec3) {0.15,0.15,0.15});
         palm_h1->parent = island_h.get();
 
-        auto coconut_h1 = std::make_unique<Coconut>(29,scene.get_Y(29,10,scene.heightMap),10);
+        auto coconut_h1 = std::make_unique<BeachBall>(29, scene.get_Y(29, 10, scene.heightMap), 10);
         coconut_h1->parent = island_h.get();
 
-        auto coconut_h2 = std::make_unique<Coconut>(31,scene.get_Y(31,10,scene.heightMap),10);
+        auto coconut_h2 = std::make_unique<BeachBall>(31, scene.get_Y(31, 10, scene.heightMap), 10);
         coconut_h2->parent = island_h.get();
 
         scene.palm = palm_h1.get();
@@ -533,6 +537,7 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             scene.camera->t = 0;
+            scene.camera->increment = 0.02;
             scene.camera->startPos = {145.643326, 97.8423615, -57.1512032};
             scene.camera->endPos = {-87.7087097, 107.765419, 206.029327};
             scene.camera->startPosLookAt = {-0.812781215f, -0.534425974, 0.231895626f};
@@ -543,6 +548,7 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
             scene.camera->t = 0;
+            scene.camera->increment = 0.02;
             scene.camera->startPos = {36.7917938, 87.1458511, -438.971863};
             scene.camera->endPos = {306.790771, 8.1699028, -11.1807976};
             scene.camera->startPosLookAt = {-0.696514428f, -0.158123508f, 0.699903309f};
@@ -553,12 +559,46 @@ public:
 
         if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             scene.camera->t = 0;
+            scene.camera->increment = 0.08;
             scene.camera->startPos = {-26.1184998, 11.3824825, -36.625618};
-            scene.camera->endPos = {-26.1184998, 11.3824825, -36.625618};
-            scene.camera->startPosLookAt = {-0.0286111571f, 0.0206805635f, 0.999376655f};
-            scene.camera->endPosLookAt = {-0.0286111571f, 0.0206805635f, 0.999376655f};
+            scene.camera->endPos = {-32.62, 20.233, 3.4220603};
+            scene.camera->startPosLookAt = {0.179955497, -0.259071678, -0.948576655f};
+            scene.camera->endPosLookAt = {0.179955497, -0.259071678, -0.948576655f};
             scene.camera->isAnimating = true;
             scene.keyboard[GLFW_KEY_3] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->increment = 0.15;
+            scene.camera->startPos = {35.08734,33.138629,40.3482895};
+            scene.camera->endPos = {27.4320087,8.92064857,27.257185};
+            scene.camera->startPosLookAt = {-0.181552365,0.030137497,-0.982919455};
+            scene.camera->endPosLookAt = {0.201891154,-0.00794147141,-0.97937578};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_4] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->increment = 0.022;
+            scene.camera->startPos = {-146.0928224,133.611469,-111.249485};
+            scene.camera->endPos = {168.674663,131.175262,-158.81233};
+            scene.camera->startPosLookAt = {0.770972711,-0.215894718,0.599211866};
+            scene.camera->endPosLookAt = {-0.735852261,-0.162858855,0.657227303};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_5] = GLFW_RELEASE;
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS) {
+            scene.camera->t = 0;
+            scene.camera->increment = 0.05;
+            scene.camera->startPos = {306.790771, 8.1699028, -11.1807976};
+            scene.camera->endPos = {36.7917938, 87.1458511, -438.971863};
+            scene.camera->startPosLookAt = {-0.932051837f, 0.231391191f, -0.278814524f};
+            scene.camera->endPosLookAt = {-0.696514428f, -0.158123508f, 0.699903309f};
+            scene.camera->isAnimating = true;
+            scene.keyboard[GLFW_KEY_6] = GLFW_RELEASE;
         }
 
         if (scene.keyboard[GLFW_KEY_SPACE]){

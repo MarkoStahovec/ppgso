@@ -32,6 +32,7 @@ public:
     glm::vec3 startPosLookAt;
     glm::vec3 endPosLookAt;
     float t;
+    float increment;
 
     /// Representaiton of
     /// \param fov - Field of view (in degrees)

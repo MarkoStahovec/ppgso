@@ -2,17 +2,17 @@
 // Created by rszar on 11. 11. 2022.
 //
 
-#include "Coconut.h"
+#include "BeachBall.h"
 #include <shaders/phong_frag_glsl.h>
 #include <shaders/phong_vert_glsl.h>
 
-std::unique_ptr<ppgso::Mesh> Coconut::mesh;
-std::unique_ptr<ppgso::Texture> Coconut::texture;
-std::unique_ptr<ppgso::Shader> Coconut::shader;
-std::unique_ptr<ppgso::Shader> Coconut::shadow_shader;
+std::unique_ptr<ppgso::Mesh> BeachBall::mesh;
+std::unique_ptr<ppgso::Texture> BeachBall::texture;
+std::unique_ptr<ppgso::Shader> BeachBall::shader;
+std::unique_ptr<ppgso::Shader> BeachBall::shadow_shader;
 
 
-Coconut::Coconut(float x, float y, float z) {
+BeachBall::BeachBall(float x, float y, float z) {
     position.x = x;
     position.y = y+23;
     position.z = z;
@@ -29,7 +29,7 @@ Coconut::Coconut(float x, float y, float z) {
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("ball.obj");
 }
 
-void Coconut::drop(SceneWindow &scene) {
+void BeachBall::drop(SceneWindow &scene) {
     position += external_force * (float) 0.01 - scene.gravity * (float) 0.01;
     external_force *= .98;
     external_force += scene.wind/(float)3;
@@ -39,13 +39,13 @@ void Coconut::drop(SceneWindow &scene) {
 
 
 
-void Coconut::drop_chance() {
+void BeachBall::drop_chance() {
     if (rand() % 1000 < 2 && dropping == 0 && spawning == 0 && despawning == 0){
         dropping = 1;
     }
 }
 
-void Coconut::handle_coll(SceneWindow &scene) {
+void BeachBall::handle_coll(SceneWindow &scene) {
     if(scene.get_Y(position.x, position.z, scene.heightMap)==0){
         dropping = 0;
         despawning = 1;
@@ -57,14 +57,14 @@ void Coconut::handle_coll(SceneWindow &scene) {
     }
 }
 
-void Coconut::bounce(SceneWindow &scene) {
+void BeachBall::bounce(SceneWindow &scene) {
     //glm::vec3 norm = calc_plane_norm(scene);
     external_force = glm::vec3{2*drop_dir_x * n_drop/5, drop_dir_y*5 * n_drop/5, 2*drop_dir_z * n_drop/5} * calc_plane_norm(scene);
     external_force += scene.wind/(float)3;
     n_drop--;
 }
 
-glm::vec3 Coconut::calc_plane_norm(SceneWindow &scene) {
+glm::vec3 BeachBall::calc_plane_norm(SceneWindow &scene) {
     glm::vec3 A = {position.x-1, scene.get_Y(position.x-1,position.z-1,scene.heightMap), position.z-1};
     glm::vec3 B = {position.x+1, scene.get_Y(position.x+1,position.z+1,scene.heightMap), position.z+1};
     glm::vec3 C = {position.x+1, scene.get_Y(position.x+1,position.z-1,scene.heightMap), position.z-1};
@@ -74,7 +74,7 @@ glm::vec3 Coconut::calc_plane_norm(SceneWindow &scene) {
     return glm::normalize(norm);
 }
 
-bool Coconut::update(float dt, SceneWindow &scene) {
+bool BeachBall::update(float dt, SceneWindow &scene) {
     if(spawning == 1){
         scale *= 1.05;
         if(scale[0] >= 0.005){
@@ -94,7 +94,7 @@ bool Coconut::update(float dt, SceneWindow &scene) {
     if(despawning == 1){
         scale *= 0.98;
         if(scale[0] < 0.0001){
-            auto coconut_h = std::make_unique<Coconut>(base_x,scene.get_Y(base_x,base_z,scene.heightMap),base_z);
+            auto coconut_h = std::make_unique<BeachBall>(base_x, scene.get_Y(base_x, base_z, scene.heightMap), base_z);
             coconut_h->parent = scene.root;
             scene.Renderable_objects.push_back(std::move(coconut_h));
             return false;
@@ -105,7 +105,7 @@ bool Coconut::update(float dt, SceneWindow &scene) {
     return true;
 }
 
-void Coconut::render(SceneWindow &scene) {
+void BeachBall::render(SceneWindow &scene) {
     shader->use();
 
     // use camera
@@ -156,7 +156,7 @@ void Coconut::render(SceneWindow &scene) {
 }
 
 
-void Coconut::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
+void BeachBall::render_shadow(SceneWindow &scene, glm::mat4 lightSpaceMatrix) {
 
     shadow_shader->use();
     shadow_shader->setUniform("lightSpaceMatrix", lightSpaceMatrix);

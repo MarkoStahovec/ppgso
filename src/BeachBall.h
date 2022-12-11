@@ -5,7 +5,7 @@
 #include "Renderable.h"
 #include "SceneWindow.h"
 
-class Coconut final : public Renderable {
+class BeachBall final : public Renderable {
 private:
 
     static std::unique_ptr<ppgso::Mesh> mesh;
@@ -33,7 +33,7 @@ private:
                                 drop_dir_z};
 
 public:
-    Coconut(float x, float y, float z);
+    BeachBall(float x, float y, float z);
 
     bool update(float dt, SceneWindow &scene) override;
     void drop(SceneWindow &scene);

@@ -6,8 +6,6 @@
 #include <shaders/texture_frag_glsl.h>
 #include <shaders/phong_vert_glsl.h>
 #include <shaders/phong_frag_glsl.h>
-#include <shaders/texture_vert_glsl.h>
-#include <shaders/texture_frag_glsl.h>
 
 std::unique_ptr<ppgso::Mesh> SkyBox::mesh;
 std::unique_ptr<ppgso::Texture> SkyBox::texture;
